@@ -1,0 +1,67 @@
+* {
+	margin: 0;
+	padding: 0;
+	font-family: "Segoe UI", "Trebuchet MS", "Tahoma", "Arial", "Helvetica", "Consolas";
+	font-size: 13px;
+}
+
+*::-webkit-scrollbar {
+	width: 0;
+}
+
+body {
+	background-color: #222;
+	color: #fff;
+}
+
+a {
+	color: #fc8;
+}
+
+input[type=text] {
+	width: 110px;
+}
+
+img {
+	border: 1px solid #577;
+	width: 768px;
+	max-width: 100%;
+}
+
+#wrapper {
+	margin: 10px;
+	display: grid;
+	gap: 10px;
+}
+
+.section {
+	padding: 10px;
+	border: 1px solid #577;
+	border-radius: 5px;
+	background-color: #233;
+}
+
+.header {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.content {
+	
+}
+
+.bold {
+	font-weight: bold !important;
+}
+
+.left {
+	text-align: left !important;
+}
+
+.center {
+	text-align: center !important;
+}
+
+.right {
+	text-align: right !important;
+}
