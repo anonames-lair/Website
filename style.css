@@ -54,6 +54,10 @@ img {
 	font-weight: bold !important;
 }
 
+.small {
+	font-size: 11px !important;
+}
+
 .left {
 	text-align: left !important;
 }
