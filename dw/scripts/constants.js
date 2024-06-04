@@ -1490,7 +1490,7 @@ const warriors = {
 				"Life: 18"
 			],
 			'Stage': "Battle of Mt. Ding Jun (Wei)",
-			'Requirement': "Defeat Zhao Yun, Guan Ping, Wei Yan, and Huang Zhong before Cao Cao arrives."
+			'Requirement': "Defeat Zhao Yun, Guan Ping, Wei Yan, and Huang Zhong before Cao Cao arrives. Need to defeat Huang Zhong last."
 		}
 	],
 	'Zhou Yu': [
