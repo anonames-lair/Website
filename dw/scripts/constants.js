@@ -766,8 +766,8 @@ const warriors = {
 				"Attack: 17",
 				"Life: 15"
 			],
-			'Stage': "Escape from Chi Bi (Shu)",
-			'Requirement': "Defeat all generals, not including sub-generals."
+			'Stage': "Escape from Chi Bi (Allied)",
+			'Requirement': "Defeat all generals including all reinforcements, but not including sub-generals. Xun Yu is the last reinforcement."
 		}
 	],
 	'Xing Cai': [
