@@ -923,7 +923,7 @@ const warriors = {
 				"Life: 17"
 			],
 			'Stage': "Battle of Wan Castle (Wei)",
-			'Requirement': "Rendezvous with Cao Cao, lead him to the escape gates, defeating enemy officers along the way. Once Cao Cao leaves the castle, do not let a single enemy pass the gate until a message that Cao Cao's escape is starting appears."
+			'Requirement': "Rendezvous with Cao Cao, lead him to the escape gates, defeating enemy officers along the way. Once Cao Cao leaves the castle, stay and do not let a single enemy pass the gate until a message that Cao Cao's escape is starting appears."
 		}
 	],
 	'Xu Zhu': [
