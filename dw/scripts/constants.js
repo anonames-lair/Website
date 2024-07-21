@@ -1413,7 +1413,7 @@ const warriors = {
 				"Life: 17"
 			],
 			'Stage': "Battle of He Fei Castle (Wei)",
-			'Requirement': "Defeat 300 enemies, and rendezvous with Cao Pi."
+			'Requirement': "Defeat 300 enemies, and then rendezvous with Cao Pi."
 		}
 	],
 	'Cao Ren': [
