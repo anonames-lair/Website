@@ -1698,7 +1698,7 @@ const warriors = {
 				"Life: 18"
 			],
 			'Stage': "Battle of Wu Territory (Allied forces)",
-			'Requirement': "After Sun Quan is lured into the eastern fort, defeat him before Zhou Tai can rendezvous with him."
+			'Requirement': "After Sun Quan is lured into the eastern fort, defeat him and Zhou Tai before Zhou Tai can rendezvous with him."
 		}
 	],
 	'Sun Shang Xiang': [
@@ -1979,7 +1979,7 @@ const warriors = {
 				"Life: 17"
 			],
 			'Stage': "Battle of Fan Castle (Allied forces)",
-			'Requirement': "Defeat Zhang Bao and Zhang Fei."
+			'Requirement': "Capture the enemy stronghold preventing reinforcements. After Lu Xun advises you to do so, attack Mi Fang and Fu Shiren. They will defect after you lower their health to about half. With Mi Fang and Fu Shiren still alive, quickly defeat Zhang Bao and then Zhang Fei, who appear as reinforcements."
 		}
 	],
 	'Gan Ning': [
