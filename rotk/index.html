@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<title>ROTK X Officers</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="constants.js"></script>
+		<script src="main.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="left">
+				<table>
+					<tr>
+						<td>Filter: </td>
+						<td><input type="search" id="filter" oninput="inputChanged()"></td>
+					</tr>
+					<tr>
+						<td>Sort: </td>
+						<td>
+							<select id="sort" onchange="inputChanged()">
+								<option value="name">Name</option>
+								<option value="ldr">LDR</option>
+								<option value="war">WAR</option>
+								<option value="int">INT</option>
+								<option value="pol">POL</option>
+								<option value="chr">CHR</option>
+								<option value="total">Total</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Order: </td>
+						<td>
+							<select id="order" onchange="inputChanged()">
+								<option value="asc">Ascending</option>
+								<option value="dsc">Descending</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div id="output"></div>
+			<div id="displayContainer">
+				<div id="display" onmousedown="hideDisplay()"></div>
+			</div>
+		</div>
+	</body>
+</html>
