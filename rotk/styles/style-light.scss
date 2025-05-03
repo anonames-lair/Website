@@ -1,0 +1,184 @@
+$sansSerif: "Tahoma", "Segoe UI", "Trebuchet MS", "Arial", "Helvetica";
+$fontSize: 13px;
+$backColor: #bbb;
+$border: 1px solid #fff;
+$borderRadius: 5px;
+
+body {
+	margin: 0;
+	padding: 0;
+	font-size: $fontSize;
+}
+
+table {
+	font-family: $sansSerif;
+	font-size: $fontSize;
+}
+
+#container {
+	
+}
+
+#left {
+	float: left;
+	margin: 5px 0 0 5px;
+	padding: 15px;
+	width: 180px;
+	border-radius: $borderRadius;
+	background-color: $backColor;
+}
+
+#filter {
+	padding: 1px 2px 2px 5px;
+	width: 120px;
+	font-family: $sansSerif;
+	font-size: $fontSize;
+}
+
+#sort, #order {
+	padding: 0px 2px 1px 2px;
+	font-family: $sansSerif;
+	font-size: $fontSize;
+}
+
+#output {
+	float: left;
+	margin: 5px 0 0 5px;
+	border-radius: $borderRadius;
+}
+
+.data {
+	border-collapse: collapse;
+	border-left: $border;
+	border-right: $border;
+}
+
+.data th {
+	padding: 4px 7px 4px 5px;
+	border-left: $border;
+	border-right: $border;
+	background-color: $backColor;
+	cursor: default;
+}
+
+.data td {
+	padding: 3px 7px 5px 5px;
+	border: $border;
+	background-color: #c6c6c6;
+}
+
+.data tr:hover td {
+	background-color: #e2e2e2;
+}
+
+.number {
+	text-align: right;
+}
+
+.total {
+	color: #fc8;
+}
+
+#displayContainer {
+	float: left;
+	margin: 5px 0 0 5px;
+	display: none;
+}
+
+#display {
+	position: fixed;
+	top: 5px;
+	padding: 15px;
+	box-shadow: 0 0px 6px 0 rgba(0, 0, 0, 0.24), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+	border-radius: $borderRadius;
+	background-color: $backColor;
+	font-family: $sansSerif;
+	font-size: $fontSize;
+}
+
+.displayName {
+	padding: 5px;
+	border-top: 1px solid $backColor;
+	border-bottom: $border;
+	background-color: #444;
+	text-align: center;
+	color: #fff;
+}
+
+.displayPortrait {
+	
+}
+
+.displaySkill {
+	padding: 2px 2px 3px 2px;
+	border: 1px solid $backColor;
+	width: 50px;
+	background-color: #888;
+	text-align: center;
+	color: #b0b0b0;
+}
+
+.domesticSkill {
+	background-color: #55a;
+	color: #fff;
+}
+
+.battleSkill {
+	background-color: #a55;
+	color: #fff;
+}
+
+.tacticSkill {
+	background-color: #a5a;
+	color: #fff;
+}
+
+.duelSkill {
+	background-color: #b88;
+	color: #fff;
+}
+
+.debateSkill {
+	background-color: #aa5;
+	color: #fff;
+}
+
+.renownSkill {
+	background-color: #5a5;
+	color: #fff;
+}
+
+.stat th {
+	padding: 4px 7px 4px 5px;
+	background-color: #a5a5a5;
+}
+
+.stat td {
+	padding: 3px 7px 5px 5px;
+	background-color: #a5a5a5;
+}
+
+@media (pointer:none), (pointer:coarse) {
+	#left {
+		float: none;
+		margin: 5px;
+		width: auto;
+	}
+	
+	#output {
+		float: none;
+		margin: 5px;
+		width: auto;
+	}
+	
+	#display {
+		top: 0;
+		left: 0;
+		right: 0;
+		border-radius: 0;
+	}
+	
+	.displaySkill {
+		
+	}
+}

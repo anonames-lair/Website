@@ -1,0 +1,181 @@
+* {
+  color: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #222;
+  font-size: 13px;
+}
+
+table {
+  font-family: "Tahoma", "Segoe UI", "Trebuchet MS", "Arial", "Helvetica";
+  font-size: 13px;
+}
+
+a {
+  color: #fc8;
+}
+
+input[type=search], select {
+  border: 1px solid #577;
+  background-color: #222;
+}
+
+#left {
+  float: left;
+  margin: 5px 0 0 5px;
+  padding: 15px;
+  width: 380px;
+  border: 1px solid #577;
+  border-radius: 5px;
+  background-color: #233;
+}
+
+#name {
+  padding: 1px 2px 2px 5px;
+  width: 120px;
+  font-family: "Tahoma", "Segoe UI", "Trebuchet MS", "Arial", "Helvetica";
+  font-size: 13px;
+}
+
+#skill, #sort, #order {
+  padding: 0px 2px 1px 2px;
+  font-family: "Tahoma", "Segoe UI", "Trebuchet MS", "Arial", "Helvetica";
+  font-size: 13px;
+}
+
+#output {
+  float: left;
+  margin: 5px 0 0 5px;
+  border-radius: 5px;
+}
+
+.data {
+  border-collapse: collapse;
+}
+
+.data th {
+  padding: 4px 7px 4px 5px;
+  border: 1px solid #577;
+  background-color: #233;
+  cursor: default;
+}
+
+.data td {
+  padding: 3px 7px 5px 5px;
+  border: 1px solid #577;
+  background-color: #233;
+}
+
+.data tr:hover td {
+  background-color: #455;
+}
+
+.number {
+  text-align: right;
+}
+
+.total {
+  color: #fc8;
+}
+
+#displayContainer {
+  float: left;
+  margin: 5px 0 0 5px;
+  display: none;
+}
+
+#display {
+  position: fixed;
+  top: 5px;
+  padding: 15px;
+  box-shadow: 0 0px 6px 0 rgba(0, 0, 0, 0.48), 0 0px 10px 0 rgba(0, 0, 0, 0.29);
+  border: 1px solid #577;
+  border-radius: 5px;
+  background-color: #233;
+  font-family: "Tahoma", "Segoe UI", "Trebuchet MS", "Arial", "Helvetica";
+  font-size: 13px;
+}
+
+.displayName {
+  padding: 5px;
+  border-top: 1px solid #233;
+  border-bottom: 1px solid #577;
+  background-color: #3b3b3b;
+  text-align: center;
+  color: #fff;
+}
+
+.displaySkill {
+  padding: 2px 2px 3px 2px;
+  border: 1px solid #233;
+  width: 50px;
+  background-color: #777;
+  text-align: center;
+  color: #a0a0a0;
+}
+
+.domesticSkill {
+  background-color: #55a;
+  color: #fff;
+}
+
+.battleSkill {
+  background-color: #a55;
+  color: #fff;
+}
+
+.tacticSkill {
+  background-color: #a5a;
+  color: #fff;
+}
+
+.duelSkill {
+  background-color: #b88;
+  color: #fff;
+}
+
+.debateSkill {
+  background-color: #aa5;
+  color: #fff;
+}
+
+.renownSkill {
+  background-color: #5a5;
+  color: #fff;
+}
+
+.stat {
+  border-collapse: collapse;
+}
+
+.stat th {
+  padding: 4px 7px 4px 5px;
+  background-color: #3d3d3d;
+}
+
+.stat td {
+  padding: 3px 7px 5px 5px;
+  background-color: #505050;
+}
+
+@media (pointer: none), (pointer: coarse) {
+  #left {
+    float: none;
+    margin: 5px;
+    width: auto;
+  }
+  #output {
+    float: none;
+    margin: 5px;
+    width: auto;
+  }
+  #display {
+    top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+  }
+}
