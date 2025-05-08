@@ -1379,7 +1379,7 @@ const warriors = {
 			'Base': 48,
 			'Element': "Fire",
 			'Stats': [
-				"Musou: 58",
+				"Musou: 48",
 				"Defense: 55",
 				"Range: 30"
 			],
