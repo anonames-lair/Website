@@ -2631,7 +2631,7 @@ const warriors = {
 				"Arrows: 30"
 			],
 			'Stage': "Battle at Wu Zhang Plains (Xtreme) (Dong Zhuo's Forces)",
-			'Requirement': "Prevent bombardment of allied headquarters by defeating Pang Tong while Fan Chou is still alive then wait for allied reinforcements."
+			'Requirement': "Prevent bombardment of allied headquarters by defeating Pang Tong, then protect Fan Chou and wait for allied reinforcements."
 		}, {
 			'Game': "DW4",
 			'Name': "Horror",
