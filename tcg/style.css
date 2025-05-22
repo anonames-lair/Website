@@ -1,0 +1,132 @@
+* {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+	background-color: #e0e2e5;
+	color: #333;
+	margin: 0px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+h1 {
+	color: #2c3e50;
+	margin-bottom: 20px;
+}
+
+.controls, .game-zones {
+	border: 1px solid #aaa;
+	background-color: #fff;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin: 0px;
+	width: 90%;
+	max-width: 800px;
+}
+
+.controls {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	gap: 15px;
+}
+
+.control-group {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.control-group label {
+	font-weight: bold;
+	color: #555;
+	font-size: 0.9em;
+}
+
+.controls input[type="text"] {
+	padding: 8px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 0.8em;
+}
+
+.controls button {
+	padding: 10px 15px;
+	border: none;
+	border-radius: 5px;
+	background-color: #4CAF50;
+	color: white;
+	font-size: 0.9em;
+	cursor: pointer;
+	transition: background-color 0.2s ease-in-out;
+}
+
+.controls button:hover {
+	background-color: #45a049;
+}
+
+.controls button.reset {
+	background-color: #e74c3c;
+}
+.controls button.reset:hover {
+	background-color: #c0392b;
+}
+ .controls button.start {
+	background-color: #3498db;
+}
+.controls button.start:hover {
+	background-color: #2980b9;
+}
+
+.game-zone {
+	margin-bottom: 10px;
+	border-bottom: 1px dashed #eee;
+	padding-bottom: 10px;
+}
+
+.game-zone:last-child {
+	border-bottom: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.zone-title {
+	font-weight: bold;
+	color: #34495e;
+	margin-bottom: 5px;
+	font-size: 0.9em;
+}
+
+.card-list {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.card-list li {
+	background-color: #f9f9f9;
+	border: 1px solid #eee;
+	padding: 4px 8px;
+	margin-bottom: 3px;
+	border-radius: 3px;
+	font-size: 0.8em;
+}
+
+/* Specific styles for Pokémon on field */
+.pokemon-card {
+	background-color: #e8f5e9; /* Lighter green for Pokémon */
+	border-color: #a5d6a7;
+	margin-bottom: 5px;
+}
+.energy-list {
+	font-size: 0.7em;
+	color: #666;
+	margin-left: 15px;
+}
+
+@media (pointer: none), (pointer: coarse) {
+	body {
+		flex-direction: column;
+	}
+}
