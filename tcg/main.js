@@ -1,3 +1,4 @@
+/*
 const deck = {
 	'Koraidon EX': {
 		type: 'Pokemon',
@@ -92,6 +93,105 @@ const deck = {
 		count: 4
 	}
 };
+*/
+const deck = {
+	'Koraidon EX': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Sandy Shocks': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Great Tusk': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Scream Tail': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Lumineon V': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Turtonator': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Rockruff': {
+		type: 'Pokemon',
+		count: 3
+	},
+	'Lycanrock': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Ponyta': {
+		type: 'Pokemon',
+		count: 3
+	},
+	'Rapidash': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Nest Ball': {
+		type: 'Item',
+		count: 2
+	},
+	'Ultra Ball': {
+		type: 'Item',
+		count: 4
+	},
+	'Master Ball': {
+		type: 'Item',
+		count: 1
+	},
+	'Earthen Vessel': {
+		type: 'Item',
+		count: 1
+	},
+	'Switch': {
+		type: 'Item',
+		count: 2
+	},
+	'Ancient Booster Energy': {
+		type: 'Tool',
+		count: 2
+	},
+	'Cynthia Aspiration': {
+		type: 'Supporter',
+		count: 2
+	},
+	'Professor Sada Vitality': {
+		type: 'Supporter',
+		count: 2
+	},
+	'Professor Research': {
+		type: 'Supporter',
+		count: 4
+	},
+	'Nemona': {
+		type: 'Supporter',
+		count: 3
+	},
+	'Iono': {
+		type: 'Supporter',
+		count: 2
+	},
+	'Boss Orders': {
+		type: 'Supporter',
+		count: 2
+	},
+	'Fighting Energy': {
+		type: 'Energy',
+		count: 8
+	},
+	'Fire Energy': {
+		type: 'Energy',
+		count: 7
+	}
+};
 const startingHand = 7;
 const prizeCount = 6;
 var benchSize = 5;
@@ -110,7 +210,7 @@ function countDeck () {
 	for (key in deck) {
 		count += deck[key].count;
 	}
-	// console.log(count);
+	console.log(count);
 }
 
 function populate () {
