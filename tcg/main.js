@@ -314,19 +314,25 @@ function play (name) {
 			return;
 		}
 	}
-	else if (cardToPlay.type === 'Item' || cardToPlay.type === 'Supporter' || cardToPlay.type === 'Stadium' || cardToPlay.type === 'Tool') {
+	else if (cardToPlay.type === 'Item' || cardToPlay.type === 'Supporter' || cardToPlay.type === 'Stadium') {
 		// For now, these go to trash, as the simulator doesn't have specific zones for them
 		trash.push(cardToPlay);
 		// You would add specific logic here for their effects
 		alert(`Played "${cardToPlay.name}". (Effect not simulated yet).`);
 	}
 	else if (cardToPlay.type === 'Energy') {
-		alert('Energy cards are attached, not "played" to the field. Use "Attach Card" function.');
+		alert('Energy cards are attached, not "played" to the field. Use "Attach" function.');
 		// Don't remove energy from hand
+		return;
+	}
+	else if (cardToPlay.type === 'Tool') {
+		alert('Pokemon tools are attached, not "played" to the field. Use "Attach" function.');
+		// Don't remove tool from hand
 		return;
 	}
 	else {
 		alert(`Cannot play card type: ${cardToPlay.type}.`);
+		// Don't remove card from hand
 		return;
 	}
 	
