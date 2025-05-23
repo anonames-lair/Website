@@ -16,6 +16,63 @@ h1 {
 	margin-bottom: 20px;
 }
 
+#attachCardSource, #attachCardDestination, #benchIndex {
+	border: 1px solid #AF4CAF;
+	border-radius: 3px;
+}
+
+#drawCardName {
+	border: 1px solid #aca;
+}
+
+#playCardName {
+	border: 1px solid #caa;
+}
+
+#discardCardName {
+	border: 1px solid #aaa;
+}
+
+#attachCardName {
+	border: 1px solid #cac; 
+}
+
+.drawLabel {
+	color: #5a5;
+}
+
+.playLabel {
+	color: #a55;
+}
+
+.discardLabel {
+	color: #555;
+}
+
+.attachLabel {
+	color: #a5a;
+}
+
+.drawButton {
+	background-color: #4CAF50;
+}
+
+.playButton {
+	background-color: #AF4C50;
+}
+
+.discardButton {
+	background-color: #505050;
+}
+
+.attachButton {
+	background-color: #AF4CAF;
+}
+
+.drawButton:hover, .playButton:hover, .discardButton:hover, .attachButton:hover {
+	opacity: 0.92;
+}
+
 .controls, .game-zones {
 	border: 1px solid #aaa;
 	background-color: #fff;
@@ -40,13 +97,11 @@ h1 {
 
 .control-group label {
 	font-weight: bold;
-	color: #555;
 	font-size: 0.9em;
 }
 
 .controls input[type="text"] {
 	padding: 8px;
-	border: 1px solid #ddd;
 	border-radius: 4px;
 	font-size: 0.8em;
 }
@@ -55,26 +110,24 @@ h1 {
 	padding: 10px 15px;
 	border: none;
 	border-radius: 5px;
-	background-color: #4CAF50;
 	color: white;
 	font-size: 0.9em;
 	cursor: pointer;
 	transition: background-color 0.2s ease-in-out;
 }
 
-.controls button:hover {
-	background-color: #45a049;
-}
-
 .controls button.reset {
 	background-color: #e74c3c;
 }
+
 .controls button.reset:hover {
 	background-color: #c0392b;
 }
- .controls button.start {
+
+.controls button.start {
 	background-color: #3498db;
 }
+
 .controls button.start:hover {
 	background-color: #2980b9;
 }
@@ -113,9 +166,8 @@ h1 {
 	font-size: 0.8em;
 }
 
-/* Specific styles for Pokémon on field */
 .pokemon-card {
-	background-color: #e8f5e9; /* Lighter green for Pokémon */
+	background-color: #e8f5e9;
 	border-color: #a5d6a7;
 	margin-bottom: 5px;
 }

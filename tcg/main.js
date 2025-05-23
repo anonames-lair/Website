@@ -1,5 +1,5 @@
 /*
-const deck = {
+var deck = {
 	'Koraidon EX': {
 		type: 'Pokemon',
 		count: 4
@@ -94,7 +94,7 @@ const deck = {
 	}
 };
 */
-const deck = {
+var deck = {
 	'Koraidon EX': {
 		type: 'Pokemon',
 		count: 2
