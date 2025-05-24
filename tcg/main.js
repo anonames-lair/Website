@@ -123,7 +123,7 @@ var deck = {
 		type: 'Pokemon',
 		count: 3
 	},
-	'Lycanrock': {
+	'Lycanroc': {
 		type: 'Pokemon',
 		count: 2
 	},
