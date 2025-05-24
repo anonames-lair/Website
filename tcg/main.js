@@ -159,7 +159,7 @@ var deck = {
 		type: 'Tool',
 		count: 2
 	},
-	'Cynthia Aspiration': {
+	'Cynthia Ambition': {
 		type: 'Supporter',
 		count: 2
 	},
