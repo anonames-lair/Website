@@ -1,4 +1,10 @@
 /*
+// Koaraidon Updated: https://pokemoncard.io/api/url-shorten/wBU
+// Generations Psychic Mix: https://pokemoncard.io/api/url-shorten/wGd
+// Zacian: https://asia.pokemon-card.com/id/deck-build/recipe/dXaRKy-WoCyfH-SwUipy/
+// Xerneas: https://asia.pokemon-card.com/id/deck-build/recipe/sveXei-VqZdFd-yHRuSo/
+
+// Koraidon Updated
 var deck = {
 	'Koraidon EX': {
 		type: 'Pokemon',
@@ -91,6 +97,110 @@ var deck = {
 	'Fire Energy': {
 		type: 'Energy',
 		count: 4
+	}
+};
+
+// Generations Psychic Mix
+var deck = {
+	'Alcremie EX': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Dedenne': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Eevee': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Furfrou': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Galarian Stunfisk': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Grimmsnarl': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Hawlucha': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Impidimp': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Indeedee': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Milcery': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Morgrem': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Noibat': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Noivern EX': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Sylveon': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Xerneas EX': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Great Ball': {
+		type: 'Item',
+		count: 4
+	},
+	'Ultra Ball': {
+		type: 'Item',
+		count: 4
+	},
+	'Pokemon Catcher': {
+		type: 'Item',
+		count: 2
+	},
+	'Switch': {
+		type: 'Item',
+		count: 2
+	},
+	'Judge': {
+		type: 'Supporter',
+		count: 2
+	},
+	'Nemona': {
+		type: 'Supporter',
+		count: 4
+	},
+	'Professor Research': {
+		type: 'Supporter',
+		count: 3
+	},
+	'Youngster': {
+		type: 'Supporter',
+		count: 1
+	},
+	'Psychic Energy': {
+		type: 'Energy',
+		count: 17
+	},
+	'Therapeutic Energy': {
+		type: 'Energy',
+		count: 1
 	}
 };
 */
