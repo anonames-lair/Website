@@ -203,6 +203,8 @@ var active = null;
 var bench = [];
 var trash = [];
 
+var printMode = 1;
+
 /////////////////////////////////////////////
 
 function countDeck () {
@@ -253,7 +255,7 @@ function assignPrize () {
 	}
 }
 
-function draw (name = null) {
+function draw (name = null, update = true) {
 	if (pool.length > 0) {
 		var index = -1;
 		if (name) {
@@ -275,7 +277,7 @@ function draw (name = null) {
 		
 		hand.push(pool[index]);
 		pool.splice(index, 1);
-		print();
+		if (update) print();
 	}
 	else {
 		alert("Deck is empty! Cannot draw.");
@@ -367,7 +369,7 @@ function startGame () {
 	resetGame();
 	populate();
 	shuffle();
-	for (var i = 0; i < startingHand; i++) draw();
+	for (var i = 0; i < startingHand; i++) draw(null, false);
 	for (var i = 0; i < prizeCount; i++) assignPrize();
 	
 	// Initial print after setup
@@ -469,8 +471,7 @@ function discard (name) {
 	print();
 }
 
-// Helper function to render a Pokemon with its attached tool and energy
-function printPokemonToHtml (pokemon, destination, index) {
+function printPokemonText (pokemon, destination, index) {
 	var innerHTML = pokemon.name;
 	var string = pokemon.name;
 	if (pokemon.tool) {
@@ -487,63 +488,205 @@ function printPokemonToHtml (pokemon, destination, index) {
 	return `<li class="card-list-item pokemon-card" onclick="setDestination('${destination}', ${index})">${innerHTML}</li>`
 }
 
+function printPokemonImage (pokemon, destination, index) {
+	const canvas = document.createElement('canvas');
+	canvas.width = 122;
+	canvas.height = 171;
+	const ctx = canvas.getContext('2d');
+	const img = document.createElement('img');
+	img.src = 'images/' + pokemon.name + '.png';
+	
+	img.onload = function() {
+		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+		
+		// Draw attached energy
+		var energyX = 5;
+		var energyY = canvas.height - 15;
+		const energySize = 10;
+		const energySpacing = 3;
+		pokemon.energy.forEach(energy => {
+			var energyColor = '#888'; // Default color
+			const energyType = energy.name.split(' ')[0].toLowerCase();
+			
+			switch (energyType) {
+				case 'fighting': energyColor = '#c28b4d'; break; // Brownish
+				case 'fire': energyColor = '#e74c3c'; break; // Red
+				case 'water': energyColor = '#3498db'; break; // Blue
+				case 'grass': energyColor = '#2ecc71'; break; // Green
+				case 'lightning': energyColor = '#f1c40f'; break; // Yellow
+				case 'psychic': energyColor = '#9b59b6'; break; // Purple
+				case 'darkness': energyColor = '#34495e'; break; // Dark grey
+				case 'metal': energyColor = '#bdc3c7'; break; // Light grey
+				default: energyColor = '#888'; // Default for unknown
+			}
+			
+			ctx.fillStyle = energyColor;
+			ctx.fillRect(energyX, energyY, energySize, energySize);
+			ctx.strokeStyle = '#fff';
+			ctx.lineWidth = 2;
+			ctx.strokeRect(energyX, energyY, energySize, energySize);
+			
+			energyX += energySize + energySpacing;
+			// Simple wrap check for multiple energies
+			if (energyX + energySize > canvas.width - 5) {
+				energyX = 5;
+				energyY -= (energySize + energySpacing);
+			}
+		});
+		
+		// Draw attached tool
+		if (pokemon.tool) {
+			const toolX = 5;
+			const toolY = canvas.height / 2;
+			const toolWidth = 20;
+			const toolHeight = 10;
+			const toolColor = 'purple';
+			
+			ctx.fillStyle = toolColor;
+			ctx.fillRect(toolX, toolY, toolWidth, toolHeight);
+			ctx.strokeStyle = '#fff';
+			ctx.lineWidth = 2;
+			ctx.strokeRect(toolX, toolY, toolWidth, toolHeight);
+		}
+		
+		switch (destination) {
+			case 'Hand':
+				canvas.onclick = function () { setInput(pokemon.name, destination); };
+				document.getElementById('handList').appendChild(canvas);
+				break;
+			case 'Active':
+				canvas.onclick = function () { setDestination(destination, 0); };
+				document.getElementById('activeList').appendChild(canvas);
+				break;
+			case 'Bench':
+				canvas.onclick = function () { setDestination(destination, index); };
+				document.getElementById('benchList').appendChild(canvas);
+				break;
+		}
+	};
+	
+	img.onerror = function() {
+		console.error(`Failed to load image for ${pokemon.name}`);
+		// Draw a placeholder or error message on the canvas here
+	};
+	
+}
+
 // Main print function to update the HTML UI
 function print () {
-	// Hand
-	const handList = document.getElementById('handList');
-	handList.innerHTML = '';
-	hand.forEach(card => {
-		const li = document.createElement('li');
-		li.textContent = card.name;
-		li.onclick = function () { setInput(card.name, 'Hand'); };
-		handList.appendChild(li);
-	});
-	document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
-	
-	// Deck
-	document.getElementById('deckCount').textContent = `Remaining cards in deck: ${pool.length}`;
-	
-	// Active
-	const activeList = document.getElementById('activeList');
-	activeList.innerHTML = '';
-	if (active !== null) {
-		activeList.innerHTML = printPokemonToHtml(active, 'Active', 0);
-	}
-	else {
-		activeList.innerHTML = '<li>-</li>';
-	}
-	
-	// Bench
-	const benchList = document.getElementById('benchList');
-	benchList.innerHTML = '';
-	if (bench.length > 0) {
-		for (var i = 0; i < bench.length; i++) {
-			benchList.innerHTML += printPokemonToHtml(bench[i], 'Bench', i);
+	// Text mode
+	if (printMode == 0) {
+		// Hand
+		const handList = document.getElementById('handList');
+		handList.innerHTML = '';
+		hand.forEach(card => {
+			const li = document.createElement('li');
+			li.textContent = card.name;
+			li.onclick = function () { setInput(card.name, 'Hand'); };
+			handList.appendChild(li);
+		});
+		document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
+		
+		// Deck
+		document.getElementById('deckCount').textContent = `Remaining cards in deck: ${pool.length}`;
+		
+		// Active
+		const activeList = document.getElementById('activeList');
+		activeList.innerHTML = '';
+		if (active !== null) {
+			activeList.innerHTML = printPokemonText(active, 'Active', 0);
 		}
+		else {
+			activeList.innerHTML = '<li>-</li>';
+		}
+		
+		// Bench
+		const benchList = document.getElementById('benchList');
+		benchList.innerHTML = '';
+		if (bench.length > 0) {
+			for (var i = 0; i < bench.length; i++) {
+				benchList.innerHTML += printPokemonText(bench[i], 'Bench', i);
+			}
+		}
+		else {
+			benchList.innerHTML = '<li>-</li>';
+		}
+		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`; // Show current/max bench size
+		
+		// Trash
+		const trashList = document.getElementById('trashList');
+		trashList.innerHTML = '';
+		trash.forEach(card => {
+			const li = document.createElement('li');
+			li.textContent = card.name;
+			li.onclick = function () { setInput(card.name, 'Trash'); };
+			trashList.appendChild(li);
+		});
+		
+		// Prize
+		const prizeList = document.getElementById('prizeList');
+		prizeList.innerHTML = '';
+		prize.forEach(card => {
+			const li = document.createElement('li');
+			li.textContent = card.name;
+			prizeList.appendChild(li);
+		});
 	}
-	else {
-		benchList.innerHTML = '<li>-</li>';
+	// Image mode
+	else if (printMode == 1) {
+		// Hand
+		const handList = document.getElementById('handList');
+		handList.innerHTML = '';
+		hand.forEach(card => { 
+			printPokemonImage(card, 'Hand', 0);
+		});
+		document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
+		
+		// Deck
+		document.getElementById('deckCount').textContent = `Remaining cards in deck: ${pool.length}`;
+		
+		// Active
+		activeList = document.getElementById('activeList');
+		activeList.innerHTML = '';
+		if (active !== null) {
+			printPokemonImage(active, 'Active', 0);
+		}
+		else {
+			activeList.innerHTML = '<li>-</li>';
+		}
+		
+		// Bench
+		benchList = document.getElementById('benchList');
+		benchList.innerHTML = '';
+		if (bench.length > 0) {
+			for (var i = 0; i < bench.length; i++) {
+				printPokemonImage(bench[i], 'Bench', i);
+			}
+		}
+		else {
+			benchList.innerHTML = '<li>-</li>';
+		}
+		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`; // Show current/max bench size
+		
+		// Trash
+		const trashList = document.getElementById('trashList');
+		trashList.innerHTML = '';
+		trash.forEach(card => {
+			const li = document.createElement('li');
+			li.textContent = card.name;
+			li.onclick = function () { setInput(card.name, 'Trash'); };
+			trashList.appendChild(li);
+		});
+		
+		// Prize
+		const prizeList = document.getElementById('prizeList');
+		prizeList.innerHTML = '';
+		prize.forEach(card => {
+			const li = document.createElement('li');
+			li.textContent = card.name;
+			prizeList.appendChild(li);
+		});
 	}
-	document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`; // Show current/max bench size
-	
-	// Trash
-	const trashList = document.getElementById('trashList');
-	trashList.innerHTML = '';
-	trash.forEach(card => {
-		const li = document.createElement('li');
-		li.textContent = card.name;
-		li.onclick = function () { setInput(card.name, 'Trash'); };
-		trashList.appendChild(li);
-	});
-	
-	// Prize
-	const prizeList = document.getElementById('prizeList');
-	prizeList.innerHTML = '';
-	prize.forEach(card => {
-		const li = document.createElement('li');
-		li.textContent = card.name;
-		prizeList.appendChild(li);
-	});
 }
 
 function resetGame () {

@@ -166,6 +166,10 @@ h1 {
 	font-size: 0.8em;
 }
 
+.card-list canvas {
+	margin-right: 4px;
+}
+
 .pokemon-card {
 	background-color: #e8f5e9;
 	border-color: #a5d6a7;
