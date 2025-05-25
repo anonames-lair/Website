@@ -102,6 +102,10 @@ var deck = {
 
 // Generations Psychic Mix
 var deck = {
+	'Milcery': {
+		type: 'Pokemon',
+		count: 2
+	},
 	'Alcremie EX': {
 		type: 'Pokemon',
 		count: 1
@@ -114,6 +118,10 @@ var deck = {
 		type: 'Pokemon',
 		count: 2
 	},
+	'Sylveon': {
+		type: 'Pokemon',
+		count: 1
+	},
 	'Furfrou': {
 		type: 'Pokemon',
 		count: 1
@@ -121,6 +129,14 @@ var deck = {
 	'Galarian Stunfisk': {
 		type: 'Pokemon',
 		count: 1
+	},
+	'Impidimp': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Morgrem': {
+		type: 'Pokemon',
+		count: 2
 	},
 	'Grimmsnarl': {
 		type: 'Pokemon',
@@ -130,31 +146,15 @@ var deck = {
 		type: 'Pokemon',
 		count: 1
 	},
-	'Impidimp': {
-		type: 'Pokemon',
-		count: 2
-	},
 	'Indeedee': {
 		type: 'Pokemon',
 		count: 1
-	},
-	'Milcery': {
-		type: 'Pokemon',
-		count: 2
-	},
-	'Morgrem': {
-		type: 'Pokemon',
-		count: 2
 	},
 	'Noibat': {
 		type: 'Pokemon',
 		count: 2
 	},
 	'Noivern EX': {
-		type: 'Pokemon',
-		count: 1
-	},
-	'Sylveon': {
 		type: 'Pokemon',
 		count: 1
 	},
