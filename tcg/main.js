@@ -637,7 +637,6 @@ function print () {
 		handList.innerHTML = '';
 		hand.forEach(card => { 
 			handList.appendChild(printCardImage(card, 'Hand', 0));
-			
 		});
 		document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
 		
