@@ -1,14 +1,17 @@
-* {
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+*, *::before, *::after {
+	box-sizing: border-box;
 }
 
 body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	background-color: #e0e2e5;
 	color: #333;
-	margin: 0px;
+	margin: 0;
 	display: flex;
-	flex-direction: row;
-	align-items: center;
+	align-items: flex-start;
+	min-height: 100vh;
+	padding: 20px;
+	gap: 20px;
 }
 
 h1 {
@@ -34,7 +37,7 @@ h1 {
 }
 
 #attachCardName {
-	border: 1px solid #cac; 
+	border: 1px solid #cac;
 }
 
 .drawLabel {
@@ -78,15 +81,24 @@ h1 {
 	background-color: #fff;
 	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 	padding: 20px;
-	margin: 0px;
-	width: 90%;
-	max-width: 800px;
 }
 
 .controls {
+	position: sticky;
+	top: 20px;
+	flex-shrink: 0;
+	width: 300px;
+	max-height: calc(100vh - 40px);
+	overflow-y: auto;
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	grid-template-columns: 1fr;
 	gap: 15px;
+}
+
+.game-zones {
+	flex-grow: 1;
+	max-width: calc(100% - 340px);
+	min-width: 400px;
 }
 
 .control-group {
@@ -100,8 +112,11 @@ h1 {
 	font-size: 0.9em;
 }
 
-.controls input[type="text"] {
+.controls input[type="text"],
+.controls input[type="number"],
+.controls select {
 	padding: 8px;
+	border: 1px solid #ddd;
 	border-radius: 4px;
 	font-size: 0.8em;
 }
@@ -148,41 +163,72 @@ h1 {
 	font-weight: bold;
 	color: #34495e;
 	margin-bottom: 5px;
-	font-size: 0.9em;
+	font-size: 1em;
 }
 
 .card-list {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
 }
 
 .card-list li {
 	background-color: #f9f9f9;
 	border: 1px solid #eee;
 	padding: 4px 8px;
-	margin-bottom: 3px;
 	border-radius: 3px;
 	font-size: 0.8em;
+	cursor: pointer;
+}
+
+.card-list li.pokemon-card {
+	background-color: transparent;
+	border: none;
+	padding: 0;
+	margin: 0;
 }
 
 .card-list canvas {
-	margin-right: 4px;
+	display: block;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	border-radius: 5px;
+	cursor: pointer;
 }
 
-.pokemon-card {
-	background-color: #e8f5e9;
-	border-color: #a5d6a7;
-	margin-bottom: 5px;
-}
 .energy-list {
 	font-size: 0.7em;
 	color: #666;
 	margin-left: 15px;
 }
 
-@media (pointer: none), (pointer: coarse) {
+/* Responsive adjustments for smaller screens (e.g., mobile) */
+@media (max-width: 900px) {
 	body {
 		flex-direction: column;
+		align-items: center;
+		padding: 10px;
+		gap: 15px;
+	}
+	
+	.controls {
+		position: static;
+		width: 100%;
+		max-width: 600px;
+		height: auto;
+		max-height: none;
+		margin: 0;
+	}
+	
+	.game-zones {
+		width: 100%;
+		max-width: 600px;
+		margin: 0;
+	}
+	
+	.card-list {
+		justify-content: center;
 	}
 }
