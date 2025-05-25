@@ -488,7 +488,7 @@ function printPokemonText (pokemon, destination, index) {
 	return `<li class="card-list-item pokemon-card" onclick="setDestination('${destination}', ${index})">${innerHTML}</li>`
 }
 
-function printPokemonImage (pokemon, destination, index) {
+function printCardImage (pokemon, destination, index) {
 	const canvas = document.createElement('canvas');
 	canvas.width = 122;
 	canvas.height = 171;
@@ -552,15 +552,12 @@ function printPokemonImage (pokemon, destination, index) {
 		switch (destination) {
 			case 'Hand':
 				canvas.onclick = function () { setInput(pokemon.name, destination); };
-				document.getElementById('handList').appendChild(canvas);
 				break;
 			case 'Active':
 				canvas.onclick = function () { setDestination(destination, 0); };
-				document.getElementById('activeList').appendChild(canvas);
 				break;
 			case 'Bench':
 				canvas.onclick = function () { setDestination(destination, index); };
-				document.getElementById('benchList').appendChild(canvas);
 				break;
 		}
 	};
@@ -570,6 +567,7 @@ function printPokemonImage (pokemon, destination, index) {
 		// Draw a placeholder or error message on the canvas here
 	};
 	
+	return canvas;
 }
 
 // Main print function to update the HTML UI
@@ -638,7 +636,8 @@ function print () {
 		const handList = document.getElementById('handList');
 		handList.innerHTML = '';
 		hand.forEach(card => { 
-			printPokemonImage(card, 'Hand', 0);
+			handList.appendChild(printCardImage(card, 'Hand', 0));
+			
 		});
 		document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
 		
@@ -649,7 +648,7 @@ function print () {
 		activeList = document.getElementById('activeList');
 		activeList.innerHTML = '';
 		if (active !== null) {
-			printPokemonImage(active, 'Active', 0);
+			activeList.appendChild(printCardImage(active, 'Active', 0));
 		}
 		else {
 			activeList.innerHTML = '<li>-</li>';
@@ -660,7 +659,7 @@ function print () {
 		benchList.innerHTML = '';
 		if (bench.length > 0) {
 			for (var i = 0; i < bench.length; i++) {
-				printPokemonImage(bench[i], 'Bench', i);
+				benchList.appendChild(printCardImage(bench[i], 'Bench', i));
 			}
 		}
 		else {
