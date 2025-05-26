@@ -314,6 +314,7 @@ var bench = [];
 var trash = [];
 
 var printMode = 1;
+var icons = {};
 
 /////////////////////////////////////////////
 
@@ -610,31 +611,44 @@ function printCardImage (pokemon, destination, index) {
 		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 		
 		// Draw attached energy
-		var energyX = 5;
-		var energyY = canvas.height - 15;
-		const energySize = 10;
+		const energySize = 14;
 		const energySpacing = 3;
+		var energyX = 5;
+		var energyY = canvas.height - (energySize + energyX);
+		const radius = energySize / 2;
 		pokemon.energy.forEach(energy => {
-			var energyColor = '#888'; // Default color
 			const energyType = energy.name.split(' ')[0].toLowerCase();
 			
-			switch (energyType) {
-				case 'fighting': energyColor = '#c28b4d'; break; // Brownish
-				case 'fire': energyColor = '#e74c3c'; break; // Red
-				case 'water': energyColor = '#3498db'; break; // Blue
-				case 'grass': energyColor = '#2ecc71'; break; // Green
-				case 'lightning': energyColor = '#f1c40f'; break; // Yellow
-				case 'psychic': energyColor = '#9b59b6'; break; // Purple
-				case 'darkness': energyColor = '#34495e'; break; // Dark grey
-				case 'metal': energyColor = '#bdc3c7'; break; // Light grey
-				default: energyColor = '#888'; // Default for unknown
+			if (icons[energyType]) {
+				ctx.strokeStyle = '#fff';
+				ctx.lineWidth = 2;
+				ctx.beginPath();
+				ctx.arc(energyX + radius, energyY + radius, radius, 0, 2 * Math.PI);
+				ctx.stroke();
+				ctx.drawImage(icons[energyType], energyX, energyY, energySize, energySize);
 			}
-			
-			ctx.fillStyle = energyColor;
-			ctx.fillRect(energyX, energyY, energySize, energySize);
-			ctx.strokeStyle = '#fff';
-			ctx.lineWidth = 2;
-			ctx.strokeRect(energyX, energyY, energySize, energySize);
+			else {
+				var energyColor = '#888'; // Default color
+				switch (energyType) {
+					case 'fighting': energyColor = '#c28b4d'; break; // Brownish
+					case 'fire': energyColor = '#e74c3c'; break; // Red
+					case 'water': energyColor = '#3498db'; break; // Blue
+					case 'grass': energyColor = '#2ecc71'; break; // Green
+					case 'electric': energyColor = '#f1c40f'; break; // Yellow
+					case 'psychic': energyColor = '#9b59b6'; break; // Purple
+					case 'dark': energyColor = '#34495e'; break; // Dark grey
+					case 'steel': energyColor = '#bdc3c7'; break; // Light grey
+					default: energyColor = '#888'; // Default for unknown
+				}
+				
+				ctx.fillStyle = energyColor;
+				ctx.fillRect(energyX, energyY, energySize, energySize);
+				ctx.strokeStyle = '#fff';
+				ctx.lineWidth = 3;
+				ctx.beginPath();
+				ctx.strokeRect(energyX, energyY, energySize, energySize);
+				ctx.stroke();
+			}
 			
 			energyX += energySize + energySpacing;
 			// Simple wrap check for multiple energies
@@ -646,17 +660,24 @@ function printCardImage (pokemon, destination, index) {
 		
 		// Draw attached tool
 		if (pokemon.tool) {
-			const toolX = 5;
-			const toolY = canvas.height / 2;
-			const toolWidth = 20;
-			const toolHeight = 10;
-			const toolColor = 'purple';
+			const toolWidth = 32;
+			const toolHeight = 16;
+			const toolX = (canvas.width - toolWidth) / 2;
+			const toolY = (canvas.height - toolHeight) / 2;
+			const toolName = pokemon.tool.name.split(' ')[0].toLowerCase();
+			if (icons[toolName]) {
+				ctx.drawImage(icons[toolName], toolX, toolY, toolWidth, toolHeight);
+			}
+			else {
+				ctx.fillStyle = 'purple';
+				ctx.fillRect(toolX, toolY, toolWidth, toolHeight);
+			}
 			
-			ctx.fillStyle = toolColor;
-			ctx.fillRect(toolX, toolY, toolWidth, toolHeight);
-			ctx.strokeStyle = '#fff';
+			ctx.strokeStyle = 'purple';
 			ctx.lineWidth = 2;
+			ctx.beginPath();
 			ctx.strokeRect(toolX, toolY, toolWidth, toolHeight);
+			ctx.stroke();
 		}
 		
 		switch (destination) {
@@ -852,5 +873,25 @@ function attachCardToPokemon () {
 
 // Initial print when page loads
 document.addEventListener('DOMContentLoaded', () => {
+	// Prepare energy icons
+	const energies = ['fighting', 'fire', 'water', 'grass', 'electric', 'psychic', 'dark', 'steel', 'free'];
+	energies.forEach(energy => {
+		var img = document.createElement('img');
+		img.src = 'icons/energy-' + energy + '.png';
+		img.onload = function () {
+			icons[energy] = img;
+		};
+	});
+	
+	// Prepare tool icons
+	const tools = ['ancient'];
+	tools.forEach(tool => {
+		const img = document.createElement('img');
+		img.src = 'icons/tool-' + tool + '.png';
+		img.onload = function () {
+			icons[tool] = img;
+		};
+	});
+	
 	resetGame();
 });

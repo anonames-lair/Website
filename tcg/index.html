@@ -10,6 +10,10 @@
 <body>
 	<div class="controls">
 		<div class="control-group">
+			<button class="reset" onclick="resetGame()">Reset</button>
+			<button class="start" onclick="startGame()">Start</button>
+		</div>
+		<div class="control-group">
 			<label class="drawLabel" for="drawCardName">Draw specific card:</label>
 			<input type="text" id="drawCardName" placeholder="Card Name">
 			<button class="drawButton" onclick="drawCard()">Draw</button>
@@ -40,10 +44,6 @@
 			<label class="attachLabel" for="benchIndex">Bench Index (0-4):</label>
 			<input type="number" id="benchIndex" min="0" max="4" value="0">
 			<button class="attachButton" onclick="attachCardToPokemon()">Attach</button>
-		</div>
-		<div class="control-group">
-			<button class="start" onclick="startGame()">Start</button>
-			<button class="reset" onclick="resetGame()">Reset</button>
 		</div>
 	</div>
 
