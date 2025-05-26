@@ -12,6 +12,14 @@ function isNumeric (value) {
 	return /^\d+$/.test(value);
 }
 
+function isMobile () {
+	var userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
+	var mobileString = ['iphone', 'ipod', 'ipad', 'android', 'blackberry', 'phone', 'mobile', 'webos', 'opera mini'];
+	
+	for (var i = 0; i < mobileString.length; i++) if (userAgent.includes(mobileString[i])) return true;
+	return false;
+}
+
 function parse (value) {
 	return isNumeric(value) ? parseInt(value) : value;
 }
@@ -99,7 +107,9 @@ function inputChanged (header) {
 			<th onclick="inputChanged('skills')">Skills</th>
 		</tr>`;
 	for (var i = 0; i < filteredArray.length; i++) {
-		string += `<tr class="officer" onclick="setDisplay(` + filteredArray[i]['id'] + `)" onmouseover="setDisplay(` + filteredArray[i]['id'] + `)">
+		string += `<tr class="officer"
+			onclick="setDisplay(` + filteredArray[i]['id'] + `, 'click')"
+			onmouseover="setDisplay(` + filteredArray[i]['id'] + `, 'mouseover')">
 				<td>` + filteredArray[i]['name'] + `</td>
 				<td class="number">` + filteredArray[i]['ldr'] + `</td>
 				<td class="number">` + filteredArray[i]['war'] + `</td>
@@ -115,7 +125,9 @@ function inputChanged (header) {
 	document.getElementById('output').innerHTML = string;
 }
 
-function setDisplay (id) {
+function setDisplay (id, mode) {
+	if (mode == 'mouseover' && isMobile()) return;
+	
 	if (displayOfficerId != id && isLegal(id)) {
 		displayOfficerId = id;
 		showDisplay();
