@@ -102,6 +102,14 @@ var deck = {
 
 // Generations Psychic Mix
 var deck = {
+	'Noibat': {
+		type: 'Pokemon',
+		count: 2
+	},
+	'Noivern EX': {
+		type: 'Pokemon',
+		count: 1
+	},
 	'Milcery': {
 		type: 'Pokemon',
 		count: 2
@@ -110,7 +118,7 @@ var deck = {
 		type: 'Pokemon',
 		count: 1
 	},
-	'Dedenne': {
+	'Xerneas EX': {
 		type: 'Pokemon',
 		count: 1
 	},
@@ -119,14 +127,6 @@ var deck = {
 		count: 2
 	},
 	'Sylveon': {
-		type: 'Pokemon',
-		count: 1
-	},
-	'Furfrou': {
-		type: 'Pokemon',
-		count: 1
-	},
-	'Galarian Stunfisk': {
 		type: 'Pokemon',
 		count: 1
 	},
@@ -142,23 +142,23 @@ var deck = {
 		type: 'Pokemon',
 		count: 1
 	},
+	'Dedenne': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Galarian Stunfisk': {
+		type: 'Pokemon',
+		count: 1
+	},
+	'Furfrou': {
+		type: 'Pokemon',
+		count: 1
+	},
 	'Hawlucha': {
 		type: 'Pokemon',
 		count: 1
 	},
 	'Indeedee': {
-		type: 'Pokemon',
-		count: 1
-	},
-	'Noibat': {
-		type: 'Pokemon',
-		count: 2
-	},
-	'Noivern EX': {
-		type: 'Pokemon',
-		count: 1
-	},
-	'Xerneas EX': {
 		type: 'Pokemon',
 		count: 1
 	},
@@ -178,10 +178,6 @@ var deck = {
 		type: 'Item',
 		count: 2
 	},
-	'Judge': {
-		type: 'Supporter',
-		count: 2
-	},
 	'Nemona': {
 		type: 'Supporter',
 		count: 4
@@ -189,6 +185,10 @@ var deck = {
 	'Professor Research': {
 		type: 'Supporter',
 		count: 3
+	},
+	'Judge': {
+		type: 'Supporter',
+		count: 2
 	},
 	'Youngster': {
 		type: 'Supporter',
@@ -204,6 +204,7 @@ var deck = {
 	}
 };
 */
+// Koraidon Original
 var deck = {
 	'Koraidon EX': {
 		type: 'Pokemon',
@@ -740,7 +741,7 @@ function print () {
 		else {
 			benchList.innerHTML = '<li>-</li>';
 		}
-		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`; // Show current/max bench size
+		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`;
 		
 		// Trash
 		const trashList = document.getElementById('trashList');
@@ -795,7 +796,7 @@ function print () {
 		else {
 			benchList.innerHTML = '<li>-</li>';
 		}
-		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`; // Show current/max bench size
+		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`;
 		
 		// Trash
 		const trashList = document.getElementById('trashList');
@@ -829,7 +830,7 @@ function resetGame () {
 	console.log("Game has been reset!");
 }
 
-// --- UI Interaction Functions ---
+/* --- UI Interaction Functions --- */
 function setInput (name, source) {
 	document.getElementById('drawCardName').value = name;
 	document.getElementById('playCardName').value = name;
