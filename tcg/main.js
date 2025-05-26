@@ -314,6 +314,11 @@ var active = null;
 var bench = [];
 var trash = [];
 
+const ratio = window.devicePixelRatio;
+const canvasWidth = 122 * ratio;
+const canvasHeight = 171 * ratio;
+const styleWidth = 122 + 'px';
+const styleHeight =	171 + 'px';
 var printMode = 1;
 var icons = {};
 
@@ -602,8 +607,10 @@ function printPokemonText (pokemon, destination, index) {
 
 function printCardImage (pokemon, destination, index) {
 	const canvas = document.createElement('canvas');
-	canvas.width = 122;
-	canvas.height = 171;
+	canvas.width = canvasWidth;
+	canvas.height = canvasHeight;
+	canvas.style.width = styleWidth;
+	canvas.style.height = styleHeight;
 	const ctx = canvas.getContext('2d');
 	const img = document.createElement('img');
 	img.src = 'images/' + pokemon.name + '.png';
@@ -612,7 +619,7 @@ function printCardImage (pokemon, destination, index) {
 		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 		
 		// Draw attached energy
-		const energySize = 14;
+		const energySize = 18;
 		const energySpacing = 3;
 		var energyX = 5;
 		var energyY = canvas.height - (energySize + energyX);
@@ -661,8 +668,8 @@ function printCardImage (pokemon, destination, index) {
 		
 		// Draw attached tool
 		if (pokemon.tool) {
-			const toolWidth = 32;
-			const toolHeight = 16;
+			const toolWidth = 40;
+			const toolHeight = 20;
 			const toolX = (canvas.width - toolWidth) / 2;
 			const toolY = (canvas.height - toolHeight) / 2;
 			const toolName = pokemon.tool.name.split(' ')[0].toLowerCase();
