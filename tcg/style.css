@@ -60,20 +60,32 @@ h1 {
 	background-color: #4CAF50;
 }
 
+.drawButton:hover {
+	background-color: #3C9F40;
+}
+
 .playButton {
 	background-color: #AF4C50;
+}
+
+.playButton:hover {
+	background-color: #9F3C40;
 }
 
 .discardButton {
 	background-color: #505050;
 }
 
+.discardButton:hover {
+	background-color: #404040;
+}
+
 .attachButton {
 	background-color: #AF4CAF;
 }
 
-.drawButton:hover, .playButton:hover, .discardButton:hover, .attachButton:hover {
-	opacity: 0.92;
+.attachButton:hover {
+	background-color: #9F3C9F;
 }
 
 .controls, .game-zones {
@@ -122,7 +134,7 @@ h1 {
 }
 
 .controls button {
-	padding: 10px 15px;
+	padding: 9px;
 	border: none;
 	border-radius: 5px;
 	color: white;
