@@ -30,7 +30,7 @@ function populate () {
 				type: cardData.type,
 				energy: [],
 				tool: null
-				// Add other properties here if needed (e.g., hp, abilities)
+				// Add other properties here if needed (hp, ability, move, weakness, resistance, retreat cost)
 			});
 		}
 	}
@@ -40,7 +40,7 @@ function shuffle () {
 	var currentIndex = pool.length;
 	var randomIndex;
 	
-	while (currentIndex != 0) {
+	while (currentIndex !== 0) {
 		randomIndex = Math.floor(Math.random() * currentIndex);
 		currentIndex--;
 		[pool[currentIndex], pool[randomIndex]] = [pool[randomIndex], pool[currentIndex]];
@@ -392,7 +392,7 @@ function printCardImage (pokemon, destination, index) {
 // Main print function to update the HTML UI
 function print () {
 	// Text mode
-	if (printMode == 0) {
+	if (printMode === 0) {
 		// Hand
 		const handList = document.getElementById('handList');
 		handList.innerHTML = '';
@@ -450,7 +450,7 @@ function print () {
 		});
 	}
 	// Image mode
-	else if (printMode == 1) {
+	else if (printMode === 1) {
 		// Hand
 		const handList = document.getElementById('handList');
 		handList.innerHTML = '';
