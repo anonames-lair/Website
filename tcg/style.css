@@ -19,6 +19,15 @@ h1 {
 	margin-bottom: 20px;
 }
 
+#display {
+	display: none;
+	position: fixed;
+	border-radius: 12px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+	top: 20px;
+	right: 20px;
+}
+
 #attachCardSource, #attachCardDestination, #benchIndex {
 	border: 1px solid #AF4CAF;
 	border-radius: 3px;

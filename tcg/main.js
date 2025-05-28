@@ -11,6 +11,14 @@ var trash = [];
 
 /////////////////////////////////////////////
 
+function isMobile () {
+	var userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
+	var mobileString = ['iphone', 'ipod', 'ipad', 'android', 'blackberry', 'phone', 'mobile', 'webos', 'opera mini'];
+	
+	for (var i = 0; i < mobileString.length; i++) if (userAgent.includes(mobileString[i])) return true;
+	return false;
+}
+
 function countDeck () {
 	var count = 0;
 	for (key in deck) {
@@ -298,6 +306,15 @@ function printCardImage (card, destination, index) {
 	canvas.height = canvasHeight;
 	canvas.style.width = styleWidth;
 	canvas.style.height = styleHeight;
+	canvas.onmouseover = function () {
+		if (isMobile()) return;
+		
+		document.getElementById('display').src = 'images/' + card.name + '.png';
+		document.getElementById('display').style.display = 'block';
+	};
+	canvas.onmouseleave = function () {
+		document.getElementById('display').style.display = 'none';
+	}
 	const ctx = canvas.getContext('2d');
 	const img = document.createElement('img');
 	img.src = 'images/' + card.name + '.png';
@@ -395,6 +412,15 @@ function printCropImage (card, destination, index) {
 	canvas.height = cropCanvasHeight;
 	canvas.style.width = cropStyleWidth;
 	canvas.style.height = cropStyleHeight;
+	canvas.onmouseover = function () {
+		if (isMobile()) return;
+		
+		document.getElementById('display').src = 'images/' + card.name + '.png';
+		document.getElementById('display').style.display = 'block';
+	};
+	canvas.onmouseleave = function () {
+		document.getElementById('display').style.display = 'none';
+	}
 	const ctx = canvas.getContext('2d');
 	const img = document.createElement('img');
 	img.src = 'images/' + card.name + '.png';
