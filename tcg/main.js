@@ -292,7 +292,7 @@ function printPokemonText (pokemon, destination, index) {
 	return `<li class="card-list-item pokemon-card" onclick="setDestination('${destination}', ${index})">${innerHTML}</li>`
 }
 
-function printCardImage (pokemon, destination, index) {
+function printCardImage (card, destination, index) {
 	const canvas = document.createElement('canvas');
 	canvas.width = canvasWidth;
 	canvas.height = canvasHeight;
@@ -300,7 +300,7 @@ function printCardImage (pokemon, destination, index) {
 	canvas.style.height = styleHeight;
 	const ctx = canvas.getContext('2d');
 	const img = document.createElement('img');
-	img.src = 'images/' + pokemon.name + '.png';
+	img.src = 'images/' + card.name + '.png';
 	
 	img.onload = function() {
 		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
@@ -308,7 +308,7 @@ function printCardImage (pokemon, destination, index) {
 		// Draw attached energy
 		var energyX = 5;
 		var energyY = canvas.height - (energySize + energyX);
-		pokemon.energy.forEach(energy => {
+		card.energy.forEach(energy => {
 			const energyType = energy.name.split(' ')[0].toLowerCase();
 			
 			if (icons[energyType]) {
@@ -351,8 +351,8 @@ function printCardImage (pokemon, destination, index) {
 		});
 		
 		// Draw attached tool
-		if (pokemon.tool) {
-			const toolName = pokemon.tool.name.split(' ')[0].toLowerCase();
+		if (card.tool) {
+			const toolName = card.tool.name.split(' ')[0].toLowerCase();
 			if (icons[toolName]) {
 				ctx.drawImage(icons[toolName], toolX, toolY, toolWidth, toolHeight);
 			}
@@ -370,7 +370,7 @@ function printCardImage (pokemon, destination, index) {
 		
 		switch (destination) {
 			case 'Hand':
-				canvas.onclick = function () { setInput(pokemon.name, destination); };
+				canvas.onclick = function () { setInput(card.name, destination); };
 				break;
 			case 'Active':
 				canvas.onclick = function () { setDestination(destination, 0); };
@@ -382,7 +382,111 @@ function printCardImage (pokemon, destination, index) {
 	};
 	
 	img.onerror = function() {
-		console.error(`Failed to load image for ${pokemon.name}`);
+		console.error(`Failed to load image for ${card.name}`);
+		// Draw a placeholder or error message on the canvas here
+	};
+	
+	return canvas;
+}
+
+function printCropImage (card, destination, index) {
+	const canvas = document.createElement('canvas');
+	canvas.width = cropCanvasWidth;
+	canvas.height = cropCanvasHeight;
+	canvas.style.width = cropStyleWidth;
+	canvas.style.height = cropStyleHeight;
+	const ctx = canvas.getContext('2d');
+	const img = document.createElement('img');
+	img.src = 'images/' + card.name + '.png';
+	
+	img.onload = function() {
+		var y = cropY;
+		if (card.type === 'Item' || card.type === 'Supporter' || card.type === 'Stadium' || card.type === 'Tool') {
+			y += trainerCropPad;
+		}
+		else if (card.type === 'Energy') {
+			y += energyCropPad;
+		}
+		ctx.drawImage(img, cropX, y, cropWidth, cropHeight, 0, 0, canvas.width, canvas.height);
+		
+		// Draw attached energy
+		var energyX = 5;
+		var energyY = canvas.height - (energySize + energyX);
+		card.energy.forEach(energy => {
+			const energyType = energy.name.split(' ')[0].toLowerCase();
+			
+			if (icons[energyType]) {
+				ctx.strokeStyle = '#fff';
+				ctx.lineWidth = 2;
+				ctx.beginPath();
+				ctx.arc(energyX + radius, energyY + radius, radius, 0, 2 * Math.PI);
+				ctx.stroke();
+				ctx.drawImage(icons[energyType], energyX, energyY, energySize, energySize);
+			}
+			else {
+				var energyColor = '#888'; // Default color
+				switch (energyType) {
+					case 'fighting': energyColor = '#c28b4d'; break; // Brownish
+					case 'fire': energyColor = '#e74c3c'; break; // Red
+					case 'water': energyColor = '#3498db'; break; // Blue
+					case 'grass': energyColor = '#2ecc71'; break; // Green
+					case 'electric': energyColor = '#f1c40f'; break; // Yellow
+					case 'psychic': energyColor = '#9b59b6'; break; // Purple
+					case 'dark': energyColor = '#34495e'; break; // Dark grey
+					case 'steel': energyColor = '#bdc3c7'; break; // Light grey
+					default: energyColor = '#888'; // Default for unknown
+				}
+				
+				ctx.fillStyle = energyColor;
+				ctx.fillRect(energyX, energyY, energySize, energySize);
+				ctx.strokeStyle = '#fff';
+				ctx.lineWidth = 3;
+				ctx.beginPath();
+				ctx.strokeRect(energyX, energyY, energySize, energySize);
+				ctx.stroke();
+			}
+			
+			energyX += energySize + energySpacing;
+			// Simple wrap check for multiple energies
+			if (energyX + energySize > canvas.width - 5) {
+				energyX = 5;
+				energyY -= (energySize + energySpacing);
+			}
+		});
+		
+		// Draw attached tool
+		if (card.tool) {
+			const toolName = card.tool.name.split(' ')[0].toLowerCase();
+			if (icons[toolName]) {
+				ctx.drawImage(icons[toolName], 5, 5, toolWidth, toolHeight);
+			}
+			else {
+				ctx.fillStyle = 'purple';
+				ctx.fillRect(5, 5, toolWidth, toolHeight);
+			}
+			
+			ctx.strokeStyle = 'purple';
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+			ctx.strokeRect(5, 5, toolWidth, toolHeight);
+			ctx.stroke();
+		}
+		
+		switch (destination) {
+			case 'Hand':
+				canvas.onclick = function () { setInput(card.name, destination); };
+				break;
+			case 'Active':
+				canvas.onclick = function () { setDestination(destination, 0); };
+				break;
+			case 'Bench':
+				canvas.onclick = function () { setDestination(destination, index); };
+				break;
+		}
+	};
+	
+	img.onerror = function() {
+		console.error(`Failed to load image for ${card.name}`);
 		// Draw a placeholder or error message on the canvas here
 	};
 	
@@ -478,6 +582,61 @@ function print () {
 		if (bench.length > 0) {
 			for (var i = 0; i < bench.length; i++) {
 				benchList.appendChild(printCardImage(bench[i], 'Bench', i));
+			}
+		}
+		else {
+			benchList.innerHTML = '<li>-</li>';
+		}
+		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`;
+		
+		// Trash
+		const trashList = document.getElementById('trashList');
+		trashList.innerHTML = '';
+		trash.forEach(card => {
+			const li = document.createElement('li');
+			li.textContent = card.name;
+			li.onclick = function () { setInput(card.name, 'Trash'); };
+			trashList.appendChild(li);
+		});
+		
+		// Prize
+		const prizeList = document.getElementById('prizeList');
+		prizeList.innerHTML = '';
+		prize.forEach(card => {
+			const li = document.createElement('li');
+			li.textContent = card.name;
+			prizeList.appendChild(li);
+		});
+	}
+	// Crop mode
+	else if (printMode === 2) {
+		// Hand
+		const handList = document.getElementById('handList');
+		handList.innerHTML = '';
+		hand.forEach(card => { 
+			handList.appendChild(printCropImage(card, 'Hand', 0));
+		});
+		document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
+		
+		// Deck
+		document.getElementById('deckCount').textContent = `Remaining cards in deck: ${pool.length}`;
+		
+		// Active
+		activeList = document.getElementById('activeList');
+		activeList.innerHTML = '';
+		if (active !== null) {
+			activeList.appendChild(printCropImage(active, 'Active', 0));
+		}
+		else {
+			activeList.innerHTML = '<li>-</li>';
+		}
+		
+		// Bench
+		benchList = document.getElementById('benchList');
+		benchList.innerHTML = '';
+		if (bench.length > 0) {
+			for (var i = 0; i < bench.length; i++) {
+				benchList.appendChild(printCropImage(bench[i], 'Bench', i));
 			}
 		}
 		else {
