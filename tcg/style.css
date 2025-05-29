@@ -213,13 +213,6 @@ h1 {
 	cursor: pointer;
 }
 
-.card-list li.pokemon-card {
-	background-color: transparent;
-	border: none;
-	padding: 0;
-	margin: 0;
-}
-
 .card-list canvas {
 	display: block;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
