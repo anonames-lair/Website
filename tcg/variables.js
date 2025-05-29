@@ -4,7 +4,7 @@
 // Xerneas: https://asia.pokemon-card.com/id/deck-build/recipe/sveXei-VqZdFd-yHRuSo/
 
 const koraidon1 = {
-	'Koraidon EX': {
+	'Koraidon ex': {
 		type: 'Pokemon',
 		count: 2
 	},
@@ -103,15 +103,15 @@ const koraidon1 = {
 };
 
 const koraidon2 = {
-	'Koraidon EX': {
+	'Koraidon ex': {
 		type: 'Pokemon',
 		count: 4
 	},
-	'Koraidon A': {
+	'Koraidon D': {
 		type: 'Pokemon',
 		count: 2
 	},
-	'Koraidon S': {
+	'Koraidon F': {
 		type: 'Pokemon',
 		count: 2
 	},
@@ -123,7 +123,7 @@ const koraidon2 = {
 		type: 'Pokemon',
 		count: 1
 	},
-	'Latias EX': {
+	'Latias ex': {
 		type: 'Pokemon',
 		count: 1
 	},
@@ -131,7 +131,7 @@ const koraidon2 = {
 		type: 'Pokemon',
 		count: 1
 	},
-	'Fezandipiti EX': {
+	'Fezandipiti ex': {
 		type: 'Pokemon',
 		count: 1
 	},
@@ -202,7 +202,7 @@ const psychicMix = {
 		type: 'Pokemon',
 		count: 2
 	},
-	'Noivern EX': {
+	'Noivern ex': {
 		type: 'Pokemon',
 		count: 1
 	},
@@ -210,11 +210,11 @@ const psychicMix = {
 		type: 'Pokemon',
 		count: 2
 	},
-	'Alcremie EX': {
+	'Alcremie ex': {
 		type: 'Pokemon',
 		count: 1
 	},
-	'Xerneas EX': {
+	'Xerneas ex': {
 		type: 'Pokemon',
 		count: 1
 	},
@@ -301,12 +301,14 @@ const psychicMix = {
 };
 
 const ratio = window.devicePixelRatio;
+// Image mode
 const imageWidth = 122;
 const imageHeight = 171;
 const canvasWidth = imageWidth * ratio;
 const canvasHeight = imageHeight * ratio;
 const styleWidth = imageWidth + 'px';
 const styleHeight =	imageHeight + 'px';
+// Crop mode
 const trainerCropPad = 10;
 const energyCropPad = 80;
 const cropX = 22;
@@ -317,16 +319,21 @@ const cropCanvasWidth = cropWidth * ratio;
 const cropCanvasHeight = cropHeight * ratio;
 const cropStyleWidth = cropWidth + 'px';
 const cropStyleHeight =	cropHeight + 'px';
-const energySize = 18 * ratio;
+// Attach cards
+const padding = 5;
+const lineWidth = 3;
+const energyBorderColor = '#fff';
+const energySize = 20 * ratio;
 const energySpacing = 3;
 const radius = energySize / 2;
+const toolBorderColor = 'purple';
 const toolWidth = 40 * ratio;
 const toolHeight = 20 * ratio;
 const toolX = (canvasWidth - toolWidth) / 2;
 const toolY = (canvasHeight - toolHeight) / 2;
-// 0: text
-// 1: image
-// 2: cropped image
+// 0: Text mode
+// 1: Image mode
+// 2: Crop mode
 var printMode = 1;
 
 const startingHand = 7;

@@ -323,14 +323,14 @@ function printCardImage (card, destination, index) {
 		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 		
 		// Draw attached energy
-		var energyX = 5;
+		var energyX = padding;
 		var energyY = canvas.height - (energySize + energyX);
 		card.energy.forEach(energy => {
 			const energyType = energy.name.split(' ')[0].toLowerCase();
 			
 			if (icons[energyType]) {
-				ctx.strokeStyle = '#fff';
-				ctx.lineWidth = 2;
+				ctx.strokeStyle = energyBorderColor;
+				ctx.lineWidth = lineWidth;
 				ctx.beginPath();
 				ctx.arc(energyX + radius, energyY + radius, radius, 0, 2 * Math.PI);
 				ctx.stroke();
@@ -352,8 +352,8 @@ function printCardImage (card, destination, index) {
 				
 				ctx.fillStyle = energyColor;
 				ctx.fillRect(energyX, energyY, energySize, energySize);
-				ctx.strokeStyle = '#fff';
-				ctx.lineWidth = 3;
+				ctx.strokeStyle = energyBorderColor;
+				ctx.lineWidth = lineWidth;
 				ctx.beginPath();
 				ctx.strokeRect(energyX, energyY, energySize, energySize);
 				ctx.stroke();
@@ -361,8 +361,8 @@ function printCardImage (card, destination, index) {
 			
 			energyX += energySize + energySpacing;
 			// Simple wrap check for multiple energies
-			if (energyX + energySize > canvas.width - 5) {
-				energyX = 5;
+			if (energyX + energySize > canvas.width - padding) {
+				energyX = padding;
 				energyY -= (energySize + energySpacing);
 			}
 		});
@@ -374,12 +374,12 @@ function printCardImage (card, destination, index) {
 				ctx.drawImage(icons[toolName], toolX, toolY, toolWidth, toolHeight);
 			}
 			else {
-				ctx.fillStyle = 'purple';
+				ctx.fillStyle = toolBorderColor;
 				ctx.fillRect(toolX, toolY, toolWidth, toolHeight);
 			}
 			
-			ctx.strokeStyle = 'purple';
-			ctx.lineWidth = 2;
+			ctx.strokeStyle = toolBorderColor;
+			ctx.lineWidth = lineWidth;
 			ctx.beginPath();
 			ctx.strokeRect(toolX, toolY, toolWidth, toolHeight);
 			ctx.stroke();
@@ -436,14 +436,14 @@ function printCropImage (card, destination, index) {
 		ctx.drawImage(img, cropX, y, cropWidth, cropHeight, 0, 0, canvas.width, canvas.height);
 		
 		// Draw attached energy
-		var energyX = 5;
+		var energyX = padding;
 		var energyY = canvas.height - (energySize + energyX);
 		card.energy.forEach(energy => {
 			const energyType = energy.name.split(' ')[0].toLowerCase();
 			
 			if (icons[energyType]) {
-				ctx.strokeStyle = '#fff';
-				ctx.lineWidth = 2;
+				ctx.strokeStyle = energyBorderColor;
+				ctx.lineWidth = lineWidth;
 				ctx.beginPath();
 				ctx.arc(energyX + radius, energyY + radius, radius, 0, 2 * Math.PI);
 				ctx.stroke();
@@ -465,8 +465,8 @@ function printCropImage (card, destination, index) {
 				
 				ctx.fillStyle = energyColor;
 				ctx.fillRect(energyX, energyY, energySize, energySize);
-				ctx.strokeStyle = '#fff';
-				ctx.lineWidth = 3;
+				ctx.strokeStyle = energyBorderColor;
+				ctx.lineWidth = lineWidth;
 				ctx.beginPath();
 				ctx.strokeRect(energyX, energyY, energySize, energySize);
 				ctx.stroke();
@@ -474,8 +474,8 @@ function printCropImage (card, destination, index) {
 			
 			energyX += energySize + energySpacing;
 			// Simple wrap check for multiple energies
-			if (energyX + energySize > canvas.width - 5) {
-				energyX = 5;
+			if (energyX + energySize > canvas.width - padding) {
+				energyX = padding;
 				energyY -= (energySize + energySpacing);
 			}
 		});
@@ -484,17 +484,17 @@ function printCropImage (card, destination, index) {
 		if (card.tool) {
 			const toolName = card.tool.name.split(' ')[0].toLowerCase();
 			if (icons[toolName]) {
-				ctx.drawImage(icons[toolName], 5, 5, toolWidth, toolHeight);
+				ctx.drawImage(icons[toolName], padding, padding, toolWidth, toolHeight);
 			}
 			else {
-				ctx.fillStyle = 'purple';
-				ctx.fillRect(5, 5, toolWidth, toolHeight);
+				ctx.fillStyle = toolBorderColor;
+				ctx.fillRect(padding, padding, toolWidth, toolHeight);
 			}
 			
-			ctx.strokeStyle = 'purple';
-			ctx.lineWidth = 2;
+			ctx.strokeStyle = toolBorderColor;
+			ctx.lineWidth = lineWidth;
 			ctx.beginPath();
-			ctx.strokeRect(5, 5, toolWidth, toolHeight);
+			ctx.strokeRect(padding, padding, toolWidth, toolHeight);
 			ctx.stroke();
 		}
 		
