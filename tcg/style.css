@@ -128,6 +128,14 @@ h1 {
 	gap: 5px;
 }
 
+.control-subgroup {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}
+
 .control-group label {
 	font-weight: bold;
 	font-size: 0.9em;

@@ -13,7 +13,19 @@
 		<img id="display">
 		<div class="control-group">
 			<!-- <button class="reset" onclick="resetGame()">Reset</button> -->
-			<button class="start" onclick="startGame()">Start</button>
+			<div class="control-subgroup">
+				<select id="currentView" onchange="updateView()">
+					<option value="0">Text</option>
+					<option value="1" selected>Image</option>
+					<option value="2">Crop</option>
+				</select>
+				<select id="currentDeck" onchange="updateDeck()">
+					<option value="koraidon1">Deck 1</option>
+					<option value="koraidon2" selected>Deck 2</option>
+					<option value="psychicMix">Deck 3</option>
+				</select>
+				<button class="start" onclick="startGame()">Start</button>
+			</div>
 		</div>
 		<div class="control-group">
 			<label class="drawLabel" for="drawCardName">Draw specific card:</label>

@@ -1,7 +1,5 @@
 var icons = {};
 
-var deck = koraidon1;
-
 var pool = [];
 var hand = [];
 var prize = [];
@@ -522,7 +520,7 @@ function printCropImage (card, destination, index) {
 // Main print function to update the HTML UI
 function print () {
 	// Text mode
-	if (printMode === 0) {
+	if (viewMode === 0) {
 		// Hand
 		const handList = document.getElementById('handList');
 		handList.innerHTML = '';
@@ -580,7 +578,7 @@ function print () {
 		});
 	}
 	// Image mode
-	else if (printMode === 1) {
+	else if (viewMode === 1) {
 		// Hand
 		const handList = document.getElementById('handList');
 		handList.innerHTML = '';
@@ -635,7 +633,7 @@ function print () {
 		});
 	}
 	// Crop mode
-	else if (printMode === 2) {
+	else if (viewMode === 2) {
 		// Hand
 		const handList = document.getElementById('handList');
 		handList.innerHTML = '';
@@ -716,6 +714,28 @@ function setDestination (destination, index) {
 	document.getElementById('benchIndex').value = index;
 }
 
+function updateView () {
+	viewMode = parseInt(document.getElementById('currentView').value);
+	print();
+}
+
+function updateDeck () {
+	switch (document.getElementById('currentDeck').value) {
+		case 'koraidon1':
+			deck = koraidon1;
+			startGame();
+			break;
+		case 'koraidon2':
+			deck = koraidon2;
+			startGame();
+			break;
+		case 'psychicMix':
+			deck = psychicMix;
+			startGame();
+			break;
+	}
+}
+
 function drawCard () {
 	const cardName = document.getElementById('drawCardName').value.trim();
 	draw(cardName === '' ? null : cardName);
@@ -766,5 +786,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 	});
 	
-	resetGame();
+	updateView();
+	updateDeck();
 });

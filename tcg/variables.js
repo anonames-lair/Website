@@ -334,7 +334,8 @@ const toolY = (canvasHeight - toolHeight) / 2;
 // 0: Text mode
 // 1: Image mode
 // 2: Crop mode
-var printMode = 1;
+var viewMode;
+var deck;
 
 const startingHand = 7;
 const prizeCount = 6;
