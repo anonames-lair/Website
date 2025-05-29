@@ -301,7 +301,7 @@ function printPokemonText (pokemon, destination, index) {
 			onmouseleave="hideDisplayCard()"
 			onclick="setDestination('${destination}', ${index})">
 				${innerHTML}
-		</li>`
+		</li>`;
 }
 
 function showDisplayCard (name) {
