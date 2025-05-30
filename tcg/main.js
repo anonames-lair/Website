@@ -1,4 +1,8 @@
-var icons = {};
+// 0: Text mode
+// 1: Image mode
+// 2: Crop mode
+var viewMode;
+var deck;
 
 var pool = [];
 var hand = [];
@@ -6,6 +10,8 @@ var prize = [];
 var active = null;
 var bench = [];
 var trash = [];
+
+var benchSize = 5;
 
 /////////////////////////////////////////////
 
@@ -295,12 +301,11 @@ function printPokemonText (pokemon, destination, index) {
 		}
 		innerHTML += ')';
 	}
-	return `
-		<li class="card-list-item"
-			onmouseover="showDisplayCard('${pokemon.name}')"
-			onmouseleave="hideDisplayCard()"
-			onclick="setDestination('${destination}', ${index})">
-				${innerHTML}
+	return `<li class="card-list-item"
+		onmouseover="showDisplayCard('${pokemon.name}')"
+		onmouseleave="hideDisplayCard()"
+		onclick="setDestination('${destination}', ${index})">
+			${innerHTML}
 		</li>`;
 }
 

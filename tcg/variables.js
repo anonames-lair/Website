@@ -300,6 +300,8 @@ const psychicMix = {
 	}
 };
 
+const icons = {};
+
 const ratio = window.devicePixelRatio;
 // Image mode
 const imageWidth = 122;
@@ -331,12 +333,6 @@ const toolWidth = 40 * ratio;
 const toolHeight = 20 * ratio;
 const toolX = (canvasWidth - toolWidth) / 2;
 const toolY = (canvasHeight - toolHeight) / 2;
-// 0: Text mode
-// 1: Image mode
-// 2: Crop mode
-var viewMode;
-var deck;
 
 const startingHand = 7;
 const prizeCount = 6;
-var benchSize = 5;

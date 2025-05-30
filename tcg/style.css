@@ -4,7 +4,7 @@
 
 body {
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	background-color: #e0e2e5;
+	background-color: #E0E2E5;
 	color: #333;
 	margin: 0;
 	display: flex;
@@ -14,16 +14,11 @@ body {
 	gap: 20px;
 }
 
-h1 {
-	color: #2c3e50;
-	margin-bottom: 20px;
-}
-
 #display {
 	display: none;
 	position: fixed;
 	border-radius: 12px;
-	box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
 	top: 20px;
 	left: 20px;
 }
@@ -34,27 +29,27 @@ h1 {
 }
 
 #drawCardName {
-	border: 1px solid #aca;
+	border: 1px solid #ACA;
 }
 
 #playCardName {
-	border: 1px solid #caa;
+	border: 1px solid #CAA;
 }
 
 #discardCardName {
-	border: 1px solid #aaa;
+	border: 1px solid #AAA;
 }
 
 #attachCardName {
-	border: 1px solid #cac;
+	border: 1px solid #CAC;
 }
 
 .drawLabel {
-	color: #5a5;
+	color: #5A5;
 }
 
 .playLabel {
-	color: #a55;
+	color: #A55;
 }
 
 .discardLabel {
@@ -62,7 +57,7 @@ h1 {
 }
 
 .attachLabel {
-	color: #a5a;
+	color: #A5A;
 }
 
 .drawButton {
@@ -98,9 +93,9 @@ h1 {
 }
 
 .controls, .game-zones {
-	border: 1px solid #aaa;
-	background-color: #fff;
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+	border: 1px solid #AAA;
+	background-color: #FFF;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 	padding: 20px;
 }
 
@@ -145,7 +140,7 @@ h1 {
 .controls input[type="number"],
 .controls select {
 	padding: 8px;
-	border: 1px solid #ddd;
+	border: 1px solid #DDD;
 	border-radius: 4px;
 	font-size: 0.8em;
 }
@@ -161,24 +156,24 @@ h1 {
 }
 
 .controls button.reset {
-	background-color: #e74c3c;
+	background-color: #E74C3C;
 }
 
 .controls button.reset:hover {
-	background-color: #c0392b;
+	background-color: #C0392B;
 }
 
 .controls button.start {
-	background-color: #3498db;
+	background-color: #3498DB;
 }
 
 .controls button.start:hover {
-	background-color: #2980b9;
+	background-color: #2980B9;
 }
 
 .game-zone {
 	margin-bottom: 10px;
-	border-bottom: 1px dashed #eee;
+	border-bottom: 1px dashed #EEE;
 	padding-bottom: 10px;
 }
 
@@ -190,7 +185,7 @@ h1 {
 
 .zone-title {
 	font-weight: bold;
-	color: #34495e;
+	color: #34495E;
 	margin-bottom: 5px;
 	font-size: 1em;
 }
@@ -205,8 +200,8 @@ h1 {
 }
 
 .card-list li {
-	background-color: #f9f9f9;
-	border: 1px solid #eee;
+	background-color: #F9F9F9;
+	border: 1px solid #EEE;
 	padding: 4px 8px;
 	border-radius: 3px;
 	font-size: 0.8em;
@@ -218,12 +213,6 @@ h1 {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	border-radius: 5px;
 	cursor: pointer;
-}
-
-.energy-list {
-	font-size: 0.7em;
-	color: #666;
-	margin-left: 15px;
 }
 
 /* Responsive adjustments for smaller screens (e.g., mobile) */
