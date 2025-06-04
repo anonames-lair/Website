@@ -11,9 +11,11 @@
 <body>
 	<div class="controls">
 		<img id="display">
+		<div id="decklist" class="card-list" onclick="hideDeck()"></div>
 		<div class="control-group">
 			<!-- <button class="reset" onclick="resetGame()">Reset</button> -->
 			<div class="control-subgroup">
+				<span id="info" onclick="showDeck()">i</span>
 				<select id="currentView" onchange="updateView()">
 					<option value="0">Text</option>
 					<option value="1" selected>Image</option>

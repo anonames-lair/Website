@@ -23,6 +23,29 @@ body {
 	left: 20px;
 }
 
+#decklist {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: #FFF;
+	padding: 20px;
+	overflow: auto;
+}
+
+#info {
+	border: 2px solid #888;
+	border-radius: 15px;
+	padding: 0 5px;
+	background-color: #F9F9F9;
+	font-family: "Consolas";
+	font-weight: bold;
+	color: #888;
+	cursor: pointer;
+}
+
 #attachCardSource, #attachCardDestination, #benchIndex {
 	border: 1px solid #AF4CAF;
 	border-radius: 3px;

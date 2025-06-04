@@ -33,18 +33,25 @@ function countDeck () {
 
 function populate () {
 	pool = [];
+	document.getElementById('decklist').innerHTML = '';
 	for (const key in deck) {
-		for (var i = 0; i < deck[key].count; i++) {
-			// Create a deep copy of the card object to prevent shared references
-			const cardData = deck[key];
-			pool.push({
-				name: key,
-				type: cardData.type,
-				energy: [],
-				tool: null
-				// Add other properties here if needed (hp, ability, move, weakness, resistance, retreat cost)
-			});
+		// Create a deep copy of the card object to prevent shared references
+		const cardData = deck[key];
+		const card = {
+			name: key,
+			type: cardData.type,
+			energy: [],
+			tool: null
+			// Add other properties here if needed (hp, ability, move, weakness, resistance, retreat cost)
+		};
+		
+		// Populate pool
+		for (var i = 0; i < cardData.count; i++) {
+			pool.push(card);
 		}
+		
+		// Populate decklist
+		document.getElementById('decklist').appendChild(printCardImage(card, 'Decklist', cardData.count));
 	}
 }
 
@@ -408,6 +415,18 @@ function printCardImage (card, destination, index) {
 			case 'Bench':
 				canvas.onclick = function () { setDestination(destination, index); };
 				break;
+			case 'Decklist':
+				ctx.textBaseline = "middle";
+				ctx.textAlign = "center";
+				ctx.font = countSize + 'px "Segoe UI"';
+				ctx.fillStyle = '#800';
+				ctx.lineWidth = lineWidth;
+				ctx.beginPath();
+				ctx.arc(countX, countY, countSize, 0, 2 * Math.PI);
+				ctx.fill();
+				ctx.fillStyle = '#FFF';
+				ctx.fillText(index.toString(), countX, countY);
+				break;
 		}
 	};
 	
@@ -713,6 +732,14 @@ function resetGame () {
 }
 
 /* --- UI Interaction Functions --- */
+function showDeck () {
+	document.getElementById('decklist').style.display = 'flex';
+}
+
+function hideDeck () {
+	document.getElementById('decklist').style.display = 'none';
+}
+
 function setInput (name, source) {
 	document.getElementById('drawCardName').value = name;
 	document.getElementById('playCardName').value = name;

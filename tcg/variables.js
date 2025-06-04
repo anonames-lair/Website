@@ -333,6 +333,10 @@ const toolWidth = 40 * ratio;
 const toolHeight = 20 * ratio;
 const toolX = (canvasWidth - toolWidth) / 2;
 const toolY = (canvasHeight - toolHeight) / 2;
+// Count
+const countSize = canvasWidth / 6;
+const countX = canvasWidth / 2;
+const countY = canvasHeight - (40 * ratio);
 
 const startingHand = 7;
 const prizeCount = 6;
