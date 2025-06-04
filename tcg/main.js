@@ -31,27 +31,29 @@ function countDeck () {
 	console.log(count);
 }
 
+function createCard (key) {
+	// Create a deep copy of the card object to prevent shared references
+	const cardData = deck[key];
+	return {
+		name: key,
+		type: cardData.type,
+		energy: [],
+		tool: null
+		// Add other properties here if needed (hp, ability, move, weakness, resistance, retreat cost)
+	};
+}
+
 function populate () {
 	pool = [];
 	document.getElementById('decklist').innerHTML = '';
 	for (const key in deck) {
-		// Create a deep copy of the card object to prevent shared references
-		const cardData = deck[key];
-		const card = {
-			name: key,
-			type: cardData.type,
-			energy: [],
-			tool: null
-			// Add other properties here if needed (hp, ability, move, weakness, resistance, retreat cost)
-		};
-		
 		// Populate pool
-		for (var i = 0; i < cardData.count; i++) {
-			pool.push(card);
+		for (var i = 0; i < deck[key].count; i++) {
+			pool.push(createCard(key));
 		}
 		
 		// Populate decklist
-		document.getElementById('decklist').appendChild(printCardImage(card, 'Decklist', cardData.count));
+		document.getElementById('decklist').appendChild(printCardImage(createCard(key), 'Decklist', deck[key].count));
 	}
 }
 
