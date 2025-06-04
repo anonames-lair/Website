@@ -15,13 +15,13 @@
 		<div class="control-group">
 			<!-- <button class="reset" onclick="resetGame()">Reset</button> -->
 			<div class="control-subgroup">
-				<span id="info" onclick="showDeck()">i</span>
-				<select id="currentView" onchange="updateView()">
+				<span id="info" onclick="showDeck()" title="Show decklist">i</span>
+				<select id="currentView" onchange="updateView()" title="View mode">
 					<option value="0">Text</option>
 					<option value="1" selected>Image</option>
 					<option value="2">Crop</option>
 				</select>
-				<select id="currentDeck" onchange="updateDeck()">
+				<select id="currentDeck" onchange="updateDeck()" title="Select deck">
 					<option value="koraidon1">Deck 1</option>
 					<option value="koraidon2" selected>Deck 2</option>
 					<option value="psychicMix">Deck 3</option>
