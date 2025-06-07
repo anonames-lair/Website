@@ -22,16 +22,16 @@
 					<option value="2">Crop</option>
 				</select>
 				<select id="currentDeck" onchange="updateDeck()" title="Select deck">
-					<option value="koraidon1" selected>Deck 1</option>
-					<option value="koraidon2">Deck 2</option>
-					<option value="psychicMix">Deck 3</option>
+					<option value="koraidon1" selected>Koraidon 1</option>
+					<option value="koraidon2">Koraidon 2</option>
+					<option value="psychic">Psychic</option>
 				</select>
 				<button class="start" onclick="startGame()">Start</button>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="drawLabel" for="drawCardName">Draw specific card:</label>
-			<input type="text" id="drawCardName" placeholder="Card Name">
+			<input type="search" id="drawCardName" placeholder="Card Name">
 			<button class="drawButton" onclick="drawCard()">Draw</button>
 		</div>
 		<div class="control-group">
@@ -47,19 +47,21 @@
 		<div class="control-group">
 			<label class="attachLabel" for="attachCardName">Attach tool or energy:</label>
 			<input type="text" id="attachCardName" placeholder="Card Name">
-			<label class="attachLabel" for="attachCardSource">From:</label>
-			<select id="attachCardSource">
+			<button class="attachButton" onclick="attachCardToPokemon()">Attach</button>
+		</div>
+		<div class="control-group">
+			<label class="locationLabel" for="source">From:</label>
+			<select id="source">
 				<option value="Hand">Hand</option>
 				<option value="Trash">Trash</option>
 			</select>
-			<label class="attachLabel" for="attachCardDestination">To:</label>
-			<select id="attachCardDestination">
+			<label class="locationLabel" for="destination">To:</label>
+			<select id="destination">
 				<option value="Active">Active</option>
 				<option value="Bench">Bench</option>
 			</select>
-			<label class="attachLabel" for="benchIndex">Bench Index (0-4):</label>
+			<label class="locationLabel" for="benchIndex">Bench Index (0-4):</label>
 			<input type="number" id="benchIndex" min="0" max="4" value="0">
-			<button class="attachButton" onclick="attachCardToPokemon()">Attach</button>
 		</div>
 	</div>
 

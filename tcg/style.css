@@ -36,18 +36,17 @@ body {
 }
 
 #info {
-	border: 2px solid #888;
+	border: 2px solid #14589B;
 	border-radius: 15px;
 	padding: 0 5px;
-	background-color: #F9F9F9;
-	font-family: "Consolas";
-	font-weight: bold;
-	color: #888;
+	background-color: #3498DB;
+	font-family: "Consolas", "Courier New", "Courier";
+	color: #fff;
 	cursor: pointer;
 }
 
-#attachCardSource, #attachCardDestination, #benchIndex {
-	border: 1px solid #AF4CAF;
+#source, #destination, #benchIndex {
+	border: 1px solid #DDD;
 	border-radius: 3px;
 }
 
@@ -126,7 +125,7 @@ body {
 	position: sticky;
 	top: 20px;
 	flex-shrink: 0;
-	width: 300px;
+	width: 330px;
 	max-height: calc(100vh - 40px);
 	overflow-y: auto;
 	display: grid;
@@ -160,6 +159,7 @@ body {
 }
 
 .controls input[type="text"],
+.controls input[type="search"],
 .controls input[type="number"],
 .controls select {
 	padding: 8px;

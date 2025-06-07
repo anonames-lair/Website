@@ -37,6 +37,8 @@ function createCard (key) {
 	return {
 		name: key,
 		type: cardData.type,
+		stage: cardData.stage,
+		evolveFrom: cardData.evolveFrom,
 		energy: [],
 		tool: null
 		// Add other properties here if needed (hp, ability, move, weakness, resistance, retreat cost)
@@ -229,16 +231,58 @@ function play (name) {
 	
 	// Rules for playing cards
 	if (cardToPlay.type === 'Pokemon') {
-		if (active === null) {
-			active = cardToPlay;
+		// Pokemon is evolution stage
+		if (cardToPlay.stage > 0 || cardToPlay.evolveFrom !== '-') {
+			var evolutionSuccess = false;
+			const destination = document.getElementById('destination').value;
+			// Try to match based on destination and bench index user interface
+			if (destination === 'Active' && active !== null && active.name === cardToPlay.evolveFrom) {
+				evolve(active, cardToPlay);
+				evolutionSuccess = true;
+			}
+			else if (destination === 'Bench') {
+				const index = document.getElementById('benchIndex').value;
+				if (bench[index] && bench[index].name === cardToPlay.evolveFrom) {
+					evolve(bench[index], cardToPlay);
+					evolutionSuccess = true;
+				}
+			}
+			
+			if (!evolutionSuccess) {
+				// For fallback, find match from all Pokemon in active and bench, then evolve the first match found
+				if (active !== null && active.name === cardToPlay.evolveFrom) {
+					evolve(active, cardToPlay);
+					evolutionSuccess = true;
+				}
+				else {
+					for (var i = 0; i < bench.length; i++) {
+						if (bench[i].name === cardToPlay.evolveFrom) {
+							evolve(bench[i], cardToPlay);
+							evolutionSuccess = true;
+							break;
+						}
+					}
+				}
+				
+				if (!evolutionSuccess) {
+					alert('Failed to perform evolution.');
+					return;
+				}
+			}
 		}
-		else if (bench.length < benchSize) {
-			bench.push(cardToPlay);
-		}
+		// Pokemon is basic stage
 		else {
-			alert(`No more space on the bench. Max bench size is ${benchSize}.`);
-			// Don't remove Pokemon from hand
-			return;
+			if (active === null) {
+				active = cardToPlay;
+			}
+			else if (bench.length < benchSize) {
+				bench.push(cardToPlay);
+			}
+			else {
+				alert(`No more space on the bench. Max bench size is ${benchSize}.`);
+				// Don't remove Pokemon from hand
+				return;
+			}
 		}
 	}
 	else if (cardToPlay.type === 'Item' || cardToPlay.type === 'Supporter' || cardToPlay.type === 'Stadium') {
@@ -265,6 +309,12 @@ function play (name) {
 	
 	hand.splice(index, 1);
 	print();
+}
+
+function evolve (cardToEvolve, evolutionCard) {
+	cardToEvolve.name = evolutionCard.name;
+	cardToEvolve.stage = evolutionCard.stage;
+	cardToEvolve.evolveFrom = evolutionCard.evolveFrom;
 }
 
 function discard (name) {
@@ -410,6 +460,7 @@ function printCardImage (card, destination, index) {
 		switch (destination) {
 			case 'Hand':
 				canvas.onclick = function () { setInput(card.name, destination); };
+				canvas.ondblclick = function () { play(card.name); };
 				break;
 			case 'Active':
 				canvas.onclick = function () { setDestination(destination, 0); };
@@ -528,6 +579,7 @@ function printCropImage (card, destination, index) {
 		switch (destination) {
 			case 'Hand':
 				canvas.onclick = function () { setInput(card.name, destination); };
+				canvas.ondblclick = function () { play(card.name); };
 				break;
 			case 'Active':
 				canvas.onclick = function () { setDestination(destination, 0); };
@@ -556,9 +608,10 @@ function print () {
 		hand.forEach(card => {
 			const li = document.createElement('li');
 			li.textContent = card.name;
-			li.onmouseover = function () { showDisplayCard(card.name) };
+			li.onmouseover = function () { showDisplayCard(card.name); };
 			li.onmouseleave = function () { hideDisplayCard(); };
 			li.onclick = function () { setInput(card.name, 'Hand'); };
+			li.ondblclick = function () { play(card.name); };
 			handList.appendChild(li);
 		});
 		document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
@@ -747,11 +800,11 @@ function setInput (name, source) {
 	document.getElementById('playCardName').value = name;
 	document.getElementById('discardCardName').value = name;
 	document.getElementById('attachCardName').value = name;
-	document.getElementById('attachCardSource').value = source;
+	document.getElementById('source').value = source;
 }
 
 function setDestination (destination, index) {
-	document.getElementById('attachCardDestination').value = destination;
+	document.getElementById('destination').value = destination;
 	document.getElementById('benchIndex').value = index;
 }
 
@@ -770,8 +823,8 @@ function updateDeck () {
 			deck = koraidon2;
 			startGame();
 			break;
-		case 'psychicMix':
-			deck = psychicMix;
+		case 'psychic':
+			deck = psychic;
 			startGame();
 			break;
 	}
@@ -797,8 +850,8 @@ function discardCard () {
 
 function attachCardToPokemon () {
 	const attachCardName = document.getElementById('attachCardName').value.trim();
-	const source = document.getElementById('attachCardSource').value;
-	const destination = document.getElementById('attachCardDestination').value;
+	const source = document.getElementById('source').value;
+	const destination = document.getElementById('destination').value;
 	const benchIndex = parseInt(document.getElementById('benchIndex').value);
 	
 	attachCard(destination, destination === 'Bench' ? benchIndex : null, source, attachCardName);
