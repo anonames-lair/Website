@@ -14,6 +14,22 @@ body {
 	gap: 20px;
 }
 
+#cover {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: #FFF;
+	padding: 20px;
+	overflow: auto;
+	font-size: 2em;
+}
+
 #display {
 	display: none;
 	position: fixed;
@@ -206,11 +222,20 @@ body {
 	padding-bottom: 0;
 }
 
+.deck-zone {
+	margin-bottom: 0;
+}
+
+.play-zone {
+	background-color: #EEE;
+}
+
 .zone-title {
 	font-weight: bold;
 	color: #34495E;
 	margin-bottom: 5px;
 	font-size: 1em;
+	text-align: center;
 }
 
 .card-list {
@@ -219,6 +244,7 @@ body {
 	margin: 0;
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: center;
 	gap: 8px;
 }
 

@@ -31,6 +31,17 @@ function countDeck () {
 	console.log(count);
 }
 
+function resetGame () {
+	pool = [];
+	hand = [];
+	prize = [];
+	active = null;
+	bench = [];
+	trash = [];
+	print();
+	console.log("Game has been reset!");
+}
+
 function createCard (key) {
 	// Create a deep copy of the card object to prevent shared references
 	const cardData = deck[key];
@@ -68,6 +79,17 @@ function shuffle () {
 		currentIndex--;
 		[pool[currentIndex], pool[randomIndex]] = [pool[randomIndex], pool[currentIndex]];
 	}
+}
+
+function startGame () {
+	resetGame();
+	populate();
+	shuffle();
+	for (var i = 0; i < startingHand; i++) draw(null, false);
+	for (var i = 0; i < prizeCount; i++) assignPrize();
+	
+	// Initial print after setup
+	print();
 }
 
 function assignPrize () {
@@ -109,6 +131,161 @@ function draw (name = null, update = true) {
 	else {
 		alert("Deck is empty! Cannot draw.");
 	}
+}
+
+function play (name) {
+	if (hand.length <= 0) {
+		alert("Hand is empty! Cannot play a card.");
+		return;
+	}
+	
+	if (!name) {
+		alert("Pick a card to play.");
+		return;
+	}
+	
+	var index = -1;
+	for (var i = 0; i < hand.length; i++) {
+		if (hand[i].name.toLowerCase() === name.toLowerCase()) {
+			index = i;
+			break;
+		}
+	}
+	
+	if (index === -1) {
+		alert(`Card "${name}" not found in your hand.`);
+		return;
+	}
+	
+	const cardToPlay = hand[index];
+	
+	// Rules for playing cards
+	if (cardToPlay.type === 'Pokemon') {
+		// Evolution card
+		if (cardToPlay.stage > 0 || cardToPlay.evolveFrom !== '-') {
+			var evolutionSuccess = false;
+			const destination = document.getElementById('destination').value;
+			// Try to match based on destination and bench index user interface
+			if (destination === 'Active' && active !== null && active.name === cardToPlay.evolveFrom) {
+				evolve(active, cardToPlay);
+				evolutionSuccess = true;
+			}
+			else if (destination === 'Bench') {
+				const index = document.getElementById('benchIndex').value;
+				if (bench[index] && bench[index].name === cardToPlay.evolveFrom) {
+					evolve(bench[index], cardToPlay);
+					evolutionSuccess = true;
+				}
+			}
+			
+			if (!evolutionSuccess) {
+				// For fallback, find match from all Pokemon in active and bench, then evolve the first match found
+				if (active !== null && active.name === cardToPlay.evolveFrom) {
+					evolve(active, cardToPlay);
+					evolutionSuccess = true;
+				}
+				else {
+					for (var i = 0; i < bench.length; i++) {
+						if (bench[i].name === cardToPlay.evolveFrom) {
+							evolve(bench[i], cardToPlay);
+							evolutionSuccess = true;
+							break;
+						}
+					}
+				}
+				
+				if (!evolutionSuccess) {
+					alert('Failed to perform evolution.');
+					return;
+				}
+			}
+		}
+		// Basic Pokemon card
+		else {
+			if (active === null) {
+				active = cardToPlay;
+			}
+			else if (bench.length < benchSize) {
+				bench.push(cardToPlay);
+			}
+			else {
+				alert(`No more space on the bench. Max bench size is ${benchSize}.`);
+				// Don't remove Pokemon from hand
+				return;
+			}
+		}
+	}
+	else if (cardToPlay.type === 'Item' || cardToPlay.type === 'Supporter' || cardToPlay.type === 'Stadium') {
+		// For now, these go to trash, as the simulator doesn't have specific zones for them
+		trash.push(cardToPlay);
+		// You would add specific logic here for their effects
+		// alert(`Played "${cardToPlay.name}". (Effect not simulated yet).`);
+	}
+	else if (cardToPlay.type === 'Energy') {
+		alert('Energy cards are attached, not "played" to the field. Use "Attach" function.');
+		// Don't remove energy from hand
+		return;
+	}
+	else if (cardToPlay.type === 'Tool') {
+		alert('Pokemon tools are attached, not "played" to the field. Use "Attach" function.');
+		// Don't remove tool from hand
+		return;
+	}
+	else {
+		alert(`Cannot play card type: ${cardToPlay.type}.`);
+		// Don't remove card from hand
+		return;
+	}
+	
+	hand.splice(index, 1);
+	print();
+}
+
+function evolve (cardToEvolve, evolutionCard) {
+	cardToEvolve.name = evolutionCard.name;
+	cardToEvolve.stage = evolutionCard.stage;
+	cardToEvolve.evolveFrom = evolutionCard.evolveFrom;
+}
+
+function switchActive (index) {
+	if (index < 0 || index >= bench.length) {
+		alert('Invalid bench index.');
+		return;
+	}
+	
+	const tempCard = active;
+	active = bench[index];
+	bench[index] = tempCard;
+	print();
+}
+
+function discard (name) {
+	if (hand.length <= 0) {
+		alert("Hand is empty! Cannot discard.");
+		return;
+	}
+	
+	if (!name) {
+		alert("Pick a card to discard.");
+		return;
+	}
+	
+	var index = -1;
+	for (var i = 0; i < hand.length; i++) {
+		if (hand[i].name.toLowerCase() === name.toLowerCase()) {
+			index = i;
+			break;
+		}
+	}
+	
+	if (index === -1) {
+		alert(`Card "${name}" not found in your hand.`);
+		return;
+	}
+	
+	trash.push(hand[index]);
+	hand.splice(index, 1);
+	print();
 }
 
 function attachCard (destination, destinationIndex, source, attachCardName) {
@@ -192,160 +369,6 @@ function attachCard (destination, destinationIndex, source, attachCardName) {
 	print();
 }
 
-function startGame () {
-	resetGame();
-	populate();
-	shuffle();
-	for (var i = 0; i < startingHand; i++) draw(null, false);
-	for (var i = 0; i < prizeCount; i++) assignPrize();
-	
-	// Initial print after setup
-	print();
-}
-
-function play (name) {
-	if (hand.length <= 0) {
-		alert("Hand is empty! Cannot play a card.");
-		return;
-	}
-	
-	if (!name) {
-		alert("Pick a card to play.");
-		return;
-	}
-	
-	var index = -1;
-	for (var i = 0; i < hand.length; i++) {
-		if (hand[i].name.toLowerCase() === name.toLowerCase()) {
-			index = i;
-			break;
-		}
-	}
-	
-	if (index === -1) {
-		alert(`Card "${name}" not found in your hand.`);
-		return;
-	}
-	
-	const cardToPlay = hand[index];
-	
-	// Rules for playing cards
-	if (cardToPlay.type === 'Pokemon') {
-		// Pokemon is evolution stage
-		if (cardToPlay.stage > 0 || cardToPlay.evolveFrom !== '-') {
-			var evolutionSuccess = false;
-			const destination = document.getElementById('destination').value;
-			// Try to match based on destination and bench index user interface
-			if (destination === 'Active' && active !== null && active.name === cardToPlay.evolveFrom) {
-				evolve(active, cardToPlay);
-				evolutionSuccess = true;
-			}
-			else if (destination === 'Bench') {
-				const index = document.getElementById('benchIndex').value;
-				if (bench[index] && bench[index].name === cardToPlay.evolveFrom) {
-					evolve(bench[index], cardToPlay);
-					evolutionSuccess = true;
-				}
-			}
-			
-			if (!evolutionSuccess) {
-				// For fallback, find match from all Pokemon in active and bench, then evolve the first match found
-				if (active !== null && active.name === cardToPlay.evolveFrom) {
-					evolve(active, cardToPlay);
-					evolutionSuccess = true;
-				}
-				else {
-					for (var i = 0; i < bench.length; i++) {
-						if (bench[i].name === cardToPlay.evolveFrom) {
-							evolve(bench[i], cardToPlay);
-							evolutionSuccess = true;
-							break;
-						}
-					}
-				}
-				
-				if (!evolutionSuccess) {
-					alert('Failed to perform evolution.');
-					return;
-				}
-			}
-		}
-		// Pokemon is basic stage
-		else {
-			if (active === null) {
-				active = cardToPlay;
-			}
-			else if (bench.length < benchSize) {
-				bench.push(cardToPlay);
-			}
-			else {
-				alert(`No more space on the bench. Max bench size is ${benchSize}.`);
-				// Don't remove Pokemon from hand
-				return;
-			}
-		}
-	}
-	else if (cardToPlay.type === 'Item' || cardToPlay.type === 'Supporter' || cardToPlay.type === 'Stadium') {
-		// For now, these go to trash, as the simulator doesn't have specific zones for them
-		trash.push(cardToPlay);
-		// You would add specific logic here for their effects
-		alert(`Played "${cardToPlay.name}". (Effect not simulated yet).`);
-	}
-	else if (cardToPlay.type === 'Energy') {
-		alert('Energy cards are attached, not "played" to the field. Use "Attach" function.');
-		// Don't remove energy from hand
-		return;
-	}
-	else if (cardToPlay.type === 'Tool') {
-		alert('Pokemon tools are attached, not "played" to the field. Use "Attach" function.');
-		// Don't remove tool from hand
-		return;
-	}
-	else {
-		alert(`Cannot play card type: ${cardToPlay.type}.`);
-		// Don't remove card from hand
-		return;
-	}
-	
-	hand.splice(index, 1);
-	print();
-}
-
-function evolve (cardToEvolve, evolutionCard) {
-	cardToEvolve.name = evolutionCard.name;
-	cardToEvolve.stage = evolutionCard.stage;
-	cardToEvolve.evolveFrom = evolutionCard.evolveFrom;
-}
-
-function discard (name) {
-	if (hand.length <= 0) {
-		alert("Hand is empty! Cannot discard.");
-		return;
-	}
-	
-	if (!name) {
-		alert("Pick a card to discard.");
-		return;
-	}
-	
-	var index = -1;
-	for (var i = 0; i < hand.length; i++) {
-		if (hand[i].name.toLowerCase() === name.toLowerCase()) {
-			index = i;
-			break;
-		}
-	}
-	
-	if (index === -1) {
-		alert(`Card "${name}" not found in your hand.`);
-		return;
-	}
-	
-	trash.push(hand[index]);
-	hand.splice(index, 1);
-	print();
-}
-
 function printPokemonText (pokemon, destination, index) {
 	var innerHTML = pokemon.name;
 	var string = pokemon.name;
@@ -360,23 +383,18 @@ function printPokemonText (pokemon, destination, index) {
 		}
 		innerHTML += ')';
 	}
-	return `<li class="card-list-item"
+	
+	var fullHTML = `<li class="card-list-item"
 		onmouseover="showDisplayCard('${pokemon.name}')"
 		onmouseleave="hideDisplayCard()"
-		onclick="setDestination('${destination}', ${index})">
+		onclick="setDestination('${destination}', ${index})"`;
+	if (destination === 'Bench') {
+		fullHTML += ` ondblclick="switchActive(${index})"`;
+	}
+	fullHTML += `>
 			${innerHTML}
 		</li>`;
-}
-
-function showDisplayCard (name) {
-	if (isMobile()) return;
-	
-	document.getElementById('display').src = 'images/' + name + '.png';
-	document.getElementById('display').style.display = 'block';
-}
-
-function hideDisplayCard () {
-	document.getElementById('display').style.display = 'none';
+	return fullHTML;
 }
 
 function printCardImage (card, destination, index) {
@@ -467,6 +485,7 @@ function printCardImage (card, destination, index) {
 				break;
 			case 'Bench':
 				canvas.onclick = function () { setDestination(destination, index); };
+				canvas.ondblclick = function () { switchActive(index); };
 				break;
 			case 'Decklist':
 				ctx.textBaseline = "middle";
@@ -485,7 +504,17 @@ function printCardImage (card, destination, index) {
 	
 	img.onerror = function() {
 		console.error(`Failed to load image for ${card.name}`);
-		// Draw a placeholder or error message on the canvas here
+		// Draw text placeholder if image fails to load
+		ctx.fillStyle = '#f00'; // Red color for error
+		ctx.font = `bold ${10 * ratio}px Arial`;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.fillText('No Image', canvas.width / 2, canvas.height / 2);
+		ctx.fillStyle = '#abb2bf';
+		ctx.font = `bold ${12 * ratio}px Arial`;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'top';
+		ctx.fillText(card.name, canvas.width / 2, 5 * ratio);
 	};
 	
 	return canvas;
@@ -586,19 +615,29 @@ function printCropImage (card, destination, index) {
 				break;
 			case 'Bench':
 				canvas.onclick = function () { setDestination(destination, index); };
+				canvas.ondblclick = function () { switchActive(index); };
 				break;
 		}
 	};
 	
 	img.onerror = function() {
 		console.error(`Failed to load image for ${card.name}`);
-		// Draw a placeholder or error message on the canvas here
+		// Draw text placeholder if image fails to load
+		ctx.fillStyle = '#f00'; // Red color for error
+		ctx.font = `bold ${10 * ratio}px Arial`;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.fillText('No Image', canvas.width / 2, canvas.height / 2);
+		ctx.fillStyle = '#abb2bf';
+		ctx.font = `bold ${12 * ratio}px Arial`;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'top';
+		ctx.fillText(card.name, canvas.width / 2, 5 * ratio);
 	};
 	
 	return canvas;
 }
 
-// Main print function to update the HTML UI
 function print () {
 	// Text mode
 	if (viewMode === 0) {
@@ -614,7 +653,7 @@ function print () {
 			li.ondblclick = function () { play(card.name); };
 			handList.appendChild(li);
 		});
-		document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
+		document.getElementById('handCount').textContent = `Hand cards (${hand.length})`;
 		
 		// Deck
 		document.getElementById('deckCount').textContent = `Remaining cards in deck: ${pool.length}`;
@@ -640,7 +679,7 @@ function print () {
 		else {
 			benchList.innerHTML = '<li>-</li>';
 		}
-		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`;
+		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize})`;
 		
 		// Trash
 		const trashList = document.getElementById('trashList');
@@ -671,7 +710,7 @@ function print () {
 		hand.forEach(card => { 
 			handList.appendChild(printCardImage(card, 'Hand', 0));
 		});
-		document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
+		document.getElementById('handCount').textContent = `Hand cards (${hand.length})`;
 		
 		// Deck
 		document.getElementById('deckCount').textContent = `Remaining cards in deck: ${pool.length}`;
@@ -697,7 +736,7 @@ function print () {
 		else {
 			benchList.innerHTML = '<li>-</li>';
 		}
-		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`;
+		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize})`;
 		
 		// Trash
 		const trashList = document.getElementById('trashList');
@@ -726,7 +765,7 @@ function print () {
 		hand.forEach(card => { 
 			handList.appendChild(printCropImage(card, 'Hand', 0));
 		});
-		document.getElementById('handCount').textContent = `Hand cards (${hand.length}):`;
+		document.getElementById('handCount').textContent = `Hand cards (${hand.length})`;
 		
 		// Deck
 		document.getElementById('deckCount').textContent = `Remaining cards in deck: ${pool.length}`;
@@ -752,7 +791,7 @@ function print () {
 		else {
 			benchList.innerHTML = '<li>-</li>';
 		}
-		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize}):`;
+		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize})`;
 		
 		// Trash
 		const trashList = document.getElementById('trashList');
@@ -775,18 +814,23 @@ function print () {
 	}
 }
 
-function resetGame () {
-	pool = [];
-	hand = [];
-	prize = [];
-	active = null;
-	bench = [];
-	trash = [];
-	print();
-	console.log("Game has been reset!");
+function showDisplayCard (name) {
+	if (isMobile()) return;
+	
+	document.getElementById('display').src = 'images/' + name + '.png';
+	document.getElementById('display').style.display = 'block';
+}
+
+function hideDisplayCard () {
+	document.getElementById('display').style.display = 'none';
 }
 
 /* --- UI Interaction Functions --- */
+function startSimulation () {
+	document.getElementById('cover').style.display = 'none';
+	document.getElementById('audio').play();
+}
+
 function showDeck () {
 	document.getElementById('decklist').style.display = 'flex';
 }

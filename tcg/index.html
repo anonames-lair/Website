@@ -11,7 +11,6 @@
 <body>
 	<div class="controls">
 		<img id="display">
-		<div id="decklist" class="card-list" onclick="hideDeck()"></div>
 		<div class="control-group">
 			<!-- <button class="reset" onclick="resetGame()">Reset</button> -->
 			<div class="control-subgroup">
@@ -67,33 +66,40 @@
 
 	<div class="game-zones">
 		<div class="game-zone">
-			<div class="zone-title" id="handCount">Hand cards (0):</div>
+			<div class="zone-title" id="handCount">Hand cards (0)</div>
 			<ul id="handList" class="card-list">
 				</ul>
 		</div>
-		<div class="game-zone">
+		<div class="game-zone deck-zone">
 			<div class="zone-title" id="deckCount">Remaining cards in deck: 0</div>
 		</div>
-		<div class="game-zone">
-			<div class="zone-title">Active:</div>
+		<div class="game-zone play-zone">
+			<div class="zone-title">Active</div>
 			<ul id="activeList" class="card-list">
 				</ul>
 		</div>
-		<div class="game-zone">
-			<div class="zone-title" id="benchCount">Bench (0):</div>
+		<div class="game-zone play-zone">
+			<div class="zone-title" id="benchCount">Bench (0)</div>
 			<ul id="benchList" class="card-list">
 				</ul>
 		</div>
 		<div class="game-zone">
-			<div class="zone-title">Trash:</div>
+			<div class="zone-title">Trash</div>
 			<ul id="trashList" class="card-list">
 				</ul>
 		</div>
 		<div class="game-zone">
-			<div class="zone-title">Prize:</div>
+			<div class="zone-title">Prize</div>
 			<ul id="prizeList" class="card-list">
 				</ul>
 		</div>
+	</div>
+	
+	<div id="decklist" class="card-list" onclick="hideDeck()"></div>
+	<audio loop id="audio" src="butterfly-brave.mp3"></audio>
+	<div id="cover" onclick="startSimulation()">
+		<div>Pokémon TCG Simulator</div>
+		<div>Click to start</div>
 	</div>
 </body>
 </html>
