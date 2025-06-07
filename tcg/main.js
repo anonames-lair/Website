@@ -51,7 +51,8 @@ function createCard (key) {
 		stage: cardData.stage,
 		evolveFrom: cardData.evolveFrom,
 		energy: [],
-		tool: null
+		tool: null,
+		preEvolution: []
 		// Add other properties here if needed (hp, ability, move, weakness, resistance, retreat cost)
 	};
 }
@@ -242,6 +243,8 @@ function play (name) {
 }
 
 function evolve (cardToEvolve, evolutionCard) {
+	cardToEvolve.preEvolution.push(cardToEvolve.name);
+	
 	cardToEvolve.name = evolutionCard.name;
 	cardToEvolve.stage = evolutionCard.stage;
 	cardToEvolve.evolveFrom = evolutionCard.evolveFrom;
@@ -911,6 +914,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		img.src = 'icons/energy-' + energy + '.png';
 		img.onload = function () {
 			icons[energy] = img;
+			
+			if (energy === 'free') {
+				icons['therapeutic'] = img;
+			}
 		};
 	});
 	

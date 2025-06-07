@@ -224,11 +224,12 @@ body {
 }
 
 .deck-zone {
+	border-bottom: none;
 	margin-bottom: 0;
 }
 
 .play-zone {
-	background-color: #EEE;
+	background-color: #F2F2F2;
 }
 
 .zone-title {
