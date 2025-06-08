@@ -157,23 +157,17 @@ const koraidon2 = {
 		evolveFrom: '-',
 		count: 4
 	},
-	'Koraidon D': {
-		type: 'Pokemon',
-		stage: 0,
-		evolveFrom: '-',
-		count: 2
-	},
 	'Koraidon F': {
 		type: 'Pokemon',
 		stage: 0,
 		evolveFrom: '-',
-		count: 2
+		count: 4
 	},
 	'Sandy Shocks': {
 		type: 'Pokemon',
 		stage: 0,
 		evolveFrom: '-',
-		count: 2
+		count: 1
 	},
 	'Flutter Mane': {
 		type: 'Pokemon',
@@ -182,6 +176,12 @@ const koraidon2 = {
 		count: 1
 	},
 	'Latias ex': {
+		type: 'Pokemon',
+		stage: 0,
+		evolveFrom: '-',
+		count: 1
+	},
+	'Mew ex': {
 		type: 'Pokemon',
 		stage: 0,
 		evolveFrom: '-',
