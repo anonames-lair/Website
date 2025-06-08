@@ -1,30 +1,30 @@
 // 0: Text mode
 // 1: Image mode
 // 2: Crop mode
-var viewMode;
-var deck;
+let viewMode;
+let deck;
 
-var pool = [];
-var hand = [];
-var prize = [];
-var active = null;
-var bench = [];
-var trash = [];
+let pool = [];
+let hand = [];
+let prize = [];
+let active = null;
+let bench = [];
+let trash = [];
 
-var benchSize = 5;
+let benchSize = 5;
 
 /////////////////////////////////////////////
 
 function isMobile () {
-	var userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
-	var mobileString = ['iphone', 'ipod', 'ipad', 'android', 'blackberry', 'phone', 'mobile', 'webos', 'opera mini'];
+	const userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
+	const mobileString = ['iphone', 'ipod', 'ipad', 'android', 'blackberry', 'phone', 'mobile', 'webos', 'opera mini'];
 	
-	for (var i = 0; i < mobileString.length; i++) if (userAgent.includes(mobileString[i])) return true;
+	for (let i = 0; i < mobileString.length; i++) if (userAgent.includes(mobileString[i])) return true;
 	return false;
 }
 
 function countDeck () {
-	var count = 0;
+	let count = 0;
 	for (key in deck) {
 		count += deck[key].count;
 	}
@@ -62,7 +62,7 @@ function populate () {
 	document.getElementById('decklist').innerHTML = '';
 	for (const key in deck) {
 		// Populate pool
-		for (var i = 0; i < deck[key].count; i++) {
+		for (let i = 0; i < deck[key].count; i++) {
 			pool.push(createCard(key));
 		}
 		
@@ -72,8 +72,8 @@ function populate () {
 }
 
 function shuffle () {
-	var currentIndex = pool.length;
-	var randomIndex;
+	let currentIndex = pool.length;
+	let randomIndex;
 	
 	while (currentIndex !== 0) {
 		randomIndex = Math.floor(Math.random() * currentIndex);
@@ -86,8 +86,8 @@ function startGame () {
 	resetGame();
 	populate();
 	shuffle();
-	for (var i = 0; i < startingHand; i++) draw(null, false);
-	for (var i = 0; i < prizeCount; i++) assignPrize();
+	for (let i = 0; i < startingHand; i++) draw(null, false);
+	for (let i = 0; i < prizeCount; i++) assignPrize();
 	
 	// Initial print after setup
 	print();
@@ -107,9 +107,9 @@ function assignPrize () {
 
 function draw (name = null, update = true) {
 	if (pool.length > 0) {
-		var index = -1;
+		let index = -1;
 		if (name) {
-			for (var i = 0; i < pool.length; i++) {
+			for (let i = 0; i < pool.length; i++) {
 				if (pool[i].name.toLowerCase() === name.toLowerCase()) {
 					index = i;
 					break;
@@ -145,8 +145,8 @@ function play (name) {
 		return;
 	}
 	
-	var index = -1;
-	for (var i = 0; i < hand.length; i++) {
+	let index = -1;
+	for (let i = 0; i < hand.length; i++) {
 		if (hand[i].name.toLowerCase() === name.toLowerCase()) {
 			index = i;
 			break;
@@ -164,7 +164,7 @@ function play (name) {
 	if (cardToPlay.type === 'Pokemon') {
 		// Evolution card
 		if (cardToPlay.stage > 0 || cardToPlay.evolveFrom !== '-') {
-			var evolutionSuccess = false;
+			let evolutionSuccess = false;
 			const destination = document.getElementById('destination').value;
 			// Try to match based on destination and bench index user interface
 			if (destination === 'Active' && active !== null && active.name === cardToPlay.evolveFrom) {
@@ -186,7 +186,7 @@ function play (name) {
 					evolutionSuccess = true;
 				}
 				else {
-					for (var i = 0; i < bench.length; i++) {
+					for (let i = 0; i < bench.length; i++) {
 						if (bench[i].name === cardToPlay.evolveFrom) {
 							evolve(bench[i], cardToPlay);
 							evolutionSuccess = true;
@@ -262,6 +262,18 @@ function switchActive (index) {
 	print();
 }
 
+function claimPrize (index) {
+	if (index < 0 || index >= prize.length) {
+		alert('Invalid prize index.');
+		return;
+	}
+	
+	const prizeToClaim = prize[index];
+	hand.push(prizeToClaim);
+	prize.splice(index, 1);
+	print();
+}
+
 function discard (name) {
 	if (hand.length <= 0) {
 		alert("Hand is empty! Cannot discard.");
@@ -273,8 +285,8 @@ function discard (name) {
 		return;
 	}
 	
-	var index = -1;
-	for (var i = 0; i < hand.length; i++) {
+	let index = -1;
+	for (let i = 0; i < hand.length; i++) {
 		if (hand[i].name.toLowerCase() === name.toLowerCase()) {
 			index = i;
 			break;
@@ -307,7 +319,7 @@ function attachCard (destination, destinationIndex, source, attachCardName) {
 		return;
 	}
 	
-	var targetPokemon = null;
+	let targetPokemon = null;
 	if (destination.toLowerCase() === 'active') {
 		if (active === null) {
 			alert('There is no Active Pokemon.');
@@ -329,8 +341,8 @@ function attachCard (destination, destinationIndex, source, attachCardName) {
 		return;
 	}
 	
-	var attachCard = null;
-	var sourceArray = null;
+	let attachCard = null;
+	let sourceArray = null;
 	
 	if (source.toLowerCase() === 'hand') {
 		sourceArray = hand;
@@ -339,8 +351,8 @@ function attachCard (destination, destinationIndex, source, attachCardName) {
 		sourceArray = trash;
 	}
 	
-	var attachCardIndex = -1;
-	for (var i = 0; i < sourceArray.length; i++) {
+	let attachCardIndex = -1;
+	for (let i = 0; i < sourceArray.length; i++) {
 		if (sourceArray[i].name.toLowerCase() === attachCardName.toLowerCase()) {
 			attachCardIndex = i;
 			break;
@@ -373,21 +385,21 @@ function attachCard (destination, destinationIndex, source, attachCardName) {
 }
 
 function printPokemonText (pokemon, destination, index) {
-	var innerHTML = pokemon.name;
-	var string = pokemon.name;
+	let innerHTML = pokemon.name;
+	let string = pokemon.name;
 	if (pokemon.tool) {
-		innerHTML += ' <span style="color: purple;">@' + pokemon.tool.name + '</span>';
+		innerHTML += ' <span style="color: ' + toolBorderColor + ';">@' + pokemon.tool.name + '</span>';
 	}
 	if (pokemon.energy.length > 0) {
 		innerHTML += ' (';
-		for (var i = 0; i < pokemon.energy.length; i++) {
+		for (let i = 0; i < pokemon.energy.length; i++) {
 			if (i > 0) innerHTML += ', ';
 			innerHTML += '<span style="color: red;">' + pokemon.energy[i].name.split(' ')[0] + '</span>';
 		}
 		innerHTML += ')';
 	}
 	
-	var fullHTML = `<li class="card-list-item"
+	let fullHTML = `<li class="card-list-item"
 		onmouseover="showDisplayCard('${pokemon.name}')"
 		onmouseleave="hideDisplayCard()"
 		onclick="setDestination('${destination}', ${index})"`;
@@ -416,8 +428,8 @@ function printCardImage (card, destination, index) {
 		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 		
 		// Draw attached energy
-		var energyX = padding;
-		var energyY = canvas.height - (energySize + energyX);
+		let energyX = padding;
+		let energyY = canvas.height - (energySize + energyX);
 		card.energy.forEach(energy => {
 			const energyType = energy.name.split(' ')[0].toLowerCase();
 			
@@ -430,16 +442,16 @@ function printCardImage (card, destination, index) {
 				ctx.drawImage(icons[energyType], energyX, energyY, energySize, energySize);
 			}
 			else {
-				var energyColor = '#888'; // Default color
+				let energyColor = '#888'; // Default color
 				switch (energyType) {
-					case 'fighting': energyColor = '#c28b4d'; break; // Brownish
-					case 'fire': energyColor = '#e74c3c'; break; // Red
-					case 'water': energyColor = '#3498db'; break; // Blue
-					case 'grass': energyColor = '#2ecc71'; break; // Green
-					case 'electric': energyColor = '#f1c40f'; break; // Yellow
-					case 'psychic': energyColor = '#9b59b6'; break; // Purple
-					case 'dark': energyColor = '#34495e'; break; // Dark grey
-					case 'steel': energyColor = '#bdc3c7'; break; // Light grey
+					case 'fighting': energyColor = '#C28B4D'; break; // Brownish
+					case 'fire': energyColor = '#E74C3C'; break; // Red
+					case 'water': energyColor = '#3498DB'; break; // Blue
+					case 'grass': energyColor = '#2ECC71'; break; // Green
+					case 'electric': energyColor = '#F1C40F'; break; // Yellow
+					case 'psychic': energyColor = '#9B59B6'; break; // Purple
+					case 'dark': energyColor = '#34495E'; break; // Dark grey
+					case 'steel': energyColor = '#BDC3C7'; break; // Light grey
 					default: energyColor = '#888'; // Default for unknown
 				}
 				
@@ -493,7 +505,7 @@ function printCardImage (card, destination, index) {
 			case 'Decklist':
 				ctx.textBaseline = "middle";
 				ctx.textAlign = "center";
-				ctx.font = countSize + 'px "Segoe UI"';
+				ctx.font = decklistFont;
 				ctx.fillStyle = '#800';
 				ctx.lineWidth = lineWidth;
 				ctx.beginPath();
@@ -508,13 +520,12 @@ function printCardImage (card, destination, index) {
 	img.onerror = function() {
 		console.error(`Failed to load image for ${card.name}`);
 		// Draw text placeholder if image fails to load
-		ctx.fillStyle = '#f00'; // Red color for error
-		ctx.font = `bold ${10 * ratio}px Arial`;
+		ctx.fillStyle = '#F00';
+		ctx.font = errorFont;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 		ctx.fillText('No Image', canvas.width / 2, canvas.height / 2);
-		ctx.fillStyle = '#abb2bf';
-		ctx.font = `bold ${12 * ratio}px Arial`;
+		ctx.fillStyle = '#ABB2BF';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'top';
 		ctx.fillText(card.name, canvas.width / 2, 5 * ratio);
@@ -536,7 +547,7 @@ function printCropImage (card, destination, index) {
 	img.src = 'images/' + card.name + '.png';
 	
 	img.onload = function() {
-		var y = cropY;
+		let y = cropY;
 		if (card.type === 'Item' || card.type === 'Supporter' || card.type === 'Stadium' || card.type === 'Tool') {
 			y += trainerCropPad;
 		}
@@ -546,8 +557,8 @@ function printCropImage (card, destination, index) {
 		ctx.drawImage(img, cropX, y, cropWidth, cropHeight, 0, 0, canvas.width, canvas.height);
 		
 		// Draw attached energy
-		var energyX = padding;
-		var energyY = canvas.height - (energySize + energyX);
+		let energyX = padding;
+		let energyY = canvas.height - (energySize + energyX);
 		card.energy.forEach(energy => {
 			const energyType = energy.name.split(' ')[0].toLowerCase();
 			
@@ -560,16 +571,16 @@ function printCropImage (card, destination, index) {
 				ctx.drawImage(icons[energyType], energyX, energyY, energySize, energySize);
 			}
 			else {
-				var energyColor = '#888'; // Default color
+				let energyColor = '#888'; // Default color
 				switch (energyType) {
-					case 'fighting': energyColor = '#c28b4d'; break; // Brownish
-					case 'fire': energyColor = '#e74c3c'; break; // Red
-					case 'water': energyColor = '#3498db'; break; // Blue
-					case 'grass': energyColor = '#2ecc71'; break; // Green
-					case 'electric': energyColor = '#f1c40f'; break; // Yellow
-					case 'psychic': energyColor = '#9b59b6'; break; // Purple
-					case 'dark': energyColor = '#34495e'; break; // Dark grey
-					case 'steel': energyColor = '#bdc3c7'; break; // Light grey
+					case 'fighting': energyColor = '#C28B4D'; break; // Brownish
+					case 'fire': energyColor = '#E74C3C'; break; // Red
+					case 'water': energyColor = '#3498DB'; break; // Blue
+					case 'grass': energyColor = '#2ECC71'; break; // Green
+					case 'electric': energyColor = '#F1C40F'; break; // Yellow
+					case 'psychic': energyColor = '#9B59B6'; break; // Purple
+					case 'dark': energyColor = '#34495E'; break; // Dark grey
+					case 'steel': energyColor = '#BDC3C7'; break; // Light grey
 					default: energyColor = '#888'; // Default for unknown
 				}
 				
@@ -626,13 +637,12 @@ function printCropImage (card, destination, index) {
 	img.onerror = function() {
 		console.error(`Failed to load image for ${card.name}`);
 		// Draw text placeholder if image fails to load
-		ctx.fillStyle = '#f00'; // Red color for error
-		ctx.font = `bold ${10 * ratio}px Arial`;
+		ctx.fillStyle = '#F00';
+		ctx.font = errorFont;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
 		ctx.fillText('No Image', canvas.width / 2, canvas.height / 2);
-		ctx.fillStyle = '#abb2bf';
-		ctx.font = `bold ${12 * ratio}px Arial`;
+		ctx.fillStyle = '#ABB2BF';
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'top';
 		ctx.fillText(card.name, canvas.width / 2, 5 * ratio);
@@ -675,7 +685,7 @@ function print () {
 		const benchList = document.getElementById('benchList');
 		benchList.innerHTML = '';
 		if (bench.length > 0) {
-			for (var i = 0; i < bench.length; i++) {
+			for (let i = 0; i < bench.length; i++) {
 				benchList.innerHTML += printPokemonText(bench[i], 'Bench', i);
 			}
 		}
@@ -683,27 +693,6 @@ function print () {
 			benchList.innerHTML = '<li>-</li>';
 		}
 		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize})`;
-		
-		// Trash
-		const trashList = document.getElementById('trashList');
-		trashList.innerHTML = '';
-		trash.forEach(card => {
-			const li = document.createElement('li');
-			li.textContent = card.name;
-			li.onmouseover = function () { showDisplayCard(card.name) };
-			li.onmouseleave = function () { hideDisplayCard(); };
-			li.onclick = function () { setInput(card.name, 'Trash'); };
-			trashList.appendChild(li);
-		});
-		
-		// Prize
-		const prizeList = document.getElementById('prizeList');
-		prizeList.innerHTML = '';
-		prize.forEach(card => {
-			const li = document.createElement('li');
-			li.textContent = card.name;
-			prizeList.appendChild(li);
-		});
 	}
 	// Image mode
 	else if (viewMode === 1) {
@@ -732,7 +721,7 @@ function print () {
 		benchList = document.getElementById('benchList');
 		benchList.innerHTML = '';
 		if (bench.length > 0) {
-			for (var i = 0; i < bench.length; i++) {
+			for (let i = 0; i < bench.length; i++) {
 				benchList.appendChild(printCardImage(bench[i], 'Bench', i));
 			}
 		}
@@ -740,25 +729,6 @@ function print () {
 			benchList.innerHTML = '<li>-</li>';
 		}
 		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize})`;
-		
-		// Trash
-		const trashList = document.getElementById('trashList');
-		trashList.innerHTML = '';
-		trash.forEach(card => {
-			const li = document.createElement('li');
-			li.textContent = card.name;
-			li.onclick = function () { setInput(card.name, 'Trash'); };
-			trashList.appendChild(li);
-		});
-		
-		// Prize
-		const prizeList = document.getElementById('prizeList');
-		prizeList.innerHTML = '';
-		prize.forEach(card => {
-			const li = document.createElement('li');
-			li.textContent = card.name;
-			prizeList.appendChild(li);
-		});
 	}
 	// Crop mode
 	else if (viewMode === 2) {
@@ -787,7 +757,7 @@ function print () {
 		benchList = document.getElementById('benchList');
 		benchList.innerHTML = '';
 		if (bench.length > 0) {
-			for (var i = 0; i < bench.length; i++) {
+			for (let i = 0; i < bench.length; i++) {
 				benchList.appendChild(printCropImage(bench[i], 'Bench', i));
 			}
 		}
@@ -795,26 +765,27 @@ function print () {
 			benchList.innerHTML = '<li>-</li>';
 		}
 		document.getElementById('benchCount').textContent = `Bench (${bench.length}/${benchSize})`;
-		
-		// Trash
-		const trashList = document.getElementById('trashList');
-		trashList.innerHTML = '';
-		trash.forEach(card => {
-			const li = document.createElement('li');
-			li.textContent = card.name;
-			li.onclick = function () { setInput(card.name, 'Trash'); };
-			trashList.appendChild(li);
-		});
-		
-		// Prize
-		const prizeList = document.getElementById('prizeList');
-		prizeList.innerHTML = '';
-		prize.forEach(card => {
-			const li = document.createElement('li');
-			li.textContent = card.name;
-			prizeList.appendChild(li);
-		});
 	}
+	
+	// Trash
+	const trashList = document.getElementById('trashList');
+	trashList.innerHTML = '';
+	trash.forEach(card => {
+		const li = document.createElement('li');
+		li.textContent = card.name;
+		li.onclick = function () { setInput(card.name, 'Trash'); };
+		trashList.appendChild(li);
+	});
+	
+	// Prize
+	const prizeList = document.getElementById('prizeList');
+	prizeList.innerHTML = '';
+	prize.forEach((card, index) => {
+		const li = document.createElement('li');
+		li.textContent = card.name;
+		li.ondblclick = function () { claimPrize(index); };
+		prizeList.appendChild(li);
+	});
 }
 
 function showDisplayCard (name) {
@@ -910,7 +881,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Prepare energy icons
 	const energies = ['fighting', 'fire', 'water', 'grass', 'electric', 'psychic', 'dark', 'steel', 'free'];
 	energies.forEach(energy => {
-		var img = document.createElement('img');
+		let img = document.createElement('img');
 		img.src = 'icons/energy-' + energy + '.png';
 		img.onload = function () {
 			icons[energy] = img;

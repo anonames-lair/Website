@@ -229,6 +229,7 @@ body {
 }
 
 .play-zone {
+	border-radius: 10px;
 	background-color: #F2F2F2;
 }
 

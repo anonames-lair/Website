@@ -468,11 +468,11 @@ const cropStyleHeight =	cropHeight + 'px';
 // Attach cards
 const padding = 5;
 const lineWidth = 3;
-const energyBorderColor = '#fff';
+const energyBorderColor = '#FFF';
 const energySize = 20 * ratio;
 const energySpacing = 3;
 const radius = energySize / 2;
-const toolBorderColor = 'purple';
+const toolBorderColor = '#800080';
 const toolWidth = 40 * ratio;
 const toolHeight = 20 * ratio;
 const toolX = (canvasWidth - toolWidth) / 2;
@@ -481,6 +481,9 @@ const toolY = (canvasHeight - toolHeight) / 2;
 const countSize = canvasWidth / 6;
 const countX = canvasWidth / 2;
 const countY = canvasHeight - (40 * ratio);
+// Font
+const decklistFont = `bold ${countSize}px "Segoe UI"`;
+const errorFont = `bold ${12 * ratio}px "Segoe UI"`;
 
 const startingHand = 7;
 const prizeCount = 6;
