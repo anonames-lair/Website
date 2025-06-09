@@ -251,7 +251,7 @@ const koraidon2 = {
 		type: 'Tool',
 		stage: 0,
 		evolveFrom: '-',
-		count: 1
+		count: 2
 	},
 	'Explorer Guidance': {
 		type: 'Supporter',
@@ -270,12 +270,6 @@ const koraidon2 = {
 		stage: 0,
 		evolveFrom: '-',
 		count: 2
-	},
-	'Cycling Road': {
-		type: 'Stadium',
-		stage: 0,
-		evolveFrom: '-',
-		count: 1
 	},
 	'Fighting Energy': {
 		type: 'Energy',
