@@ -1,4 +1,4 @@
-// Koaraidon Updated: https://pokemoncard.io/api/url-shorten/wBU
+// Koaraidon Updated: https://pokemoncard.io/api/url-shorten/wRd
 // Generations Psychic Mix: https://pokemoncard.io/api/url-shorten/wGd
 // Zacian: https://asia.pokemon-card.com/id/deck-build/recipe/dXaRKy-WoCyfH-SwUipy/
 // Xerneas: https://asia.pokemon-card.com/id/deck-build/recipe/sveXei-VqZdFd-yHRuSo/
