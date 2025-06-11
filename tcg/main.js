@@ -912,7 +912,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 	}
-	console.log(options);
 	let list = document.getElementById('data');
 	for (let i = 0; i < options.length; i++) {
 		let option = document.createElement('option');
