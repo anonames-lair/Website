@@ -902,6 +902,24 @@ document.addEventListener('DOMContentLoaded', () => {
 		};
 	});
 	
+	// Prepare datalist
+	const decks = [koraidon1, koraidon2, psychic];
+	let options = [];
+	for (let i = 0; i < decks.length; i++) {
+		for (key in decks[i]) {
+			if (!options.includes(key)) {
+				options.push(key);
+			}
+		}
+	}
+	console.log(options);
+	let list = document.getElementById('data');
+	for (let i = 0; i < options.length; i++) {
+		let option = document.createElement('option');
+		option.value = options[i];
+		list.appendChild(option);
+	}
+	
 	updateView();
 	updateDeck();
 });

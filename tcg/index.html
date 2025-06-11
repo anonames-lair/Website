@@ -30,22 +30,22 @@
 		</div>
 		<div class="control-group">
 			<label class="drawLabel" for="drawCardName">Draw specific card:</label>
-			<input type="search" id="drawCardName" placeholder="Card Name">
+			<input type="search" id="drawCardName" list="data" placeholder="Card Name">
 			<button class="drawButton" onclick="drawCard()">Draw</button>
 		</div>
 		<div class="control-group">
 			<label class="playLabel" for="playCardName">Play from hand:</label>
-			<input type="text" id="playCardName" placeholder="Card Name">
+			<input type="text" id="playCardName" list="data" placeholder="Card Name">
 			<button class="playButton" onclick="playCard()">Play</button>
 		</div>
 		<div class="control-group">
 			<label class="discardLabel" for="discardCardName">Discard from hand:</label>
-			<input type="text" id="discardCardName" placeholder="Card Name">
+			<input type="text" id="discardCardName" list="data" placeholder="Card Name">
 			<button class="discardButton" onclick="discardCard()">Discard</button>
 		</div>
 		<div class="control-group">
 			<label class="attachLabel" for="attachCardName">Attach tool or energy:</label>
-			<input type="text" id="attachCardName" placeholder="Card Name">
+			<input type="text" id="attachCardName" list="data" placeholder="Card Name">
 			<button class="attachButton" onclick="attachCardToPokemon()">Attach</button>
 		</div>
 		<div class="control-group">
@@ -97,6 +97,7 @@
 	
 	<div id="decklist" class="card-list" onclick="hideDeck()"></div>
 	<audio loop id="audio" src="butterfly-brave.mp3"></audio>
+	<datalist id="data"></datalist>
 	<div id="cover" onclick="startSimulation()">
 		<div>Pokémon TCG Simulator</div>
 		<div>Click to start</div>
