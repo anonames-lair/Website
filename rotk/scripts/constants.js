@@ -4045,7 +4045,7 @@ const officerArray = new Array({
     "pol": "78",
     "chr": "65",
     "total": "299",
-	"skills": []
+	"skills": ["Farm", "Trade", "Order", "Confuse", "Hero"]
 }, {
     "name": "Wang Ye",
     "ldr": "32",
@@ -4054,7 +4054,7 @@ const officerArray = new Array({
     "pol": "72",
     "chr": "50",
     "total": "206",
-	"skills": []
+	"skills": ["Farm"]
 }, {
     "name": "Wang Yun",
     "ldr": "27",
@@ -4063,7 +4063,7 @@ const officerArray = new Array({
     "pol": "78",
     "chr": "77",
     "total": "260",
-	"skills": []
+	"skills": ["Trade", "Fault", "Argue", "Warlord", "Hero", "Spy", "Host"]
 }, {
     "name": "Wang Zhong",
     "ldr": "42",
@@ -4072,7 +4072,7 @@ const officerArray = new Array({
     "pol": "29",
     "chr": "20",
     "total": "170",
-	"skills": []
+	"skills": ["Recover"]
 }, {
     "name": "Wei Guan",
     "ldr": "69",
@@ -4081,7 +4081,7 @@ const officerArray = new Array({
     "pol": "78",
     "chr": "37",
     "total": "310",
-	"skills": []
+	"skills": ["Trade", "Missile", "Settle", "Blunder", "Awe", "Hero"]
 }, {
     "name": "Wei Miao",
     "ldr": "58",
@@ -4090,7 +4090,7 @@ const officerArray = new Array({
     "pol": "56",
     "chr": "65",
     "total": "301",
-	"skills": []
+	"skills": ["Order", "Spy"]
 }, {
     "name": "Wei Xu",
     "ldr": "70",
@@ -4099,7 +4099,7 @@ const officerArray = new Array({
     "pol": "33",
     "chr": "31",
     "total": "240",
-	"skills": []
+	"skills": ["Drill", "Missile", "Shout", "Parry"]
 }, {
     "name": "Wei Yan",
     "ldr": "85",
@@ -4108,7 +4108,7 @@ const officerArray = new Array({
     "pol": "43",
     "chr": "34",
     "total": "323",
-	"skills": []
+	"skills": ["Repair", "Drill", "Charge", "Unison", "Surprise", "Stun", "Entice", "Recover", "Shout", "Parry", "Crush", "Maul"]
 }, {
     "name": "Wei You",
     "ldr": "33",
@@ -4117,7 +4117,7 @@ const officerArray = new Array({
     "pol": "73",
     "chr": "66",
     "total": "277",
-	"skills": []
+	"skills": ["Farm", "Entice", "Confuse", "Warlord"]
 }, {
     "name": "Wei Zhao",
     "ldr": "18",
@@ -4126,7 +4126,7 @@ const officerArray = new Array({
     "pol": "73",
     "chr": "68",
     "total": "247",
-	"skills": []
+	"skills": ["Trade"]
 }, {
     "name": "Wen Chou",
     "ldr": "82",
@@ -4135,7 +4135,7 @@ const officerArray = new Array({
     "pol": "23",
     "chr": "47",
     "total": "271",
-	"skills": []
+	"skills": ["Drill", "Charge", "Surprise", "Shout", "Scare", "Parry", "Counter", "Crush", "Maul"]
 }, {
     "name": "Wen Hu",
     "ldr": "65",
@@ -4144,7 +4144,7 @@ const officerArray = new Array({
     "pol": "32",
     "chr": "58",
     "total": "274",
-	"skills": []
+	"skills": ["Repair", "Charge", "Counter"]
 }, {
     "name": "Wen Hui",
     "ldr": "42",
@@ -4153,7 +4153,7 @@ const officerArray = new Array({
     "pol": "85",
     "chr": "73",
     "total": "318",
-	"skills": []
+	"skills": ["Trade", "Tech", "Repair", "Order", "Rally", "Stun", "Geo", "Plead", "Hero"]
 }, {
     "name": "Wen Pin",
     "ldr": "82",
@@ -4162,7 +4162,7 @@ const officerArray = new Array({
     "pol": "66",
     "chr": "70",
     "total": "364",
-	"skills": []
+	"skills": ["Repair", "Order", "Missile", "Unison", "Settle", "Stun", "Recover", "Counter", "Admiral"]
 }, {
     "name": "Wen Qin",
     "ldr": "74",
@@ -4171,7 +4171,7 @@ const officerArray = new Array({
     "pol": "32",
     "chr": "18",
     "total": "250",
-	"skills": []
+	"skills": ["Hire", "Charge", "Surprise", "Recover", "Scare", "Parry"]
 }, {
     "name": "Wen Yang",
     "ldr": "78",
@@ -4180,7 +4180,7 @@ const officerArray = new Array({
     "pol": "43",
     "chr": "68",
     "total": "341",
-	"skills": []
+	"skills": ["Drill", "Charge", "Rally", "Surprise", "Stun", "Recover", "Shout", "Scare", "Crush", "Maul"]
 }, {
     "name": "Wu Anguo",
     "ldr": "68",
@@ -4189,7 +4189,7 @@ const officerArray = new Array({
     "pol": "33",
     "chr": "27",
     "total": "255",
-	"skills": []
+	"skills": ["Recover", "Shout", "Parry", "Counter"]
 }, {
     "name": "Wu Ban",
     "ldr": "75",
@@ -4198,7 +4198,7 @@ const officerArray = new Array({
     "pol": "51",
     "chr": "67",
     "total": "322",
-	"skills": []
+	"skills": ["Farm", "Missile", "Unison", "Recover", "Scare", "Hero"]
 }, {
     "name": "Wu Can",
     "ldr": "69",
@@ -4207,7 +4207,7 @@ const officerArray = new Array({
     "pol": "72",
     "chr": "68",
     "total": "328",
-	"skills": []
+	"skills": ["Farm", "Entice", "Confuse", "Fault"]
 }, {
     "name": "Wu Gang",
     "ldr": "49",
@@ -4216,7 +4216,7 @@ const officerArray = new Array({
     "pol": "66",
     "chr": "72",
     "total": "282",
-	"skills": []
+	"skills": ["Spy"]
 }, {
     "name": "Wu Jing",
     "ldr": "73",
@@ -4225,7 +4225,7 @@ const officerArray = new Array({
     "pol": "67",
     "chr": "69",
     "total": "326",
-	"skills": []
+	"skills": ["Hire", "Missile", "Stun"]
 }, {
     "name": "Wu Ju",
     "ldr": "49",
@@ -4234,7 +4234,7 @@ const officerArray = new Array({
     "pol": "52",
     "chr": "48",
     "total": "244",
-	"skills": []
+	"skills": ["Farm"]
 }, {
     "name": "Wu Lan",
     "ldr": "63",
@@ -4243,7 +4243,7 @@ const officerArray = new Array({
     "pol": "36",
     "chr": "51",
     "total": "264",
-	"skills": []
+	"skills": ["Charge", "Shout", "Scare", "Crush"]
 }, {
     "name": "Wu Tugu",
     "ldr": "74",
@@ -4252,7 +4252,7 @@ const officerArray = new Array({
     "pol": "2",
     "chr": "19",
     "total": "185",
-	"skills": []
+	"skills": ["Unison", "Shout", "Parry", "Counter", "Crush", "Maul", "Host"]
 }, {
     "name": "Wu Yan",
     "ldr": "67",
@@ -4261,7 +4261,7 @@ const officerArray = new Array({
     "pol": "48",
     "chr": "63",
     "total": "297",
-	"skills": []
+	"skills": ["Blunder", "Shout"]
 }, {
     "name": "Wu Yan (2)",
     "ldr": "73",
@@ -4270,7 +4270,7 @@ const officerArray = new Array({
     "pol": "67",
     "chr": "65",
     "total": "349",
-	"skills": []
+	"skills": ["Tech", "Repair", "Missile", "Rally", "Stun", "Entice", "Scare"]
 }, {
     "name": "Wu Yi",
     "ldr": "85",
@@ -4279,7 +4279,7 @@ const officerArray = new Array({
     "pol": "70",
     "chr": "77",
     "total": "374",
-	"skills": []
+	"skills": ["Order", "Hire", "Missile", "Unison", "Settle", "Stun", "Scare", "Hero"]
 }, {
     "name": "Wu Zhi",
     "ldr": "17",
@@ -4288,7 +4288,7 @@ const officerArray = new Array({
     "pol": "56",
     "chr": "9",
     "total": "180",
-	"skills": []
+	"skills": ["Trade", "Confuse"]
 }, {
     "name": "Xi Zheng",
     "ldr": "7",
@@ -4297,7 +4297,7 @@ const officerArray = new Array({
     "pol": "73",
     "chr": "61",
     "total": "210",
-	"skills": []
+	"skills": ["Fault", "Hero"]
 }, {
     "name": "Xi Zhicai",
     "ldr": "24",
@@ -4306,7 +4306,7 @@ const officerArray = new Array({
     "pol": "73",
     "chr": "55",
     "total": "243",
-	"skills": []
+	"skills": ["Trade", "Blunder", "Entice", "Plead", "Warlord"]
 }, {
     "name": "Xiahou Ba",
     "ldr": "80",
