@@ -28,6 +28,12 @@ function isLegal (id) {
 	return id >= 0 && id < officerArray.length;
 }
 
+function cleanName (name) {
+	if (typeof name !== 'string') return '';
+	if (name.includes(' (')) return name.split(' (')[0];
+	else return name;
+}
+
 function inputChanged (header) {
 	var sortVal = document.getElementById('sort').value;
 	var orderVal = document.getElementById('order').value;
@@ -110,7 +116,7 @@ function inputChanged (header) {
 		string += `<tr class="officer"
 			onclick="setDisplay(` + filteredArray[i]['id'] + `, 'click')"
 			onmouseover="setDisplay(` + filteredArray[i]['id'] + `, 'mouseover')">
-				<td>` + filteredArray[i]['name'] + `</td>
+				<td>` + cleanName(filteredArray[i]['name']) + `</td>
 				<td class="number">` + filteredArray[i]['ldr'] + `</td>
 				<td class="number">` + filteredArray[i]['war'] + `</td>
 				<td class="number">` + filteredArray[i]['int'] + `</td>
@@ -139,7 +145,7 @@ function showDisplay () {
 		var officer = officerArray[displayOfficerId];
 		var string = `<div style="display: inline-block;">
 				<div style="float: left; margin-right: 5px;">
-					<div class="displayName">` + officer['name'] + `</div>
+					<div class="displayName">` + cleanName(officer['name']) + `</div>
 					<div class="displayPortrait"><img src="portraits/` + officer['name'].split(' ').join('_') + `.jpg" alt="` + officer['name'] + `"></div>
 				</div>
 				<div style="float: left;">
