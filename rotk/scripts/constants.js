@@ -5044,7 +5044,7 @@ const officerArray = new Array({
     "pol": "40",
     "chr": "57",
     "total": "257",
-	"skills": []
+	"skills": ["Unison", "Recover", "Hero"]
 }, {
     "name": "Yuan Xi",
     "ldr": "69",
@@ -5053,7 +5053,7 @@ const officerArray = new Array({
     "pol": "70",
     "chr": "66",
     "total": "327",
-	"skills": []
+	"skills": ["Missile", "Settle", "Blunder", "Hero"]
 }, {
     "name": "Yuan Yao",
     "ldr": "44",
@@ -5062,7 +5062,7 @@ const officerArray = new Array({
     "pol": "50",
     "chr": "59",
     "total": "240",
-	"skills": []
+	"skills": ["Trade"]
 }, {
     "name": "Yuan Yi",
     "ldr": "57",
@@ -5071,7 +5071,7 @@ const officerArray = new Array({
     "pol": "76",
     "chr": "69",
     "total": "313",
-	"skills": []
+	"skills": ["Farm", "Tech", "Hire", "Rally", "Entice", "Fault", "Warlord", "Hero"]
 }, {
     "name": "Yuan Yin",
     "ldr": "26",
@@ -5080,7 +5080,7 @@ const officerArray = new Array({
     "pol": "45",
     "chr": "43",
     "total": "168",
-	"skills": []
+	"skills": ["Farm"]
 }, {
     "name": "Yue Chen",
     "ldr": "72",
@@ -5089,7 +5089,7 @@ const officerArray = new Array({
     "pol": "49",
     "chr": "57",
     "total": "294",
-	"skills": []
+	"skills": ["Order", "Charge", "Stun", "Crush", "Maul"]
 }, {
     "name": "Yue Jin",
     "ldr": "80",
@@ -5098,7 +5098,7 @@ const officerArray = new Array({
     "pol": "45",
     "chr": "70",
     "total": "333",
-	"skills": []
+	"skills": ["Charge", "Unison", "Rally", "Surprise", "Stun", "Shout", "Scare", "Crush", "Maul"]
 }, {
     "name": "Yue Jiu",
     "ldr": "56",
@@ -5107,7 +5107,7 @@ const officerArray = new Array({
     "pol": "39",
     "chr": "52",
     "total": "273",
-	"skills": []
+	"skills": ["Maul"]
 }, {
     "name": "Zang Ba",
     "ldr": "73",
@@ -5116,7 +5116,7 @@ const officerArray = new Array({
     "pol": "56",
     "chr": "69",
     "total": "319",
-	"skills": []
+	"skills": ["Hire", "Charge", "Surprise", "Scare"]
 }, {
     "name": "Ze Rong",
     "ldr": "62",
@@ -5125,7 +5125,7 @@ const officerArray = new Array({
     "pol": "26",
     "chr": "4",
     "total": "200",
-	"skills": []
+	"skills": ["Trade", "Missile", "Blunder"]
 }, {
     "name": "Zhang Bao",
     "ldr": "75",
