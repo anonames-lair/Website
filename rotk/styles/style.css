@@ -1,5 +1,5 @@
 * {
-  color: #fff;
+  color: #FFF;
 }
 
 body {
@@ -15,7 +15,7 @@ table {
 }
 
 a {
-  color: #fc8;
+  color: #FC8;
 }
 
 input[type=search], select {
@@ -46,6 +46,10 @@ input[type=search], select {
   font-size: 13px;
 }
 
+#skill {
+  cursor: pointer;
+}
+
 #output {
   float: left;
   margin: 5px 0 0 5px;
@@ -60,7 +64,11 @@ input[type=search], select {
   padding: 4px 7px 4px 5px;
   border: 1px solid #577;
   background-color: #233;
-  cursor: default;
+  cursor: pointer;
+}
+
+.data th:hover {
+  background-color: #405050;
 }
 
 .data td {
@@ -70,7 +78,7 @@ input[type=search], select {
 }
 
 .data tr:hover td {
-  background-color: #455;
+  background-color: #405050;
 }
 
 .number {
@@ -78,7 +86,7 @@ input[type=search], select {
 }
 
 .total {
-  color: #fc8;
+  color: #FC8;
 }
 
 #displayContainer {
@@ -105,7 +113,7 @@ input[type=search], select {
   border-bottom: 1px solid #577;
   background-color: #3b3b3b;
   text-align: center;
-  color: #fff;
+  color: #FFF;
 }
 
 .displaySkill {
@@ -114,37 +122,37 @@ input[type=search], select {
   width: 50px;
   background-color: #777;
   text-align: center;
-  color: #a0a0a0;
+  color: #A0A0A0;
 }
 
 .domesticSkill {
-  background-color: #55a;
-  color: #fff;
+  background-color: #55A;
+  color: #FFF;
 }
 
 .battleSkill {
-  background-color: #a55;
-  color: #fff;
+  background-color: #A55;
+  color: #FFF;
 }
 
 .tacticSkill {
-  background-color: #a5a;
-  color: #fff;
+  background-color: #A5A;
+  color: #FFF;
 }
 
 .duelSkill {
-  background-color: #b88;
-  color: #fff;
+  background-color: #B88;
+  color: #FFF;
 }
 
 .debateSkill {
-  background-color: #aa5;
-  color: #fff;
+  background-color: #AA5;
+  color: #FFF;
 }
 
 .renownSkill {
-  background-color: #5a5;
-  color: #fff;
+  background-color: #5A5;
+  color: #FFF;
 }
 
 .stat {
@@ -153,7 +161,7 @@ input[type=search], select {
 
 .stat th {
   padding: 4px 7px 4px 5px;
-  background-color: #3d3d3d;
+  background-color: #3D3D3D;
 }
 
 .stat td {
