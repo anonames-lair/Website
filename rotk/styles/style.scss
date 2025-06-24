@@ -1,18 +1,21 @@
 $sansSerif: "Tahoma", "Segoe UI", "Trebuchet MS", "Arial", "Helvetica";
 $fontSize: 13px;
+$bodyColor: #222;
 $backColor: #233;
-$hoverColor: #405050;
+$backHoverColor: #405050;
+$fontColor: #FFF;
+$fontTotalColor: #FC8;
 $border: 1px solid #577;
 $borderRadius: 5px;
 
 * {
-	color: #FFF;
+	color: $fontColor;
 }
 
 body {
 	margin: 0;
 	padding: 0;
-	background-color: #222;
+	background-color: $bodyColor;
 	font-size: $fontSize;
 }
 
@@ -22,12 +25,12 @@ table {
 }
 
 a {
-	color: #FC8;
+	color: $fontTotalColor;
 }
 
 input[type=search], select {
 	border: $border;
-	background-color: #222;
+	background-color: $bodyColor;
 }
 
 #container {
@@ -79,7 +82,7 @@ input[type=search], select {
 }
 
 .data th:hover {
-	background-color: $hoverColor;
+	background-color: $backHoverColor;
 }
 
 .data td {
@@ -89,7 +92,7 @@ input[type=search], select {
 }
 
 .data tr:hover td {
-	background-color: $hoverColor;
+	background-color: $backHoverColor;
 }
 
 .number {
@@ -97,7 +100,7 @@ input[type=search], select {
 }
 
 .total {
-	color: #FC8;
+	color: $fontTotalColor;
 }
 
 #displayContainer {
@@ -124,7 +127,7 @@ input[type=search], select {
 	border-bottom: $border;
 	background-color: #3b3b3b;
 	text-align: center;
-	color: #FFF;
+	color: $fontColor;
 }
 
 .displayPortrait {
@@ -142,32 +145,32 @@ input[type=search], select {
 
 .domesticSkill {
 	background-color: #55A;
-	color: #FFF;
+	color: $fontColor;
 }
 
 .battleSkill {
 	background-color: #A55;
-	color: #FFF;
+	color: $fontColor;
 }
 
 .tacticSkill {
 	background-color: #A5A;
-	color: #FFF;
+	color: $fontColor;
 }
 
 .duelSkill {
 	background-color: #B88;
-	color: #FFF;
+	color: $fontColor;
 }
 
 .debateSkill {
 	background-color: #AA5;
-	color: #FFF;
+	color: $fontColor;
 }
 
 .renownSkill {
 	background-color: #5A5;
-	color: #FFF;
+	color: $fontColor;
 }
 
 .stat {
