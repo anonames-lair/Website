@@ -232,7 +232,7 @@ function hideDisplay () {
 
 function toggleFilterSkills (skill) {
 	if (filterSkills.includes(skill)) {
-		while (filterSkills.indexOf(skill) >= 0) filterSkills.splice(filterSkills.indexOf(skill), 1);
+		filterSkills = filterSkills.filter(x => x !== skill);
 	}
 	else {
 		filterSkills.push(skill);
