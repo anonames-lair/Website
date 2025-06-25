@@ -5,6 +5,8 @@ const duelSkills = ["Recover", "Shout", "Scare", "Parry", "Counter", "Crush", "M
 const debateSkills = ["Awe", "Plead", "Refute", "Fault", "Argue", "Incite", "Taunt"];
 const renownSkills = ["Warlord", "Hero", "Admiral", "Spy", "Host", "Doctor", "Wizard"];
 
+const headers = ['name', 'ldr', 'war', 'int', 'pol', 'chr', 'total', 'skills'];
+
 const officerArray = new Array({
     "name": "Ahui Nan",
     "ldr": "62",

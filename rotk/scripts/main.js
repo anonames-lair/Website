@@ -25,7 +25,7 @@ function parse (value) {
 }
 
 function isLegal (id) {
-	return id >= 0 && id < officerArray.length;
+	return typeof id === 'number' && id >= 0 && id < officerArray.length;
 }
 
 function cleanName (name) {
@@ -41,7 +41,7 @@ function inputChanged (header) {
 	var nameToLower = nameVal.toLowerCase();
 	var skillVal = document.getElementById('skill').value;
 	
-	if (header) {
+	if (typeof header === 'string' && headers.includes(header)) {
 		var autoOrder = (header == 'name') ? 'asc' : 'dsc';
 		document.getElementById('sort').value = header;
 		document.getElementById('order').value = autoOrder;
@@ -132,9 +132,9 @@ function inputChanged (header) {
 }
 
 function setDisplay (id, mode) {
-	if (mode == 'mouseover' && isMobile()) return;
+	if (mode === 'mouseover' && isMobile()) return;
 	
-	if (displayOfficerId != id && isLegal(id)) {
+	if (displayOfficerId !== id && isLegal(id)) {
 		displayOfficerId = id;
 		showDisplay();
 	}
@@ -231,6 +231,8 @@ function hideDisplay () {
 }
 
 function toggleFilterSkills (skill) {
+	if (typeof skill !== 'string') return;
+	
 	if (filterSkills.includes(skill)) {
 		filterSkills = filterSkills.filter(x => x !== skill);
 	}
