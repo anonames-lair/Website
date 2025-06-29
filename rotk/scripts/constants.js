@@ -5694,7 +5694,7 @@ const officerArray = new Array({
     "pol": "61",
     "chr": "38",
     "total": "315",
-	"skills": []
+	"skills": ["Order", "Missile", "Unison", "Distract", "Blunder", "Recover"]
 }, {
     "name": "Zhu Ran",
     "ldr": "86",
@@ -5703,7 +5703,7 @@ const officerArray = new Array({
     "pol": "60",
     "chr": "79",
     "total": "362",
-	"skills": []
+	"skills": ["Repair", "Drill", "Missile", "Unison", "Settle", "Rally", "Distract", "Stun", "Entice", "Maul", "Hero", "Admiral"]
 }, {
     "name": "Zhu Rong",
     "ldr": "61",
@@ -5712,7 +5712,7 @@ const officerArray = new Array({
     "pol": "22",
     "chr": "74",
     "total": "270",
-	"skills": []
+	"skills": ["Drill", "Charge", "Rally", "Recover", "Scare", "Counter", "Maul", "Host"]
 }, {
     "name": "Zhu Yi",
     "ldr": "71",
@@ -5721,7 +5721,7 @@ const officerArray = new Array({
     "pol": "48",
     "chr": "55",
     "total": "307",
-	"skills": []
+	"skills": ["Blunder", "Parry", "Hero", "Admiral"]
 }, {
     "name": "Zhu Zhi",
     "ldr": "70",
@@ -5730,7 +5730,7 @@ const officerArray = new Array({
     "pol": "73",
     "chr": "76",
     "total": "351",
-	"skills": []
+	"skills": ["Tech", "Order", "Missile", "Settle", "Rally", "Stun", "Entice", "Warlord", "Hero", "Admiral"]
 }, {
     "name": "Zhuge Dan",
     "ldr": "81",
@@ -5739,7 +5739,7 @@ const officerArray = new Array({
     "pol": "66",
     "chr": "82",
     "total": "375",
-	"skills": []
+	"skills": ["Order", "Hire", "Missile", "Unison", "Rally", "Distract", "Stun", "Entice", "Shout", "Awe"]
 }, {
     "name": "Zhuge Jin",
     "ldr": "75",
@@ -5748,7 +5748,7 @@ const officerArray = new Array({
     "pol": "89",
     "chr": "88",
     "total": "368",
-	"skills": []
+	"skills": ["Farm", "Tech", "Repair", "Unison", "Settle", "Rally", "Blunder", "Plead", "Fault", "Hero", "Admiral"]
 }, {
     "name": "Zhuge Jing",
     "ldr": "58",
@@ -5757,7 +5757,7 @@ const officerArray = new Array({
     "pol": "57",
     "chr": "68",
     "total": "315",
-	"skills": []
+	"skills": ["Farm", "Confuse"]
 }, {
     "name": "Zhuge Jun",
     "ldr": "29",
@@ -5766,7 +5766,7 @@ const officerArray = new Array({
     "pol": "65",
     "chr": "66",
     "total": "246",
-	"skills": []
+	"skills": ["Farm", "Tech", "Rally", "Maze"]
 }, {
     "name": "Zhuge Ke",
     "ldr": "72",
@@ -5775,7 +5775,7 @@ const officerArray = new Array({
     "pol": "80",
     "chr": "49",
     "total": "337",
-	"skills": []
+	"skills": ["Trade", "Hire", "Confuse", "Fault", "Argue", "Incite", "Warlord", "Hero"]
 }, {
     "name": "Zhuge Liang",
     "ldr": "93",
@@ -5784,7 +5784,7 @@ const officerArray = new Array({
     "pol": "98",
     "chr": "92",
     "total": "420",
-	"skills": []
+	"skills": ["Farm", "Trade", "Tech", "Repair", "Drill", "Missile", "Unison", "Settle", "Rally", "Blunder", "Entice", "Confuse", "Aero", "Geo", "Maze", "Recover", "Awe", "Plead", "Refute", "Fault", "Argue", "Incite", "Warlord", "Hero", "Spy"]
 }, {
     "name": "Zhuge Qiao",
     "ldr": "55",
@@ -5793,7 +5793,7 @@ const officerArray = new Array({
     "pol": "67",
     "chr": "75",
     "total": "291",
-	"skills": []
+	"skills": ["Tech", "Missile", "Rally", "Entice", "Fault"]
 }, {
     "name": "Zhuge Shang",
     "ldr": "54",
@@ -5802,7 +5802,7 @@ const officerArray = new Array({
     "pol": "55",
     "chr": "68",
     "total": "305",
-	"skills": []
+	"skills": ["Tech", "Missile", "Shout"]
 }, {
     "name": "Zhuge Xu",
     "ldr": "45",
@@ -5811,7 +5811,7 @@ const officerArray = new Array({
     "pol": "48",
     "chr": "50",
     "total": "213",
-	"skills": []
+	"skills": ["Missile"]
 }, {
     "name": "Zhuge Zhan",
     "ldr": "68",
@@ -5820,7 +5820,7 @@ const officerArray = new Array({
     "pol": "61",
     "chr": "70",
     "total": "332",
-	"skills": []
+	"skills": ["Tech", "Repair", "Missile", "Rally", "Entice", "Geo", "Hero"]
 }, {
     "name": "Zou Dan",
     "ldr": "63",
@@ -5829,7 +5829,7 @@ const officerArray = new Array({
     "pol": "38",
     "chr": "40",
     "total": "248",
-	"skills": []
+	"skills": ["Hire", "Charge", "Recover"]
 }, {
     "name": "Zou Jing",
     "ldr": "67",
@@ -5838,7 +5838,7 @@ const officerArray = new Array({
     "pol": "54",
     "chr": "68",
     "total": "320",
-	"skills": []
+	"skills": ["Repair", "Stun", "Counter"]
 }, {
     "name": "Zu Mao",
     "ldr": "70",
@@ -5847,7 +5847,7 @@ const officerArray = new Array({
     "pol": "55",
     "chr": "63",
     "total": "324",
-	"skills": []
+	"skills": ["Drill", "Unison", "Distract", "Stun", "Crush", "Maul"]
 }, {
     "name": "Zuo Yi",
     "ldr": "60",
@@ -5856,5 +5856,5 @@ const officerArray = new Array({
     "pol": "47",
     "chr": "56",
     "total": "280",
-	"skills": []
+	"skills": ["Order"]
 });
