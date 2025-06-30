@@ -15,18 +15,19 @@
 					<tr>
 						<td>Name: </td>
 						<td><input type="search" id="name" oninput="inputChanged()"></td>
+						<td><a href="../index.html">Back</a></td>
 					</tr>
 					<tr>
-						<td colspan="2">Skills: </td>
+						<td colspan="3">Skills: </td>
 					</tr>
 					<tr>
-						<td colspan="2">
+						<td colspan="3">
 							<table id="skill" style="border-collapse: collapse;"></table>
 						</td>
 					</tr>
 					<tr>
 						<td>Sort: </td>
-						<td>
+						<td colspan="2">
 							<select id="sort" onchange="inputChanged()">
 								<option value="name">Name</option>
 								<option value="ldr">LDR</option>
@@ -41,7 +42,7 @@
 					</tr>
 					<tr>
 						<td>Order: </td>
-						<td>
+						<td colspan="2">
 							<select id="order" onchange="inputChanged()">
 								<option value="asc">Ascending</option>
 								<option value="dsc">Descending</option>
