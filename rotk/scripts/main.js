@@ -1,5 +1,5 @@
-var displayOfficerId = -1;
-var filterSkills = [];
+let displayOfficerId = -1;
+let filterSkills = [];
 
 window.onload = function () {
 	updateSkills();
@@ -13,10 +13,10 @@ function isNumeric (value) {
 }
 
 function isMobile () {
-	var userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
-	var mobileString = ['iphone', 'ipod', 'ipad', 'android', 'blackberry', 'phone', 'mobile', 'webos', 'opera mini'];
+	let userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
+	let mobileString = ['iphone', 'ipod', 'ipad', 'android', 'blackberry', 'phone', 'mobile', 'webos', 'opera mini'];
 	
-	for (var i = 0; i < mobileString.length; i++) if (userAgent.includes(mobileString[i])) return true;
+	for (let i = 0; i < mobileString.length; i++) if (userAgent.includes(mobileString[i])) return true;
 	return false;
 }
 
@@ -35,14 +35,14 @@ function cleanName (name) {
 }
 
 function inputChanged (header) {
-	var sortVal = document.getElementById('sort').value;
-	var orderVal = document.getElementById('order').value;
-	var nameVal = document.getElementById('name').value;
-	var nameToLower = nameVal.toLowerCase();
-	var skillVal = document.getElementById('skill').value;
+	let sortVal = document.getElementById('sort').value;
+	let orderVal = document.getElementById('order').value;
+	let nameVal = document.getElementById('name').value;
+	let nameToLower = nameVal.toLowerCase();
+	let skillVal = document.getElementById('skill').value;
 	
 	if (typeof header === 'string' && headers.includes(header)) {
-		var autoOrder = (header == 'name') ? 'asc' : 'dsc';
+		let autoOrder = (header == 'name') ? 'asc' : 'dsc';
 		document.getElementById('sort').value = header;
 		document.getElementById('order').value = autoOrder;
 		sortVal = header;
@@ -50,11 +50,11 @@ function inputChanged (header) {
 	}
 	
 	// Create filtered array
-	var filteredArray = new Array();
-	for (var i = 0; i < officerArray.length; i++) {
+	let filteredArray = new Array();
+	for (let i = 0; i < officerArray.length; i++) {
 		if (officerArray[i]['name'].toLowerCase().indexOf(nameToLower) >= 0) {
-			var haveSkills = true;
-			for (var j = 0; j < filterSkills.length; j++) {
+			let haveSkills = true;
+			for (let j = 0; j < filterSkills.length; j++) {
 				if (!officerArray[i]['skills'].includes(filterSkills[j])) haveSkills = false;
 			}
 			
@@ -75,12 +75,12 @@ function inputChanged (header) {
 	}
 	
 	// Sort filtered array
-	var i = 1;
+	let i = 1;
 	if (orderVal == 'asc') {
 		while (i < filteredArray.length) {
-			var j = i;
+			let j = i;
 			while (j > 0 && parse(filteredArray[j - 1][sortVal]) > parse(filteredArray[j][sortVal])) {
-				var temp = filteredArray[j];
+				let temp = filteredArray[j];
 				filteredArray[j] = filteredArray[j - 1];
 				filteredArray[j - 1] = temp;
 				j--;
@@ -90,9 +90,9 @@ function inputChanged (header) {
 	}
 	else if (orderVal == 'dsc') {
 		while (i < filteredArray.length) {
-			var j = i;
+			let j = i;
 			while (j > 0 && parse(filteredArray[j - 1][sortVal]) < parse(filteredArray[j][sortVal])) {
-				var temp = filteredArray[j];
+				let temp = filteredArray[j];
 				filteredArray[j] = filteredArray[j - 1];
 				filteredArray[j - 1] = temp;
 				j--;
@@ -101,7 +101,7 @@ function inputChanged (header) {
 		}
 	}
 	
-	var string = `<table class="data">
+	let string = `<table class="data">
 		<tr>
 			<th onclick="inputChanged('name')">Name</th>
 			<th onclick="inputChanged('ldr')">LDR</th>
@@ -112,7 +112,7 @@ function inputChanged (header) {
 			<th class="total" onclick="inputChanged('total')">Total</th>
 			<th onclick="inputChanged('skills')">Skills</th>
 		</tr>`;
-	for (var i = 0; i < filteredArray.length; i++) {
+	for (let i = 0; i < filteredArray.length; i++) {
 		string += `<tr class="officer"
 			onclick="setDisplay(` + filteredArray[i]['id'] + `, 'click')"
 			onmouseover="setDisplay(` + filteredArray[i]['id'] + `, 'mouseover')">
@@ -142,8 +142,8 @@ function setDisplay (id, mode) {
 
 function showDisplay () {
 	if (isLegal(displayOfficerId)) {
-		var officer = officerArray[displayOfficerId];
-		var string = `<div style="display: inline-block;">
+		let officer = officerArray[displayOfficerId];
+		let string = `<div style="display: inline-block;">
 				<div style="float: left; margin-right: 5px;">
 					<div class="displayName">` + cleanName(officer['name']) + `</div>
 					<div class="displayPortrait"><img src="portraits/` + officer['name'].split(' ').join('_') + `.jpg" alt="` + officer['name'] + `"></div>
@@ -152,43 +152,43 @@ function showDisplay () {
 					<table style="border-collapse: collapse;">`;
 		
 		string += `<tr>`;
-		for (var i = 0; i < domesticSkills.length; i++) {
-			var style = (officer['skills'].includes(domesticSkills[i])) ? ' domesticSkill' : '';
+		for (let i = 0; i < domesticSkills.length; i++) {
+			let style = (officer['skills'].includes(domesticSkills[i])) ? ' domesticSkill' : '';
 			string += `<td class="displaySkill` + style + `">` + domesticSkills[i] + `</td>`;
 		}
 		string += `</tr>`;
 		
 		string += `<tr>`;
-		for (var i = 0; i < battleSkills.length; i++) {
-			var style = (officer['skills'].includes(battleSkills[i])) ? ' battleSkill' : '';
+		for (let i = 0; i < battleSkills.length; i++) {
+			let style = (officer['skills'].includes(battleSkills[i])) ? ' battleSkill' : '';
 			string += `<td class="displaySkill` + style + `">` + battleSkills[i] + `</td>`;
 		}
 		string += `</tr>`;
 		
 		string += `<tr>`;
-		for (var i = 0; i < tacticSkills.length; i++) {
-			var style = (officer['skills'].includes(tacticSkills[i])) ? ' tacticSkill' : '';
+		for (let i = 0; i < tacticSkills.length; i++) {
+			let style = (officer['skills'].includes(tacticSkills[i])) ? ' tacticSkill' : '';
 			string += `<td class="displaySkill` + style + `">` + tacticSkills[i] + `</td>`;
 		}
 		string += `</tr>`;
 		
 		string += `<tr>`;
-		for (var i = 0; i < duelSkills.length; i++) {
-			var style = (officer['skills'].includes(duelSkills[i])) ? ' duelSkill' : '';
+		for (let i = 0; i < duelSkills.length; i++) {
+			let style = (officer['skills'].includes(duelSkills[i])) ? ' duelSkill' : '';
 			string += `<td class="displaySkill` + style + `">` + duelSkills[i] + `</td>`;
 		}
 		string += `</tr>`;
 		
 		string += `<tr>`;
-		for (var i = 0; i < debateSkills.length; i++) {
-			var style = (officer['skills'].includes(debateSkills[i])) ? ' debateSkill' : '';
+		for (let i = 0; i < debateSkills.length; i++) {
+			let style = (officer['skills'].includes(debateSkills[i])) ? ' debateSkill' : '';
 			string += `<td class="displaySkill` + style + `">` + debateSkills[i] + `</td>`;
 		}
 		string += `</tr>`;
 		
 		string += `<tr>`;
-		for (var i = 0; i < renownSkills.length; i++) {
-			var style = (officer['skills'].includes(renownSkills[i])) ? ' renownSkill' : '';
+		for (let i = 0; i < renownSkills.length; i++) {
+			let style = (officer['skills'].includes(renownSkills[i])) ? ' renownSkill' : '';
 			string += `<td class="displaySkill` + style + `">` + renownSkills[i] + `</td>`;
 		}
 		string += `</tr>`;
@@ -243,44 +243,44 @@ function toggleFilterSkills (skill) {
 }
 
 function updateSkills () {
-	var string = `<tr>`;
-	for (var i = 0; i < domesticSkills.length; i++) {
-		var style = (filterSkills.includes(domesticSkills[i])) ? ' domesticSkill' : '';
+	let string = `<tr>`;
+	for (let i = 0; i < domesticSkills.length; i++) {
+		let style = (filterSkills.includes(domesticSkills[i])) ? ' domesticSkill' : '';
 		string += `<td class="displaySkill` + style + `" onclick="toggleFilterSkills('` + domesticSkills[i] + `')">` + domesticSkills[i] + `</td>`;
 	}
 	string += `</tr>`;
 	
 	string += `<tr>`;
-	for (var i = 0; i < battleSkills.length; i++) {
-		var style = (filterSkills.includes(battleSkills[i])) ? ' battleSkill' : '';
+	for (let i = 0; i < battleSkills.length; i++) {
+		let style = (filterSkills.includes(battleSkills[i])) ? ' battleSkill' : '';
 		string += `<td class="displaySkill` + style + `" onclick="toggleFilterSkills('` + battleSkills[i] + `')">` + battleSkills[i] + `</td>`;
 	}
 	string += `</tr>`;
 	
 	string += `<tr>`;
-	for (var i = 0; i < tacticSkills.length; i++) {
-		var style = (filterSkills.includes(tacticSkills[i])) ? ' tacticSkill' : '';
+	for (let i = 0; i < tacticSkills.length; i++) {
+		let style = (filterSkills.includes(tacticSkills[i])) ? ' tacticSkill' : '';
 		string += `<td class="displaySkill` + style + `" onclick="toggleFilterSkills('` + tacticSkills[i] + `')">` + tacticSkills[i] + `</td>`;
 	}
 	string += `</tr>`;
 	
 	string += `<tr>`;
-	for (var i = 0; i < duelSkills.length; i++) {
-		var style = (filterSkills.includes(duelSkills[i])) ? ' duelSkill' : '';
+	for (let i = 0; i < duelSkills.length; i++) {
+		let style = (filterSkills.includes(duelSkills[i])) ? ' duelSkill' : '';
 		string += `<td class="displaySkill` + style + `" onclick="toggleFilterSkills('` + duelSkills[i] + `')">` + duelSkills[i] + `</td>`;
 	}
 	string += `</tr>`;
 	
 	string += `<tr>`;
-	for (var i = 0; i < debateSkills.length; i++) {
-		var style = (filterSkills.includes(debateSkills[i])) ? ' debateSkill' : '';
+	for (let i = 0; i < debateSkills.length; i++) {
+		let style = (filterSkills.includes(debateSkills[i])) ? ' debateSkill' : '';
 		string += `<td class="displaySkill` + style + `" onclick="toggleFilterSkills('` + debateSkills[i] + `')">` + debateSkills[i] + `</td>`;
 	}
 	string += `</tr>`;
 	
 	string += `<tr>`;
-	for (var i = 0; i < renownSkills.length; i++) {
-		var style = (filterSkills.includes(renownSkills[i])) ? ' renownSkill' : '';
+	for (let i = 0; i < renownSkills.length; i++) {
+		let style = (filterSkills.includes(renownSkills[i])) ? ' renownSkill' : '';
 		string += `<td class="displaySkill` + style + `" onclick="toggleFilterSkills('` + renownSkills[i] + `')">` + renownSkills[i] + `</td>`;
 	}
 	string += `</tr>`;

@@ -1,11 +1,11 @@
-var filter;
-var game;
-var container;
-var popup;
-var mode;
-var isGuideMode = false;
+let filter;
+let game;
+let container;
+let popup;
+let mode;
+let isGuideMode = false;
 
-var progress;
+let progress;
 
 window.onload = function () {
 	filter = document.getElementById('filter');
@@ -18,18 +18,18 @@ window.onload = function () {
 	mode = document.getElementById('mode');
 	
 	if (localStorage['progress']) {
-		var headerArr = JSON.parse(localStorage['progress']);
+		let headerArr = JSON.parse(localStorage['progress']);
 		
-		for (var i in headers) {
+		for (let i in headers) {
 			if (!headerArr[i]) headerArr[i] = [];
 			
-			var warriorCount = 0;
-			for (var j in warriors) if (getWarriorGameList(j).includes(i)) warriorCount++;
+			let warriorCount = 0;
+			for (let j in warriors) if (getWarriorGameList(j).includes(i)) warriorCount++;
 			
 			while (headerArr[i].length < warriorCount) headerArr[i].push([]);
 			
-			var k = 0;
-			for (var j in warriors) {
+			let k = 0;
+			for (let j in warriors) {
 				if (getWarriorGameList(j).includes(i)) {
 					while (headerArr[i][k].length < headers[i].length) headerArr[i][k].push(false);
 					k++;
@@ -41,12 +41,12 @@ window.onload = function () {
 	}
 	else {
 		progress = {};
-		for (var i in headers) {
-			var gameArr = [];
-			for (var j in warriors) {
+		for (let i in headers) {
+			let gameArr = [];
+			for (let j in warriors) {
 				if (getWarriorGameList(j).includes(i)) {
-					var warriorArr = [];
-					for (var k = 0; k < headers[i].length; k++) warriorArr.push(false);
+					let warriorArr = [];
+					for (let k = 0; k < headers[i].length; k++) warriorArr.push(false);
 					gameArr.push(warriorArr);
 				}
 			}
@@ -69,8 +69,8 @@ function changeMode () {
 }
 
 function getWarriorGameList (name) {
-	var games = [];
-	for (var i = 0; i < warriors[name].length; i++) if (!games.includes(warriors[name][i].Game)) games.push(warriors[name][i].Game);
+	let games = [];
+	for (let i = 0; i < warriors[name].length; i++) if (!games.includes(warriors[name][i].Game)) games.push(warriors[name][i].Game);
 	return games;
 }
 
@@ -95,7 +95,7 @@ function showGuide (warrior, weapon) {
 }
 
 function check (e) {
-	var id = e.target.id.split(sprt);
+	let id = e.target.id.split(sprt);
 	progress[id[0]][id[1]][id[2]] = document.getElementById(e.target.id).checked;
 	localStorage['progress'] = JSON.stringify(progress);
 }
@@ -103,22 +103,22 @@ function check (e) {
 function render () {
 	popup.style.display = 'none';
 	
-	var str = ``;
+	let str = ``;
 	if (isGuideMode) {
-		for (var i in warriors) {
+		for (let i in warriors) {
 			if (i.toLowerCase().includes(filter.value.toLowerCase())) {
 				// Warrior's name
 				str += `<div class="warrior">
 					<div>
 						<div class="name">` + i + `</div>
 					</div>`;
-				for (var j = 0; j < warriors[i].length; j++) {
+				for (let j = 0; j < warriors[i].length; j++) {
 					if (game.value == 'All' || game.value == warriors[i][j].Game) {
 						// Weapon's stats
-						var statStr = '';
+						let statStr = '';
 						if (warriors[i][j].Stats.length > 0) {
 							statStr += `<div><div class="stats">`;
-							for (var k = 0; k < warriors[i][j].Stats.length; k++) statStr += `<div class="stat">` + warriors[i][j].Stats[k] + `</div>`;
+							for (let k = 0; k < warriors[i][j].Stats.length; k++) statStr += `<div class="stat">` + warriors[i][j].Stats[k] + `</div>`;
 							statStr += `</div></div>`;
 						}
 						
@@ -144,18 +144,18 @@ function render () {
 		}
 	}
 	else {
-		for (var i in headers) {
+		for (let i in headers) {
 			if (game.value == 'All' || game.value == i) {
 				str += `<table><tr><th>` + i + `</th>`;
-				for (var j = 0; j < headers[i].length; j++) {
+				for (let j = 0; j < headers[i].length; j++) {
 					str += `<td>` + headers[i][j] + `</td>`;
 				}
 				str += `</tr>`;
-				var index = 0;
-				for (var j in warriors) {
+				let index = 0;
+				for (let j in warriors) {
 					if (getWarriorGameList(j).includes(i)) {
 						str += `<tr><td>` + j + `</td>`;
-						for (var k = 0; k < headers[i].length; k++) {
+						for (let k = 0; k < headers[i].length; k++) {
 							str += `<td align="center"><input type="checkbox" id="` + i + sprt + index + sprt + k + `" onchange="check(event)"` + (progress[i][index][k] ? ` checked` : ``) + `></td>`;
 						}
 						str += `</tr>`;
