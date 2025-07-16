@@ -38,7 +38,7 @@ function resetGame () {
 	active = null;
 	bench = [];
 	trash = [];
-	print();
+	printScene();
 	console.log("Game has been reset!");
 }
 
@@ -90,7 +90,7 @@ function startGame () {
 	for (let i = 0; i < prizeCount; i++) assignPrize();
 	
 	// Initial print after setup
-	print();
+	printScene();
 }
 
 function assignPrize () {
@@ -98,7 +98,7 @@ function assignPrize () {
 		const index = parseInt(Math.random() * pool.length);
 		prize.push(pool[index]);
 		pool.splice(index, 1);
-		// print();
+		// printScene();
 	}
 	else {
 		console.log("Deck is empty for prize assignment!");
@@ -127,7 +127,7 @@ function draw (name = null, update = true) {
 		
 		hand.push(pool[index]);
 		pool.splice(index, 1);
-		if (update) print();
+		if (update) printScene();
 	}
 	else {
 		alert("Deck is empty! Cannot draw.");
@@ -239,7 +239,7 @@ function play (name) {
 	}
 	
 	hand.splice(index, 1);
-	print();
+	printScene();
 }
 
 function evolve (cardToEvolve, evolutionCard) {
@@ -259,7 +259,7 @@ function switchActive (index) {
 	const tempCard = active;
 	active = bench[index];
 	bench[index] = tempCard;
-	print();
+	printScene();
 }
 
 function claimPrize (index) {
@@ -271,7 +271,7 @@ function claimPrize (index) {
 	const prizeToClaim = prize[index];
 	hand.push(prizeToClaim);
 	prize.splice(index, 1);
-	print();
+	printScene();
 }
 
 function discard (name) {
@@ -300,7 +300,7 @@ function discard (name) {
 	
 	trash.push(hand[index]);
 	hand.splice(index, 1);
-	print();
+	printScene();
 }
 
 function attachCard (destination, destinationIndex, source, attachCardName) {
@@ -381,7 +381,7 @@ function attachCard (destination, destinationIndex, source, attachCardName) {
 	
 	if (attachCard.type === 'Energy') targetPokemon.energy.push(attachCard);
 	else targetPokemon.tool = attachCard;
-	print();
+	printScene();
 }
 
 function printPokemonText (pokemon, destination, index) {
@@ -651,7 +651,7 @@ function printCropImage (card, destination, index) {
 	return canvas;
 }
 
-function print () {
+function printScene () {
 	// Text mode
 	if (viewMode === 0) {
 		// Hand
@@ -828,7 +828,7 @@ function setDestination (destination, index) {
 
 function updateView () {
 	viewMode = parseInt(document.getElementById('currentView').value);
-	print();
+	printScene();
 }
 
 function updateDeck () {
@@ -876,7 +876,7 @@ function attachCardToPokemon () {
 	// document.getElementById('attachCardName').value = '';
 }
 
-// Initial print when page loads
+// Initial setup when page loads
 document.addEventListener('DOMContentLoaded', () => {
 	// Prepare energy icons
 	const energies = ['fighting', 'fire', 'water', 'grass', 'electric', 'psychic', 'dark', 'steel', 'free'];
