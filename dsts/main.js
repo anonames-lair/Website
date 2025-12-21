@@ -42,7 +42,7 @@ const signatureSkill = {
 		{ name: "Prayer for Aid", desc: "Slightly recovers all HP of all allies at the start of each round" }
 	],
 	Devoted: [
-		{ name: "First Aid", desc: "Also removes target's injury when using skills to recover an ally's HP" },
+		{ name: "First Aid", desc: "Also removes target's injury after using skills to recover an ally's HP" },
 		{ name: "Stout Spirit", desc: "Boosts SPI based on user's HP (maximum of 50% at full HP)" }
 	],
 	Zealous: [
@@ -199,7 +199,7 @@ window.onload = function () {
 				signatureSkill[title].forEach(s => {
 					signHtml += `<div class="skill-box" style="border-left-color: ${color}">
 						<strong style="color: ${color}">★ ${s.name}:</strong> 
-						<span style="font-size: 0.9em; display: block; padding-left: 8px;">${s.desc}</span>
+						<span>${s.desc}</span>
 					</div>`;
 				});
 			}
@@ -211,7 +211,7 @@ window.onload = function () {
 				categorySkill[cat].forEach(s => {
 					catHtml += `<div class="skill-box" style="border-left-color: ${color}">
 						<strong style="color: ${color}">${s.name}:</strong> 
-						<span style="font-size: 0.9em; display: block; padding-left: 8px;">${s.desc}</span>
+						<span>${s.desc}</span>
 					</div>`;
 				});
 			}
