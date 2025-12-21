@@ -27,7 +27,7 @@ const categorySkill = {
 		{ name: "Magical Wisdom", desc: "Reduces SP cost for magic attack skills by 10%" }
 	],
 	Amicability: [
-		{ name: "Cheer", desc: "At start of battle, boosts ATK and INT for all allies based on the total Bond of all battle members" },
+		{ name: "Cheer", desc: "At start of battle, boosts ATK and INT for all allies based on the total Bond of all battle members (20% buff)" },
 		{ name: "Prankster", desc: "Boosts the probability rate of skill debuff effects" }
 	],
 	Philanthropy: [
@@ -43,11 +43,11 @@ const signatureSkill = {
 	],
 	Devoted: [
 		{ name: "First Aid", desc: "Also removes target's injury when using skills to recover an ally's HP" },
-		{ name: "Stout Spirit", desc: "Boosts SPI based on user's HP" }
+		{ name: "Stout Spirit", desc: "Boosts SPI based on user's HP (maximum of 50% at full HP)" }
 	],
 	Zealous: [
 		{ name: "First in Line", desc: "Always acts first" },
-		{ name: "Fast Break", desc: "Boosts ATK for the first 3 rounds (The earlier the round, the great the boost to ATK)" }
+		{ name: "Fast Break", desc: "Boosts ATK for the first 3 rounds (maximum of 50% at round 1)" }
 	],
 	Brave: [
 		{ name: "Extra Strikes Tech", desc: "Performs an additional attack when Extra Strikes is activated" },
@@ -66,20 +66,20 @@ const signatureSkill = {
 		{ name: "Counter", desc: "Chance of countering with an Attack when being attacked (The lower the HP, the greater the chance to counter)" }
 	],
 	Daring: [
-		{ name: "Stout Defense", desc: "Boosts DEF based on user's HP" },
+		{ name: "Stout Defense", desc: "Boosts DEF based on user's HP (maximum of 50% at full HP)" },
 		{ name: "Strategic Order", desc: "Boosts CRT Rate by 5%" }
 	],
 	Enlightened: [
-		{ name: "Intense Focus", desc: "Boosts INT for the first 3 rounds (The earlier the round, the greater the boost to INT)" },
-		{ name: "Haymaker", desc: "Boosts CRT damage by 20%" }
+		{ name: "Intense Focus", desc: "Boosts INT for the first 3 rounds (maximum of 50% at round 1)" },
+		{ name: "Haymaker", desc: "Boosts CRT damage by 20% (increases CRT multiplier from 1.3x to 1.5x)" }
 	],
 	Sly: [
-		{ name: "Meditation", desc: "Boosts INT from round 4 onward (The more rounds pass, the greater the boost to INT)" },
+		{ name: "Meditation", desc: "Boosts INT from round 4 onward (maximum of 50% at round 6)" },
 		{ name: "Combo Magic", desc: "Chance to reuse skill when using a magic attack skill (better chance at lower HP)" }
 	],
 	Opportunistic: [
-		{ name: "Slow Starter", desc: "Boosts ATK from round 4 onward (The more rounds pass, the greater the boost to ATK)" },
-		{ name: "Planning Ahead", desc: "At start of battle, reduces DEF and SPI for all enemies based on the total Bond of all battle members" }
+		{ name: "Slow Starter", desc: "Boosts ATK from round 4 onward (maximum of 50% at round 6)" },
+		{ name: "Planning Ahead", desc: "At start of battle, reduces DEF and SPI for all enemies based on the total Bond of all battle members (20% debuff)" }
 	],
 	Friendly: [
 		{ name: "Strategic Order", desc: "Boosts CRT Rate by 5%" },
@@ -98,7 +98,7 @@ const signatureSkill = {
 		{ name: "Weak Point Blitz", desc: "Boosts damage dealt by the user when hitting an enemy weak point after an ally does" }
 	],
 	Compassionate: [
-		{ name: "Stout Strength", desc: "Boosts ATK based on user's HP" },
+		{ name: "Stout Strength", desc: "Boosts ATK based on user's HP (maximum of 50% at full HP)" },
 		{ name: "Hustle Cry", desc: "Extends the duration of buff effects applied by the user's skills by 2 turns" }
 	]
 };
@@ -199,7 +199,7 @@ window.onload = function () {
 				signatureSkill[title].forEach(s => {
 					signHtml += `<div class="skill-box" style="border-left-color: ${color}">
 						<strong style="color: ${color}">★ ${s.name}:</strong> 
-						<span style="font-size: 0.9em; display: block; padding-left: 5px;">${s.desc}</span>
+						<span style="font-size: 0.9em; display: block; padding-left: 8px;">${s.desc}</span>
 					</div>`;
 				});
 			}
@@ -211,7 +211,7 @@ window.onload = function () {
 				categorySkill[cat].forEach(s => {
 					catHtml += `<div class="skill-box" style="border-left-color: ${color}">
 						<strong style="color: ${color}">${s.name}:</strong> 
-						<span style="font-size: 0.9em; display: block; padding-left: 5px;">${s.desc}</span>
+						<span style="font-size: 0.9em; display: block; padding-left: 8px;">${s.desc}</span>
 					</div>`;
 				});
 			}
