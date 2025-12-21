@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="main.js"></script>
+		<title>Time Stranger Personality</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="grid-container" id="grid">
+				<div class="personality-item philanthropy" data-title="Adoring" data-cat="Philanthropy" data-focus="SPI & DEF">Adoring</div>
+				<div class="personality-item philanthropy" data-title="Devoted" data-cat="Philanthropy" data-focus="SPI & INT">Devoted</div>
+				<div class="personality-item valor" data-title="Zealous" data-cat="Valor" data-focus="ATK & SPD">Zealous</div>
+				<div class="personality-item valor" data-title="Brave" data-cat="Valor" data-focus="ATK & SP">Brave</div>
+				
+				<div class="personality-item philanthropy" data-title="Tolerant" data-cat="Philanthropy" data-focus="SPI & SP">Tolerant</div>
+				<div class="personality-item philanthropy" data-title="Overprotective" data-cat="Philanthropy" data-focus="SPI & HP">Overprotective</div>
+				<div class="personality-item valor" data-title="Reckless" data-cat="Valor" data-focus="ATK & HP">Reckless</div>
+				<div class="personality-item valor" data-title="Daring" data-cat="Valor" data-focus="ATK & DEF">Daring</div>
+				
+				<div class="personality-item wisdom" data-title="Enlightened" data-cat="Wisdom" data-focus="INT & SP">Enlightened</div>
+				<div class="personality-item wisdom" data-title="Sly" data-cat="Wisdom" data-focus="INT & HP">Sly</div>
+				<div class="personality-item amicability" data-title="Opportunistic" data-cat="Amicability" data-focus="DEF & SPI">Opportunistic</div>
+				<div class="personality-item amicability" data-title="Friendly" data-cat="Amicability" data-focus="DEF & ATK">Friendly</div>
+				
+				<div class="personality-item wisdom" data-title="Astute" data-cat="Wisdom" data-focus="INT & SPD">Astute</div>
+				<div class="personality-item wisdom" data-title="Strategic" data-cat="Wisdom" data-focus="INT & SPI">Strategic</div>
+				<div class="personality-item amicability" data-title="Sociable" data-cat="Amicability" data-focus="DEF & SP">Sociable</div>
+				<div class="personality-item amicability" data-title="Compassionate" data-cat="Amicability" data-focus="DEF & HP">Compassionate</div>
+			</div>
+			
+			<div class="info-panel" id="info-panel">
+				<div id="default-msg" class="placeholder-text">Hover over (or tap) a personality trait to see details...</div>
+				<div id="content-area" style="display:none;">
+					<span id="info-cat"></span>
+					<h3><span id="info-title">Trait Name</span></h3>
+					<p><strong>Agent Skill:</strong> <span id="info-agent"></span></p>
+					<div id="info-sign-skill"></div>
+					<div id="info-cat-skill"></div>
+					<p><strong>Extra Strike Bonus:</strong> <span id="info-extra-bonus"></span></p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
