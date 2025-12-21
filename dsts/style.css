@@ -1,8 +1,4 @@
 :root {
-	--valor: #e74c3c;
-	--wisdom: #9b59b6;
-	--amicability: #3498db;
-	--philanthropy: #2ecc71;
 	--bg: #1a1a2e;
 	--text: #ffffff;
 	--card-bg: #16213e;
@@ -98,6 +94,19 @@ body {
 	position: fixed;
 	z-index: -1;
 	opacity: 0.15;
+	filter: blur(1px);
+}
+
+.bonus-list, .bonus-item, .bonus-type, .bonus-desc {
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+}
+
+.bonus-type {
+	text-align: right;
+	vertical-align: top;
+	padding-right: 5px;
 }
 
 /* Home Button - Fixed to Bottom Right */
@@ -178,3 +187,4 @@ body {
         font-size: 12px;
     }
 }
+

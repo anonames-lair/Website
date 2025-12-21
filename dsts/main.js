@@ -145,11 +145,16 @@ const extraBonus = {
 const colorMap = {
 	'Valor': '#e74c3c',
 	'Wisdom': '#9b59b6',
-	'Amicability': '#3498db',
+	'Amicability': '#3599e5',
 	'Philanthropy': '#2ecc71'
 };
 
 window.onload = function () {
+	// Set css color variables
+	for (const [key, value] of Object.entries(colorMap)) {
+		document.documentElement.style.setProperty('--' + key.toLowerCase(), value);
+	}
+	
 	const items = document.querySelectorAll('.personality-item');
 	const contentArea = document.getElementById('content-area');
 	const placeholder = document.getElementById('default-msg');
@@ -194,7 +199,7 @@ window.onload = function () {
 				signatureSkill[title].forEach(s => {
 					signHtml += `<div class="skill-box" style="border-left-color: ${color}">
 						<strong style="color: ${color}">★ ${s.name}:</strong> 
-						<span style="font-size: 0.9em; display: block;">${s.desc}</span>
+						<span style="font-size: 0.9em; display: block; padding-left: 5px;">${s.desc}</span>
 					</div>`;
 				});
 			}
@@ -206,25 +211,25 @@ window.onload = function () {
 				categorySkill[cat].forEach(s => {
 					catHtml += `<div class="skill-box" style="border-left-color: ${color}">
 						<strong style="color: ${color}">${s.name}:</strong> 
-						<span style="font-size: 0.9em; display: block;">${s.desc}</span>
+						<span style="font-size: 0.9em; display: block; padding-left: 5px;">${s.desc}</span>
 					</div>`;
 				});
 			}
 			infoCatSkill.innerHTML = catHtml || "None";
 			
-			let bonusHtml = '<div class="bonus-list">';
+			// Populate Extra Strike Bonuses
+			let bonusHtml = '<table class="bonus-list">';
 			if (extraBonus[cat]) {
 				extraBonus[cat].forEach(b => {
-					// Only show if a bonus description exists
 					const bonusText = b.bonus || "No additional bonus";
 					bonusHtml += `
-						<div class="bonus-item">
-							<span class="bonus-type" style="color: ${color}">${b.type}: </span>
-							<span class="bonus-desc">${bonusText}</span>
-						</div>`;
+						<tr class="bonus-item">
+							<td class="bonus-type" style="color: ${color}">${b.type}: </td>
+							<td class="bonus-desc">${bonusText}</td>
+						</tr>`;
 				});
 			}
-			bonusHtml += '</div>';
+			bonusHtml += '</table>';
 			infoExtraBonus.innerHTML = bonusHtml;
 		};
 		
