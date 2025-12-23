@@ -244,5 +244,4 @@ window.onload = function () {
 		});
 		*/
 	});
-
 }
