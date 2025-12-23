@@ -235,9 +235,11 @@ window.onload = function () {
 		
 		item.addEventListener('mouseenter', showDetail);
 		item.addEventListener('touchstart', (e) => { e.preventDefault(); showDetail(); });
+		/*
 		item.addEventListener('mouseleave', () => {
 			placeholder.style.display = 'block';
 			contentArea.style.display = 'none';
 		});
+		*/
 	});
 }
