@@ -34,12 +34,12 @@ body {
 	flex: 2;
 }
 
-.personality-item {
+.personality {
 	background: var(--card-bg);
 	padding: 10px;
 	text-align: center;
+	cursor: default;
 	border-radius: 7px;
-	cursor: pointer;
 	transition: transform 0.2s, background 0.2s;
 	font-weight: bold;
 	display: flex;
@@ -49,9 +49,12 @@ body {
 	font-size: 1.2rem;
 }
 
-.personality-item:hover {
-	transform: scale(1.02);
-	filter: brightness(1.1);
+.inner {
+	cursor: pointer;
+}
+
+.inner:hover {
+	filter: brightness(1.05);
 	outline: 2px solid white;
 }
 
@@ -95,7 +98,7 @@ body {
 .placeholder-text { color: #888; font-style: italic; }
 
 #info-cat {
-	position: fixed;
+	position: absolute;
 	z-index: -1;
 	opacity: 0.15;
 	filter: blur(1px);
@@ -167,7 +170,7 @@ body {
 		gap: 5px;
 	}
 	
-	.personality-item {
+	.personality {
 		padding: 5px;
 		border-radius: 4px;
 		font-size: 0.7rem;
@@ -185,7 +188,7 @@ body {
 		order: 2; /* Info panel goes to bottom */
 		min-width: 85vw;
 		position: static;
-		padding: 17px;
+		padding: 16px;
 		font-size: 0.7rem;
 		border-radius: 6px;
 	}

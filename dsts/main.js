@@ -155,7 +155,7 @@ window.onload = function () {
 		document.documentElement.style.setProperty('--' + key.toLowerCase(), value);
 	}
 	
-	const items = document.querySelectorAll('.personality-item');
+	const items = document.querySelectorAll('.personality');
 	const contentArea = document.getElementById('content-area');
 	const placeholder = document.getElementById('default-msg');
 	
