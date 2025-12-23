@@ -134,7 +134,7 @@ const extraBonus = {
 	Philanthropy: [
 		{ type: "Vaccine", bonus: "Wind of Regeneration: All Allies, Regen HP (20%)" },
 		{ type: "Data", bonus: "Energy Charge: User, Regen SP (50%)" },
-		{ type: "Virus", bonus: "Regeneration Charge, User, Regen HP (100%)" },
+		{ type: "Virus", bonus: "Regeneration Charge: User, Regen HP (100%)" },
 		{ type: "Free", bonus: "Wind of Energy: All Allies, Regen SP (10%)" },
 		{ type: "Variable", bonus: "Cheer of Regeneration: Other Allies, Regen HP (40%)" },
 		{ type: "Unknown", bonus: "Cheer of Energy: Other Allies, Regen SP (20%)" },
@@ -244,4 +244,5 @@ window.onload = function () {
 		});
 		*/
 	});
+
 }
