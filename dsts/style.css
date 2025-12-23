@@ -102,6 +102,11 @@ body {
 	padding-left: 8px;
 }
 
+.info-label {
+	font-weight: bold;
+	color: gold;
+}
+
 .bonus-list, .bonus-item, .bonus-type, .bonus-desc {
 	margin: 0;
 	padding: 0;
