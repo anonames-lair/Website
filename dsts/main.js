@@ -172,12 +172,14 @@ window.onload = function () {
 		const focus = item.getAttribute('data-focus');
 		const color = colorMap[cat];
 		
+		if (title.length <= 0) return;
+		
 		item.innerHTML += ' <span class="grid-focus">' + focus + '</span>';
 		
 		let signHtml = "";
 		if (signatureSkill[title]) {
 			signatureSkill[title].forEach(s => {
-				signHtml += '<span class="grid-sign">' + s.name + '</span>';
+				signHtml += '<span class="grid-skill">' + s.name + '</span>';
 			});
 		}
 		item.innerHTML += signHtml || "None";
