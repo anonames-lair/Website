@@ -1267,6 +1267,8 @@ function openInfoCard (mode, index, sort) {
 						</tr>
 						` + unitsHTML + `
 					</table>
+					<br />
+					<div><a href="https://raw.githubusercontent.com/anonames-lair/Website/refs/heads/main/tk/Guide.txt" target="_blank">Guide</a></div>
 				</div>`;
 		}
 		
