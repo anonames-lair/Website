@@ -1217,6 +1217,21 @@ function openInfoCard (mode, index, sort) {
 					</tr>`;
 			}
 			
+			var unitsHTML = '';
+			for (var i = 0; i < unitTypes.length; i++) {
+				//Name, Type, Speed, Range, Effectiveness, Cost, Icon
+				unitsHTML += `<tr>
+					<td class="center">` + unitTypes[i].Name + `</td>
+					<td class="center">` + unitTypes[i].Icon + `</td>
+					<td>` + unitTypes[i].Cost + `</td>
+					<td>` + unitTypes[i].Speed + `</td>
+					<td>` + unitTypes[i].Range + `</td>
+					<td>` + parseInt(unitTypes[i].Effectiveness[0] * 100) + `</td>
+					<td>` + parseInt(unitTypes[i].Effectiveness[1] * 100) + `</td>
+					<td>` + parseInt(unitTypes[i].Effectiveness[2] * 100) + `</td>
+				</tr>`;
+			}
+			
 			infoCard.innerHTML = `<div class="title allyColor">Info</div>
 				<div class="forceContent">
 					<table class="stats">
@@ -1227,7 +1242,8 @@ function openInfoCard (mode, index, sort) {
 							<th class="sortable" onclick="openInfoCard('Global', ` + index + `, 'Strength')"><span>Strength</span></th>
 						</tr>
 						` + forcesHTML + `
-					</table><br />
+					</table>
+					<br />
 					<table class="stats">
 						<tr>
 							<th>Abilities</th>
@@ -1236,6 +1252,20 @@ function openInfoCard (mode, index, sort) {
 							<th>Officers</th>
 						</tr>
 						` + abilitiesHTML + `
+					</table>
+					<br />
+					<table class="stats">
+						<tr>
+							<th>Name</th>
+							<th>Type</th>
+							<th>Cost</th>
+							<th>Speed</th>
+							<th>Range</th>
+							<th>vs⛨</th>
+							<th>vs♞</th>
+							<th>vs➶</th>
+						</tr>
+						` + unitsHTML + `
 					</table>
 				</div>`;
 		}
