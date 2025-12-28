@@ -1,0 +1,316 @@
+* {
+  font-family: "Roboto", "Segoe UI", "Trebuchet MS", "Tahoma", "Arial", "Helvetica", "Consolas";
+}
+
+*::-webkit-scrollbar {
+  width: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+input[type=text] {
+  width: 110px;
+}
+
+select {
+  height: 21px;
+}
+
+#myCanvas {
+  position: fixed;
+}
+
+#playSvg {
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.25);
+  background-image: url("../images/play-circle.svg");
+  background-size: cover;
+  opacity: 0.9;
+}
+
+#relevantStats, #assistedStats {
+  vertical-align: middle;
+  height: 41px;
+}
+
+#officersDiv, #assistDiv {
+  visibility: hidden;
+}
+
+#importUpload {
+  display: none;
+}
+
+.importUpload {
+  display: inline-block;
+  border: 1px solid #767676;
+  border-radius: 1px;
+  padding: 2px 6px;
+  background-color: #0F8223;
+  color: #FFFFFF;
+}
+
+.importUpload:hover {
+  background-color: #0F9223;
+}
+
+.playerCard, .hoverCard, .selectCard, .cityCard, .marchCard, .devCard, .unitCard, .officerCard, .deployedCard, .infoCard, .importCard {
+  position: fixed;
+  border: 1px solid #333333;
+  border-radius: 5px;
+  background-color: #DDDDDD;
+  visibility: hidden;
+  cursor: default;
+  opacity: 0.95;
+}
+
+.playerCard, .hoverCard, .marchCard, .devCard, .unitCard, .officerCard, .infoCard, .importCard {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.forceName, .cityName, .unitName, .title {
+  padding: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.playerName {
+  display: table-cell;
+  padding: 3px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.allyColor {
+  background-color: #4F1E02;
+  background-image: linear-gradient(to bottom right, #1F0B01, #7E3316);
+}
+
+.enemyColor {
+  background-color: #FF1E02;
+  background-image: linear-gradient(to bottom right, #AF0B01, #DE3326);
+}
+
+.neutralColor {
+  background-color: #888888;
+}
+
+.clipPortrait {
+  height: 37.5px;
+  clip-path: inset(10% 15% 20% 15% round 10%);
+}
+
+.smallPortrait {
+  height: 30px;
+  border-radius: 50%;
+}
+
+.bigPortrait {
+  height: 60px;
+  border-radius: 50%;
+}
+
+.timeSpace {
+  padding: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.forceSquare {
+  display: inline-block;
+  padding: 4px;
+  border: 2px solid #555555;
+  border-radius: 2px;
+}
+
+.cityInfo, .unitInfo {
+  padding: 5px;
+  font-size: 13px;
+}
+
+.cityStats {
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.cityStats tr th {
+  padding: 2px;
+  border: 1px solid #AAAAAA;
+  background-color: #CCCCCC;
+}
+
+.cityStats tr td {
+  padding: 2px;
+  border: 1px solid #AAAAAA;
+  text-align: right;
+}
+
+.forceContent, .playerContent, .selectContent, .cityContent, .marchContent, .devContent, .unitContent, .officerContent, .deployedContent, .importContent {
+  padding: 5px;
+  font-size: 13px;
+}
+
+.playerContent {
+  display: grid;
+  grid-template-columns: 60px auto;
+  grid-template-areas: "portrait profile";
+}
+
+.playerPortrait {
+  grid-area: portrait;
+}
+
+.playerProfile {
+  grid-area: profile;
+  padding-left: 5px;
+}
+
+.selectContent input, .cityContent input, .deployedContent input, .buttonsGroup .buttons input {
+  display: block;
+  width: 104px;
+  height: 21px;
+}
+
+.marchContent, .devContent, .unitContent, .officerContent, .importContent {
+  display: grid;
+  place-items: center;
+}
+
+.buttonsGroup {
+  position: relative;
+}
+
+.buttonsGroup > input {
+  padding: 0;
+  height: 21px;
+  background-color: #DDDDDD;
+  border: 1px solid #AAAAAA;
+}
+
+.buttonsGroup .buttons {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 104px;
+}
+
+.buttonsGroup:hover .buttons {
+  display: block;
+}
+
+.stats {
+  border-collapse: collapse;
+}
+
+.stats th {
+  padding: 2px;
+  border: 1px solid #AAAAAA;
+  min-width: 32px;
+  background-color: #CCCCCC;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.stats td {
+  position: relative;
+  padding: 2px;
+  border: 1px solid #AAAAAA;
+  min-width: 32px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.stats tr:hover td .float {
+  visibility: visible;
+}
+
+.float {
+  position: absolute;
+  left: 91%;
+  top: 50%;
+  transform: translate(0, -42%);
+  visibility: hidden;
+}
+
+.sortable {
+  position: relative;
+}
+
+.sortable:hover span {
+  visibility: hidden;
+}
+
+.sortable:hover:before {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  content: "";
+  background-image: url("../images/down.png");
+  background-size: 15px 15px;
+  width: 15px;
+  height: 15px;
+}
+
+.checkboxes {
+  border: 1px solid #000000;
+  background-color: #FFFFFF;
+  max-width: 292px;
+  white-space: nowrap;
+}
+
+.checkboxes label {
+  display: block;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.checkboxes label:hover {
+  background-color: #1E90FF;
+  color: #FFFFFF;
+}
+
+.checkboxes label input {
+  float: left;
+}
+
+.checkboxes label div {
+  width: 30px;
+  float: left;
+  padding-top: 1px;
+}
+
+.officerCB {
+  width: 105px !important;
+}
+
+.typeCB {
+  width: 80px !important;
+}
+
+.strengthCB {
+  width: 50px !important;
+}
+
+.bold {
+  font-weight: bold !important;
+}
+
+.left {
+  text-align: left !important;
+}
+
+.center {
+  text-align: center !important;
+}
+
+.right {
+  text-align: right !important;
+}
