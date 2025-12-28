@@ -33,6 +33,8 @@ var startTimestamp;
 var mapAnimationStep;
 var squareSize;
 var squareHalf;
+var titleWidth;
+var titleHeight;
 var mapSize;
 var buttonHeight;
 var battleX;
@@ -547,6 +549,14 @@ window.onload = function () {
 	clickSound.style.visibility = confirmSound.style.visibility = mainSound.style.visibility = battleSound.style.visibility = 'hidden';
 	
 	// Init sizes
+	if (window.innerWidth / window.innerHeight > 16 / 9) {
+		titleWidth = window.innerWidth;
+		titleHeight = titleImage.height * window.innerWidth / titleImage.width;
+	}
+	else {
+		titleHeight = window.innerHeight;
+		titleWidth = titleImage.width * window.innerHeight / titleImage.height;
+	}
 	mapSize = window.innerHeight;
 	if (window.innerWidth < window.innerHeight) mapSize = window.innerWidth;
 	squareSize = mapSize / map.length;
@@ -648,6 +658,8 @@ function init (scenario, officerIndex) {
 	battles = [];
 	gState = 1;
 	playAudio(mainSound);
+	
+	draw(true);
 }
 
 function applyScenario (name) {
@@ -841,7 +853,6 @@ function onMouseClick (e) {
 				var y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
 				if (eX >= x && eX < x + scenarioWidth && eY >= y && eY < y + buttonHeight) {
 					init(scenarios[i].Name, scenarios[i].Playables[j]);
-					draw();
 					playAudio(confirmSound);
 				}
 			}
@@ -1564,6 +1575,9 @@ function draw (force) {
 		ctx.beginPath();
 		
 		if (gState == 0) {
+			// Draw title image
+			drawImage(titleImage, 0, 0, titleWidth, titleHeight);
+			
 			var line = 0;
 			// Scenarios
 			var x = canvasPad + buttonMargin;
@@ -1572,6 +1586,7 @@ function draw (force) {
 			for (var i = 0; i < scenarios.length; i++) {
 				for (var j = 0; j < scenarios[i].Playables.length; j++) {
 					var y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
+					fillRect(x, y, w, h, highlightColor);
 					if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 					drawRect(x, y, w, h, fontDark);
 					ctx.fillStyle = fontDark;
