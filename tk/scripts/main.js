@@ -947,7 +947,6 @@ function onMouseClick (e) {
 				giveBattleBonus(deployed0);
 				dismissDeployed(battles[0]['Commander1']);
 			}
-			battles.shift();
 			if (battles.length > 0) initBattle();
 			else {
 				startTimestamp = 0;

@@ -983,6 +983,7 @@ function dismissDeployed (commander, redraw) {
 	if (Number.isInteger(progress)) {
 		officers[commander].Objective = progress > 0 ? ['Return', cityIndex] : '-';
 		officers[commander].Progress = progress > 0 ? 0 : '-';
+		
 		for (var i = 0; i < units.length; i++) {
 			if (units[i].Objective != '-' && units[i].Objective[0] == 'March'  && units[i].Objective[1] == commander) {
 				units[i].Objective = progress > 0 ? ['Return', cityIndex] : '-';
@@ -990,12 +991,15 @@ function dismissDeployed (commander, redraw) {
 				units[i].Vec = null;
 			}
 		}
+		
 		for (var i = 0; i < officers.length; i++) {
 			if (officers[i].Objective != '-' && officers[i].Objective[0] == 'Assist' && officers[i].Objective[1] == commander) {
 				officers[i].Objective = progress > 0 ? ['Return', cityIndex] : '-';
 				officers[i].Progress = progress > 0 ? 0 : '-';
 			}
 		}
+		
+		battles = battles.filter(battle => battle['Commander0'] !== commander && battle['Commander1'] !== commander);
 		
 		if (redraw) {
 			openInfoCard('City', officers[commander].City);
