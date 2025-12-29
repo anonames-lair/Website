@@ -1063,7 +1063,7 @@ function createOfficersTable (officerIndexes, cityIndex) {
 	if (Number.isInteger(cityIndex)) {
 		return `<table class="stats">
 		<tr>
-			<th class="sortable" onclick="openInfoCard('City', ` + cityIndex + `)"><span>Officers (` + officerIndexes.length + `)</span></th>
+			<th class="sortable" onclick="openInfoCard('City', ` + cityIndex + `, 'Reset')"><span>Officers (` + officerIndexes.length + `)</span></th>
 			<th class="sortable" onclick="openInfoCard('City', ` + cityIndex + `, 'LDR')"><span>LDR</span></th>
 			<th class="sortable" onclick="openInfoCard('City', ` + cityIndex + `, 'WAR')"><span>WAR</span></th>
 			<th class="sortable" onclick="openInfoCard('City', ` + cityIndex + `, 'INT')"><span>INT</span></th>
@@ -1133,7 +1133,9 @@ function openInfoCard (mode, index, sort) {
 			if (cities[index].Force == '-') backColor = 'neutralColor';
 			else if (cities[index].Force == playerForce) backColor = 'allyColor';
 			
-			var cityOfficers = sort ? getCityOfficers(index, sort) : getCityOfficers(index);
+			if (sort) officerSort = sort === 'Reset' ? false : sort;
+			
+			var cityOfficers = officerSort ? getCityOfficers(index, officerSort) : getCityOfficers(index);
 			var cityUnits = getCityUnits(index);
 			
 			infoCard.innerHTML = `<div class="cityName ` + backColor + `">` + cities[index].Name + `</div>

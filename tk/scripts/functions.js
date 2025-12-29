@@ -105,8 +105,6 @@ function sortOfficers (officerIndexes, sort) {
 		var temp = officerIndexes[i];
 		var j = i - 1;
 		
-		officerSort = sort;
-		
 		while (j >= 0 && officers[officerIndexes[j]][sort] < officers[temp][sort]) {
 			officerIndexes[j + 1] = officerIndexes[j--];
 		}

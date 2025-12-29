@@ -799,8 +799,7 @@ function onMouseMove (e) {
 			if (hoverY + hoverCard.clientHeight > mapSize) hoverCard.style.top = (hoverY - hoverCard.clientHeight - hoverMarginY * 2) + 'px';
 			else hoverCard.style.top = hoverY + 'px';
 			
-			if (officerSort !== false) openInfoCard('City', index, officerSort);
-			else openInfoCard('City', index);
+			openInfoCard('City', index);
 			draw();
 		}
 		
