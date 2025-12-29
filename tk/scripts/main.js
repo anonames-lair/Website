@@ -20,6 +20,7 @@ var playSvg;
 
 // 0: Picking scenario, 1: Playing
 var gState;
+var officerSort;
 var copyString;
 var downloadString;
 var battles;
@@ -630,7 +631,7 @@ window.onload = function () {
 	}
 	
 	mousePos = new Point.Zero();
-	infoIconHover = false;
+	infoIconHover = officerSort = false;
 	then = startTimestamp = mapAnimationStep = gState = 0;
 	copyString = 'COPY DATA';
 	downloadString = 'DOWNLOAD DATA';
@@ -798,7 +799,8 @@ function onMouseMove (e) {
 			if (hoverY + hoverCard.clientHeight > mapSize) hoverCard.style.top = (hoverY - hoverCard.clientHeight - hoverMarginY * 2) + 'px';
 			else hoverCard.style.top = hoverY + 'px';
 			
-			openInfoCard('City', index);
+			if (officerSort !== false) openInfoCard('City', index, officerSort);
+			else openInfoCard('City', index);
 			draw();
 		}
 		

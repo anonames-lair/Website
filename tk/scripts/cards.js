@@ -227,7 +227,7 @@ function commanderChanged (source) {
 	if (stats.length > 0) {
 		calculatedStatsTable('relevantStats', stats[0], stats[1], stats[2]);
 		
-		var viableOfficers = getCityViableOfficers(source);
+		var viableOfficers = getCityViableOfficers(source, 'LDR');
 		var assistHTML = '';
 		for (var i = 0; i < viableOfficers.length; i++) {
 			var officer = officers[viableOfficers[i]];
@@ -286,7 +286,7 @@ function sourceChanged () {
 	var source = getElement('source') ? getElement('source').value : '';
 	source = getCityIndexByName(source);
 	if (Number.isInteger(source)) {
-		var viableOfficers = getCityViableOfficers(source);
+		var viableOfficers = getCityViableOfficers(source, 'LDR');
 		var officersHTML = '';
 		for (var i = 0; i < viableOfficers.length; i++) {
 			officersHTML += '<option value="' + officers[viableOfficers[i]].Name + '">'
@@ -320,7 +320,7 @@ function openMarchCard (cityIndex) {
 			targetsHTML += '<option value="' + cities[targets[i]].Name + '">'
 		}
 		
-		var viableOfficers = getCityViableOfficers(source);
+		var viableOfficers = getCityViableOfficers(source, 'LDR');
 		for (var i = 0; i < viableOfficers.length; i++) {
 			officersHTML += '<option value="' + officers[viableOfficers[i]].Name + '">'
 		}
