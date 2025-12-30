@@ -1756,8 +1756,8 @@ function draw (force) {
 					if (units[i].Vec && (units[i].Objective[1] == battles[0]['Commander0'] || units[i].Objective[1] == battles[0]['Commander1'])) {
 						// Draw damage
 						if (damages[units[i].Id] && startTimestamp - damages[units[i].Id]['Timestamp'] < battleSeconds) {
-							const progress = startTimestamp - damages[units[i].Id]['Timestamp'] / battleSeconds;
-							const floatOffset = progress * 40;
+							const progress = (startTimestamp - damages[units[i].Id]['Timestamp']) / battleSeconds;
+							const floatOffset = progress * 20;
 							ctx.globalAlpha = 1 - progress;
 							ctx.font = 'bold ' + canvasFontSize + 'px ' + canvasFontFamily;
 							
