@@ -34,6 +34,8 @@ var startTimestamp;
 var mapAnimationStep;
 var squareSize;
 var squareHalf;
+var squareThird;
+var citySize;
 var titleWidth;
 var titleHeight;
 var mapSize;
@@ -562,6 +564,8 @@ window.onload = function () {
 	if (window.innerWidth < window.innerHeight) mapSize = window.innerWidth;
 	squareSize = mapSize / map.length;
 	squareHalf = squareSize / 2;
+	squareThird = squareSize / 3;
+	citySize = squareSize + (2 * cityPad);
 	buttonHeight = squareSize + buttonPad * 2;
 	infoX = isPortrait ? canvasPad : canvasPad * 2 + mapSize;
 	infoY = isPortrait ? canvasPad * 2 + mapSize : canvasPad;
@@ -1644,9 +1648,13 @@ function draw (force) {
 					x = canvasPad + i * squareSize;
 					y = canvasPad + j * squareSize;
 					
-					if (map[i][j] != 1) {
-						drawRect(x, y, squareSize, squareSize, cityColor);
-						fillRect(x, y, squareSize, squareSize, roadColor);
+					if (map[i][j] === 0) {
+						//drawRect(x, y, squareSize, squareSize, cityColor);
+						fillRect(x + squareThird, y + squareThird, squareThird, squareThird, roadColor);
+						if (i - 1 >= 0 && map[i - 1][j] !== 1) fillRect(x, y + squareThird, squareThird, squareThird, roadColor);
+						if (i + 1 < mapWidth && map[i + 1][j] !== 1) fillRect(x + (2 * squareThird), y + squareThird, squareThird, squareThird, roadColor);
+						if (j - 1 >= 0 && map[i][j - 1] !== 1) fillRect(x + squareThird, y, squareThird, squareThird, roadColor);
+						if (j + 1 < mapHeight && map[i][j + 1] !== 1) fillRect(x + squareThird, y + (2 * squareThird), squareThird, squareThird, roadColor);
 					}
 				}
 			}
@@ -1655,28 +1663,25 @@ function draw (force) {
 			// Draw cities
 			for (var i = 0; i < map.length; i++) {
 				for (var j = 0; j < map[i].length; j++) {
-					x = canvasPad + i * squareSize;
-					y = canvasPad + j * squareSize;
+					x = canvasPad + i * squareSize - cityPad;
+					y = canvasPad + j * squareSize - cityPad;
 					
 					if (map[i][j] >= cityIndexStart) {
 						var index = map[i][j] - cityIndexStart;
 						if (cities[index].Force == '-') {
-							var emptyX = x + cityPad;
-							var emptyY = y + cityPad;
-							var emptySize = squareSize - (2 * cityPad);
-							drawImage(colorImage(citySmallImage, cityColor),x,y,squareSize,squareSize);
-							//fillRect(emptyX, emptyY, emptySize, emptySize, cityColor);
+							drawImage(colorImage(citySmallImage, cityColor), x, y, citySize, citySize);
+							//fillRect(x, y, citySize, citySize, cityColor);
 						}
 						else {
 							var forceIndex = getForceIndexById(cities[index].Force);
-							drawImage(colorImage(citySmallImage, forces[forceIndex].Color),x,y,squareSize,squareSize);
-							//fillRect(x, y, squareSize, squareSize, forces[forceIndex].Color);
+							drawImage(colorImage(citySmallImage, forces[forceIndex].Color), x, y, citySize, citySize);
+							//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
 							if (infoIconHover) {
 								ctx.fillStyle = fontDark;
 								drawMessage(getCityViableOfficers(index).length + '/' + getCityOfficers(index).length, x + squareHalf, y + squareSize * 1.37, 'center');
 							}
 							ctx.fillStyle = getTextColor(forces[forceIndex].Color);
-							drawMessage(forces[forceIndex].Name[0], x + squareHalf, y + squareHalf + 1, 'center');
+							drawMessage(forces[forceIndex].Name[0], x + citySize / 2, y + citySize / 2 + 1, 'center');
 						}
 					}
 				}
