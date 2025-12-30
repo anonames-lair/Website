@@ -109,6 +109,7 @@ const fontDark = '#000000';
 const fontLight = '#FFFFFF';
 const outlineSize = 1;
 const scenarioWidth = 300;
+const scenarioX = (window.innerWidth - scenarioWidth) / 2;
 const infoIconX = 1;
 const infoIconY = 1;
 const roadAlpha = 0.6;

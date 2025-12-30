@@ -854,8 +854,8 @@ function onMouseClick (e) {
 	//infoCard.style.visibility = 'hidden';
 	
 	if (gState == 0 && startTimestamp == 0) {
-		var line = 0;
-		var x = canvasPad + buttonMargin;
+		var line = 1;
+		var x = scenarioX;
 		for (var i = 0; i < scenarios.length; i++) {
 			for (var j = 0; j < scenarios[i].Playables.length; j++) {
 				var y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
@@ -1585,9 +1585,9 @@ function draw (force) {
 			// Draw title image
 			drawImage(titleImage, 0, 0, titleWidth, titleHeight);
 			
-			var line = 0;
+			var line = 1;
 			// Scenarios
-			var x = canvasPad + buttonMargin;
+			var x = scenarioX;
 			var w = scenarioWidth;
 			var h = buttonHeight;
 			for (var i = 0; i < scenarios.length; i++) {
