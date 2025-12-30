@@ -269,7 +269,7 @@ function createUnitDivInnerHTML (cityIndex) {
 				<div class="typeCB">` + unitTypes[unit.Type].Name + `</div><div class="strengthCB">` + unit.Strength + `</div><div>` + unit.Morale + `</div>
 			</label>`;
 	}
-	return `Units:<br /><div class="checkboxes">` + unitsHTML + `</div>`;
+	return `Units:<br /><div class="checkboxes" title="Right click to check all" oncontextmenu="checkAll('unit')">` + unitsHTML + `</div>`;
 }
 
 // March card
@@ -372,7 +372,7 @@ function openMarchCard (cityIndex) {
 					<td><div id="unitsStats"></div></td>
 				</tr>
 				<tr>
-					<td><div id="assistDiv" class="checkboxes"></div></td>
+					<td><div id="assistDiv" class="checkboxes" title="Right click to check all" oncontextmenu="checkAll('officer')"></div></td>
 					<td><div id="assistedStats"></div></td>
 				</tr>
 				<tr class="center">
@@ -535,7 +535,11 @@ function openDevCard (cityIndex, objective) {
 							<td>` + objectiveHTML + `</td>
 						</tr>
 						<tr>
-							<td><div id="officersDiv" class="checkboxes">` + officersHTML + `</div></td>
+							<td>
+								<div id="officersDiv" class="checkboxes" title="Right click to check all" oncontextmenu="checkAll('officer')">`
+									+ officersHTML +
+								`</div>
+							</td>
 							<td><div id="devStats"></div></td>
 						</tr>
 						<tr class="center">
@@ -903,7 +907,13 @@ function openOfficerCard (cityIndex, objective) {
 					<td>` + targetOfficerList + `Employ: <input type="text" id="target" list="officerList" oninput="officerChanged('target')"></td>
 					<td><div id="relevantStats"></div></td>
 				</tr>`;
-			secondRowHTML = `<tr><td colspan="2"><div id="officersDiv" class="checkboxes">` + officersHTML + `</div></td></tr>`;
+			secondRowHTML = `<tr>
+					<td colspan="2">
+						<div id="officersDiv" class="checkboxes" title="Right click to check all" oncontextmenu="checkAll('officer')">`
+							+ officersHTML +
+						`</div>
+					</td>
+				</tr>`;
 		}
 	}
 	else if (objective == 'Dismiss') {
@@ -924,7 +934,13 @@ function openOfficerCard (cityIndex, objective) {
 					<td>City: <input type="text" value="` + cities[cityIndex].Name + `" readonly></td>
 					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 				</tr>`;
-			secondRowHTML = `<tr><td colspan="2"><div id="officersDiv" class="checkboxes">` + officersHTML + `</div></td></tr>`;
+			secondRowHTML = `<tr>
+					<td colspan="2">
+						<div id="officersDiv" class="checkboxes" title="Right click to check all" oncontextmenu="checkAll('officer')">`
+							+ officersHTML +
+						`</div>
+					</td>
+				</tr>`;
 		}
 	}
 	else if (objective == 'Transfer') {
@@ -949,7 +965,13 @@ function openOfficerCard (cityIndex, objective) {
 					<td>Source: <input type="text" value="` + cities[cityIndex].Name + `" readonly></td>
 					<td>Target: ` + targetsHTML + `</td>
 				</tr>`;
-			secondRowHTML = `<tr><td colspan="2"><div id="officersDiv" class="checkboxes">` + officersHTML + `</div></td></tr>`;
+			secondRowHTML = `<tr>
+					<td colspan="2">
+						<div id="officersDiv" class="checkboxes" title="Right click to check all" oncontextmenu="checkAll('officer')">`
+							+ officersHTML +
+						`</div>
+					</td>
+				</tr>`;
 		}
 	}
 	

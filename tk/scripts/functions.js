@@ -100,6 +100,24 @@ function giveAlpha (color, alpha) {
 	return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (alpha ? alpha : roadAlpha) + ')';
 }
 
+function checkAll (object) {
+	if (!object) return;
+	
+	// Find all checkboxes where the ID starts with the object ("unit" or "officer")
+	const checkboxes = document.querySelectorAll('input[type="checkbox"][id^="' + object + '"]');
+	
+	if (checkboxes.length === 0) return;
+	
+	// Convert NodeList to Array and check if EVERY checkbox is already checked
+	const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+	
+	// If all are checked, we uncheck them all (false). 
+	// Otherwise, we check them all (true).
+	checkboxes.forEach(cb => {
+		cb.checked = !allChecked;
+	});
+}
+
 function sortOfficers (officerIndexes, sort) {
 	for (var i = 1; i < officerIndexes.length; i++) {
 		var temp = officerIndexes[i];
