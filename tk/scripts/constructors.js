@@ -40,11 +40,13 @@ function Scenario (name, date, forces, officers, units, playables) {
 	this.Playables = playables;
 }
 
-function Force (id, name, ruler, color) {
+function Force (id, name, ruler, color, smallCity, bigCity) {
 	this.Id = id;
 	this.Name = name;
 	this.Ruler = ruler;
 	this.Color = color;
+	this.SmallCity = smallCity;
+	this.BigCity = bigCity;
 }
 
 function City (name, force, gold, food, farm, trade, tech, defense, cfarm, ctrade, ctech, cdefense, corder, speciality) {

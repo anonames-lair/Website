@@ -17,6 +17,8 @@ var confirmSound;
 var mainSound;
 var battleSound;
 var playSvg;
+var emptySmallCity;
+var emptyBigCity;
 
 // 0: Picking scenario, 1: Playing
 var gState;
@@ -610,6 +612,9 @@ window.onload = function () {
 	playSvg.style.width = (playerCard.clientHeight * 0.8) + 'px';
 	playSvg.style.height = (playerCard.clientHeight * 0.8) + 'px';
 	
+	emptySmallCity = colorImage(citySmallImage, cityColor);
+    emptyBigCity = colorImage(cityBigImage, cityColor);
+	
 	// Prepare officers
 	for (var i = 0; i < baseOfficers.length; i++) {
 		officers.push(new Officer(
@@ -678,7 +683,9 @@ function applyScenario (name) {
 			date = scenarios[i].Date;
 			// Forces & Cities
 			for (var j = 0; j < scenarios[i].Forces.length; j++) {
-				forces.push(new Force(j, scenarios[i].Forces[j][0], scenarios[i].Forces[j][1], scenarios[i].Forces[j][2]));
+				const smallCity = colorImage(citySmallImage, scenarios[i].Forces[j][2]);
+				const bigCity = colorImage(cityBigImage, scenarios[i].Forces[j][2]);
+				forces.push(new Force(j, scenarios[i].Forces[j][0], scenarios[i].Forces[j][1], scenarios[i].Forces[j][2], smallCity, bigCity));
 				for (var k = 0; k < scenarios[i].Forces[j][3].length; k++) {
 					cities[scenarios[i].Forces[j][3][k]].Force = forces.length - 1;
 				}
@@ -1670,14 +1677,13 @@ function draw (force) {
 					
 					if (map[i][j] >= cityIndexStart) {
 						var index = map[i][j] - cityIndexStart;
-						const image = cities[index].cTech < cities[index].Tech ? citySmallImage : cityBigImage;
 						if (cities[index].Force == '-') {
-							drawImage(colorImage(image, cityColor), x, y, citySize, citySize);
+							drawImage(cities[index].cTech < cities[index].Tech ? emptySmallCity : emptyBigCity, x, y, citySize, citySize);
 							//fillRect(x, y, citySize, citySize, cityColor);
 						}
 						else {
 							var forceIndex = getForceIndexById(cities[index].Force);
-							drawImage(colorImage(image, forces[forceIndex].Color), x, y, citySize, citySize);
+							drawImage(cities[index].cTech < cities[index].Tech ? forces[forceIndex].SmallCity : forces[forceIndex].BigCity, x, y, citySize, citySize);
 							//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
 							if (infoIconHover) {
 								ctx.fillStyle = fontDark;
