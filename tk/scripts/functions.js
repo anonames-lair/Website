@@ -100,6 +100,37 @@ function giveAlpha (color, alpha) {
 	return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (alpha ? alpha : roadAlpha) + ')';
 }
 
+function getRGB (color) {
+	var r = hexToDecimal(color.slice(1, 3));
+	var g = hexToDecimal(color.slice(3, 5));
+	var b = hexToDecimal(color.slice(5));
+	
+	return {red: r, green: g, blue: b};
+}
+
+function colorImage (image, color) {
+	const imageSize = image.width;
+	
+	const offCanvas = new OffscreenCanvas(imageSize, imageSize);
+	const offCtx = offCanvas.getContext("2d");
+	
+	offCtx.drawImage(image, 0, 0);
+	
+	const imageData = offCtx.getImageData(0, 0, imageSize, imageSize);
+	
+	const rgb = getRGB(color);
+	
+	for (let i = 0; i < imageData.data.length; i += 4) {
+		imageData.data[i + 0] *= rgb.red / 255;
+		imageData.data[i + 1] *= rgb.green /255;
+		imageData.data[i + 2] *= rgb.blue / 255;
+	}
+	
+	offCtx.putImageData(imageData, 0, 0);
+	
+	return offCanvas;
+}
+
 function checkAll (object) {
 	if (!object) return;
 	

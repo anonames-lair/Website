@@ -1664,11 +1664,13 @@ function draw (force) {
 							var emptyX = x + cityPad;
 							var emptyY = y + cityPad;
 							var emptySize = squareSize - (2 * cityPad);
-							fillRect(emptyX, emptyY, emptySize, emptySize, cityColor);
+							drawImage(colorImage(citySmallImage, cityColor),x,y,squareSize,squareSize);
+							//fillRect(emptyX, emptyY, emptySize, emptySize, cityColor);
 						}
 						else {
 							var forceIndex = getForceIndexById(cities[index].Force);
-							fillRect(x, y, squareSize, squareSize, forces[forceIndex].Color);
+							drawImage(colorImage(citySmallImage, forces[forceIndex].Color),x,y,squareSize,squareSize);
+							//fillRect(x, y, squareSize, squareSize, forces[forceIndex].Color);
 							if (infoIconHover) {
 								ctx.fillStyle = fontDark;
 								drawMessage(getCityViableOfficers(index).length + '/' + getCityOfficers(index).length, x + squareHalf, y + squareSize * 1.37, 'center');

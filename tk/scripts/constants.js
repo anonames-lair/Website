@@ -131,5 +131,7 @@ const infoImage = newImg("images/info.png");
 const downImage = newImg("images/down.png");
 const titleImage = newImg("images/title.png");
 const mapImage = newImg("images/map.png");
+const citySmallImage = newImg("images/citySmall.png");
+const cityBigImage = newImg("images/cityBig.png");
 const unitImage = newImg("images/unit.png");
 const sceneImage = newImg("images/scene.png");
