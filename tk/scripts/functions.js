@@ -726,5 +726,5 @@ function loadData (_scenario, _date, _player, _playerForce, _cities, _officers, 
 	battles = [];
 	gState = 1;
 	playAudio(mainSound);
-	draw();
+	draw(true);
 }
