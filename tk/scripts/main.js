@@ -1670,14 +1670,15 @@ function draw (force) {
 					
 					if (map[i][j] >= cityIndexStart) {
 						var index = map[i][j] - cityIndexStart;
+						const image = cities[index].cTech < cities[index].Tech ? citySmallImage : cityBigImage;
 						if (cities[index].Force == '-') {
-							//drawImage(colorImage(citySmallImage, cityColor), x, y, citySize, citySize);
-							fillRect(x, y, citySize, citySize, cityColor);
+							drawImage(colorImage(image, cityColor), x, y, citySize, citySize);
+							//fillRect(x, y, citySize, citySize, cityColor);
 						}
 						else {
 							var forceIndex = getForceIndexById(cities[index].Force);
-							//drawImage(colorImage(citySmallImage, forces[forceIndex].Color), x, y, citySize, citySize);
-							fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
+							drawImage(colorImage(image, forces[forceIndex].Color), x, y, citySize, citySize);
+							//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
 							if (infoIconHover) {
 								ctx.fillStyle = fontDark;
 								drawMessage(getCityViableOfficers(index).length + '/' + getCityOfficers(index).length, x + squareHalf, y + squareSize * 1.37, 'center');
