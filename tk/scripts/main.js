@@ -36,6 +36,7 @@ var squareSize;
 var squareHalf;
 var squareThird;
 var citySize;
+var cityHalf;
 var titleWidth;
 var titleHeight;
 var mapSize;
@@ -483,6 +484,7 @@ window.onload = function () {
 	canvas.style.height = window.innerHeight + 'px';
 	canvas.getContext('2d').scale(ratio, ratio);
 	ctx = canvas.getContext('2d');
+	ctx.shadowColor = 'black';
 	
 	// Define cards
 	playerCard = document.createElement('div');
@@ -566,6 +568,7 @@ window.onload = function () {
 	squareHalf = squareSize / 2;
 	squareThird = squareSize / 3;
 	citySize = squareSize + (2 * cityPad);
+	cityHalf = citySize / 2;
 	buttonHeight = squareSize + buttonPad * 2;
 	infoX = isPortrait ? canvasPad : canvasPad * 2 + mapSize;
 	infoY = isPortrait ? canvasPad * 2 + mapSize : canvasPad;
@@ -1032,7 +1035,7 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 			else {
 				// Move closer to target
 				var normalized = subtract.normalize();
-				unit.Vec = unit.Vec.add(normalized.scale(unitType.Speed * elapsedSecond));
+				unit.Vec = unit.Vec.add(normalized.scale(unitType.Speed / 50 * unitSize * elapsedSecond));
 			}
 		}
 	}
@@ -1681,7 +1684,7 @@ function draw (force) {
 								drawMessage(getCityViableOfficers(index).length + '/' + getCityOfficers(index).length, x + squareHalf, y + squareSize * 1.37, 'center');
 							}
 							ctx.fillStyle = getTextColor(forces[forceIndex].Color);
-							drawMessage(forces[forceIndex].Name[0], x + citySize / 2, y + citySize / 2 + 1, 'center');
+							drawMessage(forces[forceIndex].Name[0], x + cityHalf, y + cityHalf + 1, 'center');
 						}
 					}
 				}
@@ -1708,7 +1711,11 @@ function draw (force) {
 						x -= diff.X * squareSize * mapAnimationStep;
 						y -= diff.Y * squareSize * mapAnimationStep;
 					}
+					
+					ctx.shadowBlur = 1;
 					drawImage(unitImage, x, y, w, h);
+					ctx.shadowBlur = 0;
+					
 					// Dot indicator
 					fillRect(x + dotSize, y - dotSize, dotSize, dotSize, forces[getForceIndexById(officers[i].Force)].Color);
 					
@@ -1752,8 +1759,22 @@ function draw (force) {
 					if (units[i].Vec && (units[i].Objective[1] == battles[0]['Commander0'] || units[i].Objective[1] == battles[0]['Commander1'])) {
 						// Draw damage
 						if (damages[units[i].Id] && startTimestamp - damages[units[i].Id]['Timestamp'] < battleSeconds) {
-							ctx.font = 'bold ' + floor(canvasFontSize * (1 - (startTimestamp - damages[units[i].Id]['Timestamp']) / battleSeconds)) + 'px ' + canvasFontFamily;
-							drawGlowMessage('-' + damages[units[i].Id]['Damage'], units[i].Vec.X, units[i].Vec.Y + damagePad, 'center', damageColor);
+							const elapsed = startTimestamp - damages[units[i].Id]['Timestamp'];
+							const progress = elapsed / battleSeconds;
+							const floatOffset = progress * 40;
+							ctx.globalAlpha = 1 - progress;
+							ctx.font = 'bold ' + canvasFontSize + 'px ' + canvasFontFamily;
+							
+							drawGlowMessage(
+								'-' + damages[units[i].Id]['Damage'],
+								units[i].Vec.X,
+								units[i].Vec.Y + damagePad - floatOffset,
+								'center',
+								damageColor
+							);
+							
+							// Reset font
+							ctx.globalAlpha = 1;
 							ctx.font = canvasFont;
 						}
 						// Draw icon and strength
