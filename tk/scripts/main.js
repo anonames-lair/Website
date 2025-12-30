@@ -484,7 +484,6 @@ window.onload = function () {
 	canvas.style.height = window.innerHeight + 'px';
 	canvas.getContext('2d').scale(ratio, ratio);
 	ctx = canvas.getContext('2d');
-	ctx.shadowColor = 'black';
 	
 	// Define cards
 	playerCard = document.createElement('div');
@@ -1672,13 +1671,13 @@ function draw (force) {
 					if (map[i][j] >= cityIndexStart) {
 						var index = map[i][j] - cityIndexStart;
 						if (cities[index].Force == '-') {
-							drawImage(colorImage(citySmallImage, cityColor), x, y, citySize, citySize);
-							//fillRect(x, y, citySize, citySize, cityColor);
+							//drawImage(colorImage(citySmallImage, cityColor), x, y, citySize, citySize);
+							fillRect(x, y, citySize, citySize, cityColor);
 						}
 						else {
 							var forceIndex = getForceIndexById(cities[index].Force);
-							drawImage(colorImage(citySmallImage, forces[forceIndex].Color), x, y, citySize, citySize);
-							//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
+							//drawImage(colorImage(citySmallImage, forces[forceIndex].Color), x, y, citySize, citySize);
+							fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
 							if (infoIconHover) {
 								ctx.fillStyle = fontDark;
 								drawMessage(getCityViableOfficers(index).length + '/' + getCityOfficers(index).length, x + squareHalf, y + squareSize * 1.37, 'center');
@@ -1711,10 +1710,7 @@ function draw (force) {
 						x -= diff.X * squareSize * mapAnimationStep;
 						y -= diff.Y * squareSize * mapAnimationStep;
 					}
-					
-					ctx.shadowBlur = 1;
 					drawImage(unitImage, x, y, w, h);
-					ctx.shadowBlur = 0;
 					
 					// Dot indicator
 					fillRect(x + dotSize, y - dotSize, dotSize, dotSize, forces[getForceIndexById(officers[i].Force)].Color);
