@@ -232,7 +232,7 @@ function setTransferValue (resource, value) {
 function getCityUnitTypes (cityIndex) {
 	var types = [];
 	for (var i = 0; i < unitTypes.length; i++) {
-		if (i < 3 || (parseInt(cities[cityIndex].Speciality) == i && cities[cityIndex].cTech == cities[cityIndex].Tech)) types.push(i);
+		if (i < 3 || (parseInt(cities[cityIndex].Speciality) == i && cities[cityIndex].cTech >= cities[cityIndex].Tech)) types.push(i);
 	}
 	return types;
 }
