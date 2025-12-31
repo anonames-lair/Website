@@ -86,6 +86,8 @@ function UnitType (name, type, speed, range, effectiveness, cost, icon) {
 	this.Type = type;
 	this.Speed = speed;
 	this.Range = range;
+	this.ScaledSpeed = speed / 50 * unitSize;
+	this.ScaledRange = range / 50 * unitSize;
 	// [Spearmen, Horsemen, Archer]
 	this.Effectiveness = effectiveness;
 	this.Cost = cost;

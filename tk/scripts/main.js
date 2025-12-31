@@ -695,7 +695,7 @@ function applyScenario (name) {
 			
 			// Officers
 			for (var j = 0; j < scenarios[i].Officers.length; j++) {
-				var officerName = scenarios[i].Officers[j][1];
+				const officerName = scenarios[i].Officers[j][1];
 				for (var k = 0; k < officers.length; k++) {
 					if (officers[k].Name == officerName) {
 						officers[k].Force = scenarios[i].Officers[j][0];
@@ -1027,7 +1027,7 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 			var unitType = unitTypes[unit.Type];
 			var subtract = units[targetIndex].Vec.subtract(unit.Vec);
 			var distance = subtract.length();
-			if (distance <= unitType.Range) {
+			if (distance <= unitType.ScaledRange) {
 				// Attack target
 				unit.Cooldown -= modifiedElapsed;
 				if (unit.Cooldown <= 0) {
@@ -1052,7 +1052,7 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 			else {
 				// Move closer to target
 				var normalized = subtract.normalize();
-				unit.Vec = unit.Vec.add(normalized.scale(unitType.Speed / 50 * unitSize * modifiedElapsed));
+				unit.Vec = unit.Vec.add(normalized.scale(unitType.ScaledSpeed * modifiedElapsed));
 			}
 		}
 	}
