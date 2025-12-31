@@ -73,6 +73,7 @@ const drillMultiplier = 0.3;
 const unitLimit = 10;
 const unitCooldown = 1;
 const battleSeconds = 1000;
+const battleInfoHeight = 50;
 const unitSize = (isMobile || isPortrait ? window.innerWidth : (window.innerWidth - window.innerHeight)) / 16;
 const unitHalfSize = unitSize / 2;
 const portraitPad = unitSize / 6;

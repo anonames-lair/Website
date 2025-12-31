@@ -27,6 +27,7 @@ var copyString;
 var downloadString;
 var battles;
 var battleImages;
+var battleSpeed;
 var damages;
 var mousePos;
 var infoIconHover;
@@ -595,9 +596,9 @@ window.onload = function () {
 	battleHeight = window.innerHeight - battleY;
 	attX = battleX + battleWidth * 0.25;
 	defX = battleX + battleWidth * 0.75;
-	forceY = battleY + unitSize * 0.15;
-	statsY = battleY + unitSize * 0.5;
-	strengthY = battleY + unitSize * 0.85;
+	forceY = battleY + battleInfoHeight * 0.15;
+	statsY = battleY + battleInfoHeight * 0.5;
+	strengthY = battleY + battleInfoHeight * 0.85;
 	
 	infoCard.style.left = (infoX + cardMargin) + 'px';
 	infoCard.style.top = (infoY + playerCard.clientHeight + cardMargin * 2) + 'px';
@@ -644,6 +645,7 @@ window.onload = function () {
 	mousePos = new Point.Zero();
 	infoIconHover = officerSort = false;
 	then = startTimestamp = mapAnimationStep = gState = 0;
+	battleSpeed = 1;
 	copyString = 'COPY DATA';
 	downloadString = 'DOWNLOAD DATA';
 	battles = [];
@@ -715,6 +717,16 @@ function applyScenario (name) {
 
 function onContextMenu (e) {
 	e.preventDefault();
+	const eX = e.clientX;
+	const eY = e.clientY;
+	
+	// Decrease battle speed
+	if (eX >= battleX && eX < battleX + battleWidth && eY >= battleY && eY < battleY + battleInfoHeight) {
+		if (battleSpeed > 1) battleSpeed /= 2;
+		return;
+	}
+	
+	return;
 }
 
 function onDragOver (e) {
@@ -971,44 +983,45 @@ function onMouseClick (e) {
 				stopAudio(battleSound);
 				playAudio(mainSound);
 			}
+			
 			return;
 		}
 		
-		// If battle is not paused
-		if (battles[0]['Resumed']) {
-			// Focus a target
-			var playerDeployed = null;
-			var enemyDeployed = null;
-			if (playerForce == officers[battles[0]['Commander0']].Force) {
-				playerDeployed = deployed0;
-				enemyDeployed = deployed1;
-			}
-			else if (playerForce == officers[battles[0]['Commander1']].Force) {
-				playerDeployed = deployed1;
-				enemyDeployed = deployed0;
-			}
-			if (playerDeployed != null && enemyDeployed != null) {
-				for (var i = 0; i < enemyDeployed.length; i++) {
-					var distance = units[enemyDeployed[i]].Vec.subtract(mousePos).length();
-					if (distance < portraitRadius) {
-						for (var j = 0; j < playerDeployed.length; j++) units[playerDeployed[j]].Target = units[enemyDeployed[i]].Id;
-						return;
-					}
+		// Increase battle speed with left-click
+		if (eX >= battleX && eX < battleX + battleWidth && eY >= battleY && eY < battleY + battleInfoHeight) {
+			if (e.button === 0 && battleSpeed < 4) battleSpeed *= 2;
+			return;
+		}
+		
+		// Focus a target
+		var playerDeployed = null;
+		var enemyDeployed = null;
+		if (playerForce == officers[battles[0]['Commander0']].Force) {
+			playerDeployed = deployed0;
+			enemyDeployed = deployed1;
+		}
+		else if (playerForce == officers[battles[0]['Commander1']].Force) {
+			playerDeployed = deployed1;
+			enemyDeployed = deployed0;
+		}
+		if (playerDeployed != null && enemyDeployed != null) {
+			for (var i = 0; i < enemyDeployed.length; i++) {
+				var distance = units[enemyDeployed[i]].Vec.subtract(mousePos).length();
+				if (distance < portraitRadius) {
+					for (var j = 0; j < playerDeployed.length; j++) units[playerDeployed[j]].Target = units[enemyDeployed[i]].Id;
+					return;
 				}
 			}
-			
-			// Pause battle
-			battles[0]['Resumed'] = false;
 		}
-		else {
-			// Resume battle
-			battles[0]['Resumed'] = true;
-		}
+		
+		// Pause and resume battle
+		battles[0]['Resumed'] = !battles[0]['Resumed'];
 	}
 }
 
 function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilities) {
-	var elapsedSecond = elapsedTimestamp / battleSeconds;
+	const elapsedSecond = elapsedTimestamp / battleSeconds;
+	const modifiedElapsed = elapsedSecond * battleSpeed;
 	for (var i = 0; i < unitIndexes.length; i++) {
 		var unit = units[unitIndexes[i]];
 		var targetIndex = getUnitIndexById(unit.Target);
@@ -1018,7 +1031,7 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 			var distance = subtract.length();
 			if (distance <= unitType.Range) {
 				// Attack target
-				unit.Cooldown -= elapsedSecond;
+				unit.Cooldown -= modifiedElapsed;
 				if (unit.Cooldown <= 0) {
 					var assistedStats0 = getAssistedStats(unit.Objective[1]);
 					var assistedStats1 = getAssistedStats(units[targetIndex].Objective[1]);
@@ -1041,7 +1054,7 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 			else {
 				// Move closer to target
 				var normalized = subtract.normalize();
-				unit.Vec = unit.Vec.add(normalized.scale(unitType.Speed / 50 * unitSize * elapsedSecond));
+				unit.Vec = unit.Vec.add(normalized.scale(unitType.Speed / 50 * unitSize * modifiedElapsed));
 			}
 		}
 	}
@@ -1790,7 +1803,7 @@ function draw (force) {
 				}
 				
 				// Draw battle info
-				fillRect(battleX, battleY, battleWidth, unitSize, highlightColor);
+				fillRect(battleX, battleY, battleWidth, battleInfoHeight, highlightColor);
 				drawGlowMessage(officers[battles[0]['Commander0']].Name + ' Unit', attX, forceY, 'center');
 				drawGlowMessage(officers[battles[0]['Commander1']].Name + ' Unit', defX, forceY, 'center');
 				drawGlowMessage('⚔' + battles[0]['Stats0']['ATK'] + ' ⛨' + battles[0]['Stats0']['DEF'], attX, statsY, 'center');
@@ -1798,6 +1811,7 @@ function draw (force) {
 				drawGlowMessage('☗ ' + getDeployedStrength(battles[0]['Commander0']), attX, strengthY, 'center');
 				drawGlowMessage('☗ ' + getDeployedStrength(battles[0]['Commander1']), defX, strengthY, 'center');
 				if (!battles[0]['Resumed']) drawGlowMessage('Paused', battleX + battleWidth / 2, statsY, 'center');
+				drawGlowMessage(battleSpeed + 'X', battleX + battleWidth / 2, strengthY, 'center');
 			}
 		}
 		
