@@ -725,8 +725,6 @@ function onContextMenu (e) {
 		if (battleSpeed > 1) battleSpeed /= 2;
 		return;
 	}
-	
-	return;
 }
 
 function onDragOver (e) {
