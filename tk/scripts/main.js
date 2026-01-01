@@ -620,10 +620,8 @@ window.onload = function () {
     emptyBigCity = colorImage(cityBigImage, cityColor);
 	unitScaled = new OffscreenCanvas(squareSize, squareSize);
 	const offCtx = unitScaled.getContext("2d");
-	offCtx.shadowColor = "rgba(0, 0, 0)";
+	offCtx.shadowColor = fontDark;
 	offCtx.shadowBlur = 2;
-	offCtx.shadowOffsetX = 0;
-	offCtx.shadowOffsetY = 0;
 	offCtx.drawImage(unitImage, 0, 0, squareSize, squareSize);
 	
 	// Prepare officers
