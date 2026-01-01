@@ -1598,7 +1598,8 @@ function draw (force) {
 	var now = performance.now();
 	elapsed = now - then;
 	if (elapsed > fpsInterval || force) {
-		then = now;
+		if (force) then = now;
+		else then = now - (elapsed % fpsInterval);
 		
 		// Invalidate
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
