@@ -1,3 +1,20 @@
+// Another way to draw roads
+drawRect(x, y, squareSize, squareSize, cityColor);
+fillRect(x, y, squareSize, squareSize, roadColor);
+fillRect(x + squareThird, y + squareThird, squareThird, squareThird, roadColor);
+if (i - 1 >= 0 && map[i - 1][j] !== 1) {
+	fillRect(x, y + squareThird, squareThird, squareThird, roadColor);
+}
+if (i + 1 < mapWidth && map[i + 1][j] !== 1) {
+	fillRect(x + (2 * squareThird), y + squareThird, squareThird, squareThird, roadColor);
+}
+if (j - 1 >= 0 && map[i][j - 1] !== 1) {
+	fillRect(x + squareThird, y, squareThird, squareThird, roadColor);
+}
+if (j + 1 < mapHeight && map[i][j + 1] !== 1) {
+	fillRect(x + squareThird, y + (2 * squareThird), squareThird, squareThird, roadColor);
+}
+
 // Distribute food evenly to each force's cities. This also works for cities[i].Gold
 var total = 0;
 var force = officers[getOfficerIndexByName('Cao Cao')].Force;

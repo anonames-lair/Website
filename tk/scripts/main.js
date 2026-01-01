@@ -19,6 +19,7 @@ var battleSound;
 var playSvg;
 var emptySmallCity;
 var emptyBigCity;
+var unitScaled;
 
 // 0: Picking scenario, 1: Playing
 var gState;
@@ -38,6 +39,7 @@ var mapAnimationStep;
 var squareSize;
 var squareHalf;
 var squareThird;
+var squareFourth;
 var citySize;
 var cityHalf;
 var titleWidth;
@@ -569,6 +571,7 @@ window.onload = function () {
 	squareSize = mapSize / map.length;
 	squareHalf = squareSize / 2;
 	squareThird = squareSize / 3;
+	squareFourth = squareSize / 4;
 	citySize = squareSize + (2 * cityPad);
 	cityHalf = citySize / 2;
 	buttonHeight = squareSize + buttonPad * 2;
@@ -615,6 +618,13 @@ window.onload = function () {
 	
 	emptySmallCity = colorImage(citySmallImage, cityColor);
     emptyBigCity = colorImage(cityBigImage, cityColor);
+	unitScaled = new OffscreenCanvas(squareSize, squareSize);
+	const offCtx = unitScaled.getContext("2d");
+	offCtx.shadowColor = "rgba(0, 0, 0)";
+	offCtx.shadowBlur = 2;
+	offCtx.shadowOffsetX = 0;
+	offCtx.shadowOffsetY = 0;
+	offCtx.drawImage(unitImage, 0, 0, squareSize, squareSize);
 	
 	// Prepare officers
 	for (var i = 0; i < baseOfficers.length; i++) {
@@ -1089,7 +1099,9 @@ function animateBattle (timestamp) {
 				if (units[i].Strength <= 0) {
 					// Unlock all targeting enemies
 					for (var j = 0; j < units.length; j++) if (units[j].Target == units[i].Id) units[j].Target = null;
+					// Remove damage label
 					if (damages[units[i].Id]) damages[units[i].Id] = null;
+					// Remove unit
 					units.splice(i, 1);
 				}
 			}
@@ -1669,12 +1681,23 @@ function draw (force) {
 					y = canvasPad + j * squareSize;
 					
 					if (map[i][j] === 0) {
-						//drawRect(x, y, squareSize, squareSize, cityColor);
-						fillRect(x + squareThird, y + squareThird, squareThird, squareThird, roadColor);
-						if (i - 1 >= 0 && map[i - 1][j] !== 1) fillRect(x, y + squareThird, squareThird, squareThird, roadColor);
-						if (i + 1 < mapWidth && map[i + 1][j] !== 1) fillRect(x + (2 * squareThird), y + squareThird, squareThird, squareThird, roadColor);
-						if (j - 1 >= 0 && map[i][j - 1] !== 1) fillRect(x + squareThird, y, squareThird, squareThird, roadColor);
-						if (j + 1 < mapHeight && map[i][j + 1] !== 1) fillRect(x + squareThird, y + (2 * squareThird), squareThird, squareThird, roadColor);
+						fillRect(x + squareFourth, y + squareFourth, squareHalf, squareHalf, roadColor);
+						if (i - 1 >= 0 && map[i - 1][j] !== 1) {
+							fillRect(x, y + squareFourth, squareFourth, squareHalf, roadColor);
+							drawLine(x, y + squareFourth, x, y + squareFourth + squareHalf, cityColor);
+						}
+						if (i + 1 < mapWidth && map[i + 1][j] !== 1) {
+							fillRect(x + squareFourth + squareHalf, y + squareFourth, squareFourth, squareHalf, roadColor);
+							drawLine(x + squareSize, y + squareFourth, x + squareSize, y + squareFourth + squareHalf, cityColor);
+						}
+						if (j - 1 >= 0 && map[i][j - 1] !== 1) {
+							fillRect(x + squareFourth, y, squareHalf, squareFourth, roadColor);
+							drawLine(x + squareFourth, y, x + squareFourth + squareHalf, y, cityColor);
+						}
+						if (j + 1 < mapHeight && map[i][j + 1] !== 1) {
+							fillRect(x + squareFourth, y + squareFourth + squareHalf, squareHalf, squareFourth, roadColor);
+							drawLine(x + squareFourth, y + squareSize, x + squareFourth + squareHalf, y + squareSize, cityColor);
+						}
 					}
 				}
 			}
@@ -1728,7 +1751,7 @@ function draw (force) {
 						x -= diff.X * squareSize * mapAnimationStep;
 						y -= diff.Y * squareSize * mapAnimationStep;
 					}
-					drawImage(unitImage, x, y, w, h);
+					drawImage(unitScaled, x, y, w, h);
 					
 					// Dot indicator
 					fillRect(x + dotSize, y - dotSize, dotSize, dotSize, forces[getForceIndexById(officers[i].Force)].Color);
@@ -1752,19 +1775,25 @@ function draw (force) {
 					if (units[i].Vec && (units[i].Objective[1] == battles[0]['Commander0'] || units[i].Objective[1] == battles[0]['Commander1'])) {
 						x = units[i].Vec.X - portraitRadius - portraitPad / 2;
 						y = units[i].Vec.Y - portraitRadius;
-						// Draw portrait border
-						ctx.fillStyle = cityColor;
+						
+						const isHurting = damages[units[i].Id] && startTimestamp - damages[units[i].Id]['Timestamp'] < unitHurtingTime;
+						
+						// Draw portrait outline
+						ctx.fillStyle = isHurting ? unitHurtingColor : unitOutlineColor;
 						ctx.beginPath();
 						ctx.arc(units[i].Vec.X, units[i].Vec.Y, portraitRadius + 2 , 0, Math.PI * 2);
 						ctx.closePath();
 						ctx.fill();
-						// Draw portrait
-						ctx.save();
-						ctx.beginPath();
-						ctx.arc(units[i].Vec.X, units[i].Vec.Y, portraitRadius, 0, Math.PI * 2);
-						ctx.clip();
-						drawImage(battleImages[units[i].Objective[1]], x, y, portraitSize + portraitPad, portraitSize + portraitPad);
-						ctx.restore();
+						
+						if (!isHurting) {
+							// Draw portrait
+							ctx.save();
+							ctx.beginPath();
+							ctx.arc(units[i].Vec.X, units[i].Vec.Y, portraitRadius, 0, Math.PI * 2);
+							ctx.clip();
+							drawImage(battleImages[units[i].Objective[1]], x, y, portraitSize + portraitPad, portraitSize + portraitPad);
+							ctx.restore();
+						}
 					}
 				}
 				
@@ -1795,8 +1824,8 @@ function draw (force) {
 						
 						// Draw morale bar
 						var startPoint = units[i].Vec.add(new Point(-moraleBarSize / 2, unitSize * 0.65));
-						drawLine(startPoint, startPoint.add(new Point(moraleBarSize, 0)));
-						drawLine(startPoint, startPoint.add(new Point(moraleBarSize * units[i].Morale / moraleLimit, 0)), moraleColor);
+						drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize, 0)));
+						drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize * units[i].Morale / moraleLimit, 0)), moraleColor);
 					}
 				}
 				
