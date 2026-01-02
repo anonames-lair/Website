@@ -1758,9 +1758,9 @@ function draw (force) {
 					if (mousePos.X >= x && mousePos.X < x + deployedWidth && mousePos.Y >= y && mousePos.Y < y + deployedHeight) {
 						var path = officers[i].Objective[2];
 						for (var j = 1; j < path.Points.length; j++) {
-							var pathX = canvasPad + path.Points[j].X * squareSize + unitPad;
-							var pathY = canvasPad + path.Points[j].Y * squareSize + unitPad;
-							fillRect(pathX, pathY, deployedWidth, deployedHeight, giveAlpha(forces[getForceIndexById(officers[i].Force)].Color));
+							const pointX = canvasPad + path.Points[j].X * squareSize + unitPad;
+							const pointY = canvasPad + path.Points[j].Y * squareSize + unitPad;
+							fillRect(pointX, pointY, deployedWidth, deployedHeight, giveAlpha(forces[getForceIndexById(officers[i].Force)].Color));
 						}
 					}
 					
