@@ -42,6 +42,9 @@ var squareThird;
 var squareFourth;
 var citySize;
 var cityHalf;
+var deployedWidth;
+var deployedHeight;
+var dotSize;
 var titleWidth;
 var titleHeight;
 var mapSize;
@@ -574,6 +577,8 @@ window.onload = function () {
 	squareFourth = squareSize / 4;
 	citySize = squareSize + (2 * cityPad);
 	cityHalf = citySize / 2;
+	deployedWidth = deployedHeight = squareSize - unitPad * 2;
+	dotSize = deployedWidth / 3;
 	buttonHeight = squareSize + buttonPad * 2;
 	infoX = isPortrait ? canvasPad : canvasPad * 2 + mapSize;
 	infoY = isPortrait ? canvasPad * 2 + mapSize : canvasPad;
@@ -1723,13 +1728,13 @@ function draw (force) {
 					y = canvasPad + j * squareSize - cityPad;
 					
 					if (map[i][j] >= cityIndexStart) {
-						var index = map[i][j] - cityIndexStart;
+						const index = map[i][j] - cityIndexStart;
 						if (cities[index].Force == '-') {
 							drawImage(cities[index].cTech < cities[index].Tech ? emptySmallCity : emptyBigCity, x, y, citySize, citySize);
 							//fillRect(x, y, citySize, citySize, cityColor);
 						}
 						else {
-							var forceIndex = getForceIndexById(cities[index].Force);
+							const forceIndex = getForceIndexById(cities[index].Force);
 							drawImage(cities[index].cTech < cities[index].Tech ? forces[forceIndex].SmallCity : forces[forceIndex].BigCity, x, y, citySize, citySize);
 							//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
 							if (infoIconHover) {
@@ -1744,33 +1749,36 @@ function draw (force) {
 			}
 			
 			// Draw deployed units
-			var w = squareSize - unitPad * 2;
-			var h = squareSize - unitPad * 2;
-			var dotSize = w / 3;
 			for (var i = 0; i < officers.length; i++) {
 				if (officers[i].Objective[0] == 'March') {
 					x = canvasPad + officers[i].Position.X * squareSize + unitPad;
 					y = canvasPad + officers[i].Position.Y * squareSize + unitPad;
-					if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) {
+					
+					// Draw deployed units path
+					if (mousePos.X >= x && mousePos.X < x + deployedWidth && mousePos.Y >= y && mousePos.Y < y + deployedHeight) {
 						var path = officers[i].Objective[2];
 						for (var j = 1; j < path.Points.length; j++) {
 							var pathX = canvasPad + path.Points[j].X * squareSize + unitPad;
 							var pathY = canvasPad + path.Points[j].Y * squareSize + unitPad;
-							fillRect(pathX, pathY, w, h, giveAlpha(forces[getForceIndexById(officers[i].Force)].Color));
+							fillRect(pathX, pathY, deployedWidth, deployedHeight, giveAlpha(forces[getForceIndexById(officers[i].Force)].Color));
 						}
 					}
+					
+					// Draw units
 					if (officers[i].Objective[2].Points[1]) {
 						var diff = officers[i].Position.subtract(officers[i].Objective[2].Points[1]);
 						x -= diff.X * squareSize * mapAnimationStep;
 						y -= diff.Y * squareSize * mapAnimationStep;
 					}
-					drawImage(unitScaled, x, y, w, h);
+					drawImage(unitScaled, x, y, deployedWidth, deployedHeight);
 					
 					// Dot indicator
 					fillRect(x + dotSize, y - dotSize, dotSize, dotSize, forces[getForceIndexById(officers[i].Force)].Color);
 					
 					// Battle indicator on map
-					if (battles.length > 0 && (i == battles[0]['Commander0'] || i == battles[0]['Commander1'])) drawImage(downImage, x, y - h, w, h);
+					if (battles.length > 0 && (i == battles[0]['Commander0'] || i == battles[0]['Commander1'])) {
+						drawImage(downImage, x, y - deployedHeight, deployedWidth, deployedHeight);
+					}
 				}
 			}
 			
