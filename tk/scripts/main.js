@@ -936,8 +936,8 @@ function onMouseClick (e) {
 			if (map[indexX][indexY] >= cityIndexStart) {
 				var index = map[indexX][indexY] - cityIndexStart;
 				clickedObjects.push({
-					'Card' : cityCard,
-					'Index' : index
+					'Card': cityCard,
+					'Index': index
 				});
 			}
 			// Clicked units
@@ -949,8 +949,8 @@ function onMouseClick (e) {
 					var h = squareSize - unitPad * 2;
 					if (eX >= x && eX < x + w && eY >= y && eY < y + h) {
 						clickedObjects.push({
-							'Card' : deployedCard,
-							'Index' : i
+							'Card': deployedCard,
+							'Index': i
 						});
 					}
 				}
@@ -1050,8 +1050,8 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 					units[targetIndex].Strength -= damage;
 					if (units[targetIndex].Strength <= 0) units[targetIndex].Strength = 0;			
 					damages[units[targetIndex].Id] = {
-						'Damage' : damage,
-						'Timestamp' : startTimestamp
+						'Damage': damage,
+						'Timestamp': startTimestamp
 					};
 					
 					unit.Cooldown = unitCooldown;
@@ -1374,31 +1374,45 @@ function animateMap (timestamp) {
 				}
 				
 				// Unit collisions
-				var unitCollision = deployedUnitCollision(i);
-				if (Number.isInteger(unitCollision)) {
-					var attStats = getAssistedStats(i);
-					var defStats = getAssistedStats(unitCollision);
-					// Get abilities
-					var attOfficers = getDeployedAssistOfficers(i).concat(i);
-					var attAbilities = getAbilities(attOfficers);
-					var defOfficers = getDeployedAssistOfficers(unitCollision).concat(unitCollision);
-					var defAbilities = getAbilities(defOfficers);
-					
-					battles.push({
-						'Commander0' : i,
-						'Commander1' : unitCollision,
-						'Resumed' : false,
-						'Stats0' : {
-							'ATK' : calculateAttack(attStats[0], attStats[1]).toFixed(1),
-							'DEF' : calculateDefense(attStats[0], attStats[2]).toFixed(1)
-						},
-						'Stats1' : {
-							'ATK' : calculateAttack(defStats[0], defStats[1]).toFixed(1),
-							'DEF' : calculateDefense(defStats[0], defStats[2]).toFixed(1)
-						},
-						'Abilities0' : attAbilities,
-						'Abilities1' : defAbilities
-					});
+				var unitCollisions = deployedUnitCollisions(i);
+				if (unitCollisions.length > 0) {
+					for (var j = 0; j < unitCollisions.length; j++) {
+						const uc = unitCollisions[j];
+						
+						var attStats = getAssistedStats(i);
+						const atk0 = calculateAttack(attStats[0], attStats[1]).toFixed(1);
+						const def0 = calculateDefense(attStats[0], attStats[2]).toFixed(1);
+						
+						var defStats = getAssistedStats(uc);
+						const atk1 = calculateAttack(defStats[0], defStats[1]).toFixed(1);
+						const def1 = calculateDefense(defStats[0], defStats[2]).toFixed(1);
+						
+						// Get abilities
+						var attOfficers = getDeployedAssistOfficers(i).concat(i);
+						var attAbilities = getAbilities(attOfficers);
+						var defOfficers = getDeployedAssistOfficers(uc).concat(uc);
+						var defAbilities = getAbilities(defOfficers);
+						
+						battles.push({
+							'Commander0': i,
+							'Commander1': uc,
+							'Resumed': false,
+							'Stats0': {
+								'ATK': atk0,
+								'DEF': def0
+							},
+							'Stats1': {
+								'ATK': atk1,
+								'DEF': def1
+							},
+							'Abilities0': attAbilities,
+							'Abilities1': defAbilities,
+							'DisplayName0': officers[i].Name + ' Unit',
+							'DisplayName1': officers[uc].Name + ' Unit',
+							'DisplayStats0': '⚔' + atk0 + ' ⛨' + def0,
+							'DisplayStats1': '⚔' + atk1 + ' ⛨' + def1
+						});
+					}
 				}
 				else if (Number.isInteger(cityCollision)) {
 					// Deployed vs City collisions
@@ -1598,8 +1612,8 @@ function draw (force) {
 	var now = performance.now();
 	elapsed = now - then;
 	if (elapsed > fpsInterval || force) {
-		if (force) then = now;
-		else then = now - (elapsed % fpsInterval);
+		// If forcing, start the clock over. If not, stay on the beat
+		then = force ? now : now - (elapsed % fpsInterval);
 		
 		// Invalidate
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1822,7 +1836,7 @@ function draw (force) {
 						drawGlowMessage(unitTypes[units[i].Type].Icon + units[i].Strength, units[i].Vec.X, units[i].Vec.Y + unitHalfSize, 'center', forces[getForceIndexById(units[i].Force)].Color);
 						
 						// Draw morale bar
-						var startPoint = units[i].Vec.add(new Point(-moraleBarSize / 2, unitSize * 0.65));
+						var startPoint = units[i].Vec.add(moraleBarPositionModifier);
 						drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize, 0)));
 						drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize * units[i].Morale / moraleLimit, 0)), moraleColor);
 					}
@@ -1830,10 +1844,10 @@ function draw (force) {
 				
 				// Draw battle info
 				fillRect(battleX, battleY, battleWidth, battleInfoHeight, highlightColor);
-				drawGlowMessage(officers[battles[0]['Commander0']].Name + ' Unit', attX, forceY, 'center');
-				drawGlowMessage(officers[battles[0]['Commander1']].Name + ' Unit', defX, forceY, 'center');
-				drawGlowMessage('⚔' + battles[0]['Stats0']['ATK'] + ' ⛨' + battles[0]['Stats0']['DEF'], attX, statsY, 'center');
-				drawGlowMessage('⚔' + battles[0]['Stats1']['ATK'] + ' ⛨' + battles[0]['Stats1']['DEF'], defX, statsY, 'center');
+				drawGlowMessage(battles[0]['DisplayName0'], attX, forceY, 'center');
+				drawGlowMessage(battles[0]['DisplayName1'], defX, forceY, 'center');
+				drawGlowMessage(battles[0]['DisplayStats0'], attX, statsY, 'center');
+				drawGlowMessage(battles[0]['DisplayStats1'], defX, statsY, 'center');
 				drawGlowMessage('☗ ' + getDeployedStrength(battles[0]['Commander0']), attX, strengthY, 'center');
 				drawGlowMessage('☗ ' + getDeployedStrength(battles[0]['Commander1']), defX, strengthY, 'center');
 				if (!battles[0]['Resumed']) drawGlowMessage('Paused', battleX + battleWidth / 2, statsY, 'center');

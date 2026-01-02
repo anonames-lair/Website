@@ -82,6 +82,7 @@ const portraitSize = unitSize - portraitPad * 2;
 const portraitRadius = portraitSize / 2;
 const damagePad = portraitRadius * 0.8;
 const moraleBarSize = unitSize * 0.8;
+const moraleBarPositionModifier = new Point(-moraleBarSize / 2, unitSize * 0.65);
 const influence = [0.35, 0.1, 0.15, 0.15, 0.25];
 const objectiveLength = {
 	'Farm': 30,

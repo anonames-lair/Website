@@ -628,12 +628,15 @@ function deployedCityCollision (officerIndex) {
 	return null;
 }
 
-function deployedUnitCollision (officerIndex) {
+function deployedUnitCollisions (officerIndex) {
+	var unitCollisions = [];
 	for (var i = 0; i < officers.length; i++) {
 		if (officers[i].Force != officers[officerIndex].Force && officers[i].Objective != '-' && officers[i].Objective[0] == 'March' &&
-			officers[i].Position.X == officers[officerIndex].Position.X && officers[i].Position.Y == officers[officerIndex].Position.Y) return i;
+			officers[i].Position.X == officers[officerIndex].Position.X && officers[i].Position.Y == officers[officerIndex].Position.Y) {
+			unitCollisions.push(i);
+		}
 	}
-	return null;
+	return unitCollisions;
 }
 
 function getNearestTarget (unitIndex, targetUnits) {

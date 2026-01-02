@@ -1196,10 +1196,10 @@ function openInfoCard (mode, index, sort) {
 				var cityCount = getCities(forces[i].Id, 'force').length;
 				if (cityCount > 0) {
 					forcesData.push({
-						'Name' : officers[forces[i].Ruler].Name + ' Forces',
-						'CityCount' : cityCount,
-						'OfficerCount' : getOfficers(forces[i].Id, 'force').length,
-						'Strength' : getForceStrength(forces[i].Id, true)
+						'Name': officers[forces[i].Ruler].Name + ' Forces',
+						'CityCount': cityCount,
+						'OfficerCount': getOfficers(forces[i].Id, 'force').length,
+						'Strength': getForceStrength(forces[i].Id, true)
 					});
 				}
 			}
