@@ -264,9 +264,9 @@ function createUnitDivInnerHTML (cityIndex) {
 	var unitsHTML = '';
 	for (var i = 0; i < viableUnits.length; i++) {
 		var unit = units[viableUnits[i]];
-		unitsHTML += `<label for="unit` + viableUnits[i] + `">
-				<input type="checkbox" id="unit` + viableUnits[i] + `" onclick="unitsSelect()">
-				<div class="typeCB">` + unitTypes[unit.Type].Name + `</div><div class="strengthCB">` + unit.Strength + `</div><div>` + unit.Morale + `</div>
+		unitsHTML += `<label for="unit${viableUnits[i]}">
+				<input type="checkbox" id="unit${viableUnits[i]}" value="${unit.Id}" onclick="unitsSelect()">
+				<div class="typeCB">${unitTypes[unit.Type].Name}</div><div class="strengthCB">${unit.Strength}</div><div>${unit.Morale}</div>
 			</label>`;
 	}
 	return `Units:<br /><div class="checkboxes" title="Right click to check all" oncontextmenu="checkAll('unit')">` + unitsHTML + `</div>`;
@@ -568,16 +568,10 @@ function assignOfficerUnit (objective, officerIndex, unitIndex) {
 // Unit card
 function military (cityIndex, objective) {
 	if (objective == 'Disband') {
-		const disbandUnits = [];
-		// Get all checkboxes that are checked
 		document.querySelectorAll('input[id^="unit"]:checked').forEach(cb => {
-			// Get the index from checkbox id "unit5" -> 5
-			const index = cb.id.replace('unit', '');
-			disbandUnits.push(units[index].Id);
+			const unitId = cb.value;
+			disbandUnit(unitId);
 		});
-		
-		// Execute the disbanding
-		disbandUnits.forEach(id => disbandUnit(id));
 		
 		closeCard(unitCard);
 		openInfoCard('City', cityIndex);
