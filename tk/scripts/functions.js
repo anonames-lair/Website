@@ -158,20 +158,6 @@ function checkAll (object) {
 	});
 }
 
-function sortOfficers (officerIndexes, sort) {
-	for (var i = 1; i < officerIndexes.length; i++) {
-		var temp = officerIndexes[i];
-		var j = i - 1;
-		
-		while (j >= 0 && officers[officerIndexes[j]][sort] < officers[temp][sort]) {
-			officerIndexes[j + 1] = officerIndexes[j--];
-		}
-		
-		officerIndexes[j + 1] = temp;
-	}
-	return officerIndexes;
-}
-
 function getCityIndexByName (cityName) {
 	for (var i = 0; i < cities.length; i++) if (cities[i].Name == cityName) return i;
 	return null;
@@ -487,6 +473,20 @@ function giveBattleBonus (unitIndexes) {
 		// Reset cooldown
 		units[unitIndexes[i]].Cooldown = 0;
 	}
+}
+
+function sortOfficers (officerIndexes, sort) {
+	for (var i = 1; i < officerIndexes.length; i++) {
+		var temp = officerIndexes[i];
+		var j = i - 1;
+		
+		while (j >= 0 && officers[officerIndexes[j]][sort] < officers[temp][sort]) {
+			officerIndexes[j + 1] = officerIndexes[j--];
+		}
+		
+		officerIndexes[j + 1] = temp;
+	}
+	return officerIndexes;
 }
 
 function getOfficerIndexByName (officerName) {
