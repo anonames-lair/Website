@@ -568,12 +568,16 @@ function assignOfficerUnit (objective, officerIndex, unitIndex) {
 // Unit card
 function military (cityIndex, objective) {
 	if (objective == 'Disband') {
-		var disbandUnits = [];
-		for (var i = 0; i < units.length; i++) {
-			if (getElement('unit' + i) && getElement('unit' + i).checked) disbandUnits.push(units[i].Id);
-		}
+		const disbandUnits = [];
+		// Get all checkboxes that are checked
+		document.querySelectorAll('input[id^="unit"]:checked').forEach(cb => {
+			// Get the index from checkbox id "unit5" -> 5
+			const index = cb.id.replace('unit', '');
+			disbandUnits.push(units[index].Id);
+		});
 		
-		for (var i = 0; i < disbandUnits.length; i++) disbandUnit(disbandUnits[i]);
+		// Execute the disbanding
+		disbandUnits.forEach(id => disbandUnit(id));
 		
 		closeCard(unitCard);
 		openInfoCard('City', cityIndex);

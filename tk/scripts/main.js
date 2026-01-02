@@ -1552,12 +1552,15 @@ function animateBattle (timestamp) {
 			animateUnits(defUnits, elapsedTimestamp, battles[0]['Abilities1'], battles[0]['Abilities0']);
 			
 			// Remove defeated units
-			for (var i = 0; i < units.length; i++) {
+			for (var i = units.length - 1; i >= 0; i--) {
 				if (units[i].Strength <= 0) {
+					const deadUnitId = units[i].Id;
 					// Unlock all targeting enemies
-					for (var j = 0; j < units.length; j++) if (units[j].Target == units[i].Id) units[j].Target = null;
+					for (var j = 0; j < units.length; j++) {
+						if (units[j].Target === deadUnitId) units[j].Target = null;
+					}
 					// Remove damage label
-					if (damages[units[i].Id]) damages[units[i].Id] = null;
+					if (damages[deadUnitId]) damages[deadUnitId] = null;
 					// Remove unit
 					units.splice(i, 1);
 				}
