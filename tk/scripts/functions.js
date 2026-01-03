@@ -106,7 +106,7 @@ function giveAlpha (color, alpha) {
 	var g = hexToDecimal(color.slice(3, 5));
 	var b = hexToDecimal(color.slice(5));
 	
-	return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (alpha ? alpha : roadAlpha) + ')';
+	return `rgba(${r}, ${g}, ${b}, ${(alpha ? alpha : roadAlpha)})`;
 }
 
 function getRGB (color) {
@@ -140,11 +140,11 @@ function colorImage (image, color) {
 	return offCanvas;
 }
 
-function checkAll (object) {
-	if (!object) return;
+function checkAll (prefix) {
+	if (!prefix) return;
 	
-	// Find all checkboxes where the ID starts with the object ("unit" or "officer")
-	const checkboxes = document.querySelectorAll('input[type="checkbox"][id^="' + object + '"]');
+	// Find all checkboxes where the ID starts with the prefix
+	const checkboxes = document.querySelectorAll(`input[type="checkbox"][id^="${prefix}"]`);
 	
 	if (checkboxes.length === 0) return;
 	
@@ -156,6 +156,13 @@ function checkAll (object) {
 	checkboxes.forEach(cb => {
 		cb.checked = !allChecked;
 	});
+	
+	// Update info area
+	if (prefix === 'unit') unitsSelect();
+	else if (prefix  === 'officer') {
+		assistedStats();
+		officersSelect();
+	}
 }
 
 function getCityIndexByName (cityName) {
@@ -495,7 +502,7 @@ function getOfficerIndexByName (officerName) {
 }
 
 function getPortrait (officerName, size) {
-	return '<img class="' + size + 'Portrait" src="../rotk/portraits/' + officerName.split(' ').join('_') + '.jpg">';
+	return `<img class="${size}Portrait" src="../rotk/portraits/${officerName.split(' ').join('_')}.jpg">`;
 }
 
 function getOfficers (forceId, alliance, sort) {
@@ -583,11 +590,11 @@ function createStatsTable (officerIndex) {
 	return `<table class="stats">
 			<tr><th>LDR</th><th>WAR</th><th>INT</th><th>POL</th><th>CHR</th></tr>
 			<tr>
-				<td>` + officer.LDR + `</td>
-				<td>` + officer.WAR + `</td>
-				<td>` + officer.INT + `</td>
-				<td>` + officer.POL + `</td>
-				<td>` + officer.CHR + `</td>
+				<td>${officer.LDR}</td>
+				<td>${officer.WAR}</td>
+				<td>${officer.INT}</td>
+				<td>${officer.POL}</td>
+				<td>${officer.CHR}</td>
 			</tr>
 		</table>`;
 }
@@ -596,11 +603,11 @@ function calculatedStatsTable (elementId, LDR, WAR, INT) {
 	getElement(elementId).innerHTML = `<table class="stats">
 			<tr><th>LDR</th><th>WAR</th><th>INT</th><th>ATK</th><th>DEF</th></tr>
 			<tr>
-				<td>` + LDR.toFixed(1) + `</td>
-				<td>` + WAR.toFixed(1) + `</td>
-				<td>` + INT.toFixed(1) + `</td>
-				<td>` + calculateAttack(LDR, WAR).toFixed(1) + `</td>
-				<td>` + calculateDefense(LDR, INT).toFixed(1) + `</td>
+				<td>${LDR.toFixed(1)}</td>
+				<td>${WAR.toFixed(1)}</td>
+				<td>${INT.toFixed(1)}</td>
+				<td>${calculateAttack(LDR, WAR).toFixed(1)}</td>
+				<td>${calculateDefense(LDR, INT).toFixed(1)}</td>
 			</tr>
 		</table>`;
 }

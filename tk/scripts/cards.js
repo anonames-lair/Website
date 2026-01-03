@@ -192,6 +192,8 @@ function march () {
 
 // March card
 function assistedStats () {
+	if (!getElement('assistedStats')) return;
+	
 	getElement('assistedStats').innerHTML = '';
 	
 	var isAssisted = false;
@@ -248,6 +250,8 @@ function commanderChanged (source) {
 
 // March & Unit card
 function unitsSelect () {
+	if (!getElement('unitsStats')) return;
+	
 	getElement('unitsStats').innerHTML = '';
 	
 	var totalStrength = 0;
@@ -269,7 +273,7 @@ function createUnitDivInnerHTML (cityIndex) {
 				<div class="typeCB">${unitTypes[unit.Type].Name}</div><div class="strengthCB">${unit.Strength}</div><div>${unit.Morale}</div>
 			</label>`;
 	}
-	return `Units:<br /><div class="checkboxes" title="Right click to check all" oncontextmenu="checkAll('unit')">` + unitsHTML + `</div>`;
+	return `Units:<br /><div class="checkboxes" title="Right click to check all" oncontextmenu="checkAll('unit')">${unitsHTML}</div>`;
 }
 
 // March card
@@ -333,9 +337,9 @@ function openMarchCard (cityIndex) {
 				Commander: <input type="text" id="commander" list="officerList" oninput="commanderChanged(` + source + `)">
 			</div>`;
 		
-		unitsDiv = `<div id="unitsDiv">` + createUnitDivInnerHTML(source) + `</div>`;
+		unitsDiv = `<div id="unitsDiv">${createUnitDivInnerHTML(source)}</div>`;
 		
-		string = `<datalist id="targetList">` + targetsHTML + `</datalist>`;
+		string = `<datalist id="targetList">${targetsHTML}</datalist>`;
 	}
 	else {
 		target = cityIndex;
@@ -440,6 +444,8 @@ function transferResource (cityIndex, objective) {
 
 // Dev card
 function officersSelect () {
+	if (!getElement('devStats')) return;
+	
 	getElement('devStats').innerHTML = '';
 	
 	var totalCost = 0;
