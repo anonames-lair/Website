@@ -542,7 +542,7 @@ window.onload = function () {
 	hidden.style.visibility = 'hidden';
 	hidden.innerHTML += `<audio id="clickSound"><source src="bgm/click.mp3" /></audio>
 		<audio id="confirmSound"><source src="bgm/confirm.mp3" /></audio>
-		<audio id="mainSound"><source src="bgm/main` + floor(Math.random() * 4) + `.mp3" /></audio>
+		<audio id="mainSound"><source src="bgm/main${floor(Math.random() * 4)}.mp3" /></audio>
 		<audio id="battleSound"><source src="bgm/battle.mp3" /></audio>`;
 	document.body.appendChild(hidden);
 	// Prepare audio
@@ -715,7 +715,7 @@ function applyScenario (name) {
 						officers[k].City = scenarios[i].Officers[j][2];
 						officers[k].Position = getCityPosition(scenarios[i].Officers[j][2]);
 						
-						battleImages[k] = newImg("../rotk/portraits/" + officers[k].Name.split(' ').join('_') + ".jpg");
+						battleImages[k] = newImg(`../rotk/portraits/${officers[k].Name.split(' ').join('_')}.jpg`);
 					}
 				}
 			}
@@ -778,13 +778,13 @@ function onMouseMove (e) {
 					var backColor = 'enemyColor';
 					if (officers[i].Force == playerForce) backColor = 'allyColor';
 					
-					hoverCard.innerHTML = `<div class="unitName ` + backColor + `">` + officers[i].Name + ` Unit</div>
-						<div class="unitInfo">` +
-							getPortrait(officers[i].Name, 'small') + `<br />
+					hoverCard.innerHTML = `<div class="unitName ${backColor}">${officers[i].Name} Unit</div>
+						<div class="unitInfo">
+							${getPortrait(officers[i].Name, 'small')}<br />
 							<table class="stats">
-								<tr><th colspan="2">` + forces[getForceIndexById(officers[i].Force)].Name + `</th></tr>
-								<tr><th>Strength</th><td class="center">` + getDeployedStrength(i) + `</td></tr>
-								<tr><th>Target</th><td class="center">` + cities[officers[i].Objective[1]].Name + `</td></tr>
+								<tr><th colspan="2">${forces[getForceIndexById(officers[i].Force)].Name}</th></tr>
+								<tr><th>Strength</th><td class="center">${getDeployedStrength(i)}</td></tr>
+								<tr><th>Target</th><td class="center">${cities[officers[i].Objective[1]].Name}</td></tr>
 							</table>
 						</div>`;
 					
@@ -812,18 +812,18 @@ function onMouseMove (e) {
 			if (cities[index].Force == '-') backColor = 'neutralColor';
 			else if (cities[index].Force == playerForce) backColor = 'allyColor';
 			
-			var string = '<div class="cityName ' + backColor + '">' + cities[index].Name + '</div><div class="cityInfo">';
+			var string = `<div class="cityName ${backColor}">${cities[index].Name}</div><div class="cityInfo">`;
 			if (cities[index].Force == '-') string += '<table class="cityStats">';
 			else {
 				var forceIndex = getForceIndexById(cities[index].Force);
 				var forceRulerName = officers[forces[forceIndex].Ruler].Name;
-				string += getPortrait(forceRulerName, 'small') + '<br /><table class="cityStats"><tr><th colspan="2">' + forces[forceIndex].Name + '</th></tr>';
+				string += getPortrait(forceRulerName, 'small') + `<br /><table class="cityStats"><tr><th colspan="2">${forces[forceIndex].Name}</th></tr>`;
 			}
-			string += `<tr><th>Gold</th><td>` + cities[index].Gold + `</td></tr>
-					<tr><th>Food</th><td>` + cities[index].Food + `</td></tr>
-					<tr><th>Strength</th><td>` + getCityStrength(index) + `</td></tr>
-					<tr><th>Defense</th><td>` + cities[index].cDefense + `/` + cities[index].Defense + `</td></tr>
-					<tr><th>Order</th><td>` + cities[index].cOrder + `/` + moraleLimit + `</td></tr>
+			string += `<tr><th>Gold</th><td>${cities[index].Gold}</td></tr>
+					<tr><th>Food</th><td>${cities[index].Food}</td></tr>
+					<tr><th>Strength</th><td>${getCityStrength(index)}</td></tr>
+					<tr><th>Defense</th><td>${cities[index].cDefense}/${cities[index].Defense}</td></tr>
+					<tr><th>Order</th><td>${cities[index].cOrder}/${moraleLimit}</td></tr>
 				</div>`;
 			hoverCard.innerHTML = string;
 			
@@ -848,16 +848,16 @@ function onMouseMove (e) {
 						var resAbilities = battles[0]['Commander0'] == units[i].Objective[1] ? battles[0]['Abilities0'] : battles[0]['Abilities1'];
 						var string = resAbilities.length > 0 ? '<tr><th colspan="2">Abilities</th></tr>' : '';
 						for (var j = 0; j < resAbilities.length; j++) {
-							string += '<tr><td colspan="2" class="center">' + abilities[resAbilities[j]].Name + '</td></tr>';
+							string += `<tr><td colspan="2" class="center">${abilities[resAbilities[j]].Name}</td></tr>`;
 						}
 						hoverCard.innerHTML = `<div class="unitInfo">
 								<table class="stats">
-									<tr><th colspan="2">` + officers[units[i].Objective[1]].Name + ` Unit</th></tr>
+									<tr><th colspan="2">${officers[units[i].Objective[1]].Name} Unit</th></tr>
 									<tr>
 										<th>Morale</th>
-										<td>` + units[i].Morale + `</td>
+										<td>${units[i].Morale}</td>
 									</tr>
-									` + string + `
+									${string}
 								</table>
 							</div>`;
 						
@@ -1393,10 +1393,10 @@ function animateMap (timestamp) {
 							},
 							'Abilities0': attAbilities,
 							'Abilities1': defAbilities,
-							'DisplayName0': officers[i].Name + ' Unit',
-							'DisplayName1': officers[uc].Name + ' Unit',
-							'DisplayStats0': '⚔' + atk0 + ' ⛨' + def0,
-							'DisplayStats1': '⚔' + atk1 + ' ⛨' + def1
+							'DisplayName0': `${officers[i].Name} Unit`,
+							'DisplayName1': `${officers[uc].Name} Unit`,
+							'DisplayStats0': `⚔${atk0} ⛨${def0}`,
+							'DisplayStats1': `⚔${atk1} ⛨${def1}`
 						});
 					}
 				}
@@ -1648,7 +1648,7 @@ function draw (force) {
 					drawRect(x, y, w, h, fontDark);
 					ctx.fillStyle = fontDark;
 					drawMessage(
-						'[' + scenarios[i].Date + '] ' + scenarios[i].Name + ': ' + officers[scenarios[i].Playables[j]].Name,
+						`[${scenarios[i].Date}] ${scenarios[i].Name}: ${officers[scenarios[i].Playables[j]].Name}`,
 						x + buttonPad,
 						y + buttonHeight / 2 + 1
 					);
@@ -1832,7 +1832,7 @@ function draw (force) {
 							ctx.font = 'bold ' + canvasFontSize + 'px ' + canvasFontFamily;
 							
 							drawGlowMessage(
-								'-' + damages[units[i].Id]['Damage'],
+								`-${damages[units[i].Id]['Damage']}`,
 								units[i].Vec.X,
 								units[i].Vec.Y + damagePad - floatOffset,
 								'center',
@@ -1859,8 +1859,8 @@ function draw (force) {
 				drawGlowMessage(battles[0]['DisplayName1'], defX, forceY, 'center');
 				drawGlowMessage(battles[0]['DisplayStats0'], attX, statsY, 'center');
 				drawGlowMessage(battles[0]['DisplayStats1'], defX, statsY, 'center');
-				drawGlowMessage('☗ ' + getDeployedStrength(battles[0]['Commander0']), attX, strengthY, 'center');
-				drawGlowMessage('☗ ' + getDeployedStrength(battles[0]['Commander1']), defX, strengthY, 'center');
+				drawGlowMessage(`☗ ${getDeployedStrength(battles[0]['Commander0'])}`, attX, strengthY, 'center');
+				drawGlowMessage(`☗ ${getDeployedStrength(battles[0]['Commander1'])}`, defX, strengthY, 'center');
 				if (!battles[0]['Resumed']) drawGlowMessage('Paused', battleX + battleWidth / 2, statsY, 'center');
 				drawGlowMessage(battleSpeed + 'X', battleX + battleWidth / 2, strengthY, 'center');
 			}
