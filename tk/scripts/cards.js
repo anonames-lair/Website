@@ -7,17 +7,17 @@ function openPlayerCard () {
 	var displayDate = dateArray.join('-');
 	
 	var forceIndex = getForceIndexById(playerForce);
-	playerContent.innerHTML = `<div class="timeSpace allyColor">` +
-			displayDate + `&nbsp;
-			<div class="forceSquare" style="background-color: ` + forces[forceIndex].Color + `;"></div>&nbsp;` +
-			cities[officers[player].City].Name + `
+	playerContent.innerHTML = `<div class="timeSpace allyColor">
+			${displayDate}&nbsp;
+			<div class="forceSquare" style="background-color: ${forces[forceIndex].Color};"></div>&nbsp;
+			${cities[officers[player].City].Name}
 		</div>
 		<div class="playerContent">
-			<div class="playerPortrait">` + getPortrait(officers[player].Name, 'big') + `</div>
+			<div class="playerPortrait">${getPortrait(officers[player].Name, 'big')}</div>
 			<div class="playerProfile">
-				<div class="playerName allyColor">` + officers[player].Name + `</div>
-				<b>` + forces[forceIndex].Name + `</b>
-				` + createStatsTable(player) + `
+				<div class="playerName allyColor">${officers[player].Name}</div>
+				<b>${forces[forceIndex].Name}</b>
+				${createStatsTable(player)}
 			</div>
 		</div>`;
 	
@@ -29,15 +29,18 @@ function openSelectCard (clickedObjects) {
 	var buttons = '';
 	for (var i = 0; i < clickedObjects.length; i++) {
 		if (clickedObjects[i]['Card'] == cityCard) {
-			var cityName = cities[clickedObjects[i]['Index']].Name;
-			buttons += '<input type="button" value="' + cityName + '" onclick="openCityCard(' + clickedObjects[i]['Index'] + ', true); playAudio(clickSound);">';
+			const cityName = cities[clickedObjects[i]['Index']].Name;
+			buttons += `<input type="button" value="${cityName}" onclick="openCityCard(${clickedObjects[i]['Index']}, true); playAudio(clickSound);">`;
 		}
 		else if (clickedObjects[i]['Card'] == deployedCard) {
-			var commanderName = officers[clickedObjects[i]['Index']].Name;
-			buttons += '<input type="button" value="' + commanderName + '" onclick="openDeployedCard(' + clickedObjects[i]['Index'] + ', true); playAudio(clickSound);">';
+			const commanderName = officers[clickedObjects[i]['Index']].Name;
+			buttons += `<input type="button" value="${commanderName}" onclick="openDeployedCard(${clickedObjects[i]['Index']}, true); playAudio(clickSound);">`;
 		}
 	}
-	selectCard.innerHTML = `<div class="selectContent">` + buttons + `<input type="button" value="Cancel" onclick="closeCard(selectCard); playAudio(clickSound);"></div>`;
+	selectCard.innerHTML = `<div class="selectContent">
+			${buttons}
+			<input type="button" value="Cancel" onclick="closeCard(selectCard); playAudio(clickSound);">
+		</div>`;
 	
 	selectCard.style.visibility = 'visible';
 	if (mousePos.X + selectCard.clientWidth > mapSize) selectCard.style.left = (mousePos.X - selectCard.clientWidth) + 'px';
