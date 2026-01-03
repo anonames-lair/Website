@@ -1742,7 +1742,12 @@ function draw (force) {
 							//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
 							if (infoIconHover) {
 								ctx.fillStyle = fontDark;
-								drawMessage(getCityViableOfficers(index).length + '/' + getCityOfficers(index).length, x + cityHalf, y + citySize + dotSize, 'center');
+								drawMessage(
+									`${getCityViableOfficers(index).length}/${getCityOfficers(index).length}`,
+									x + cityHalf,
+									y + citySize + dotSize,
+									'center'
+								);
 							}
 							ctx.fillStyle = getTextColor(forces[forceIndex].Color);
 							drawMessage(forces[forceIndex].Name[0], x + cityHalf, y + cityHalf + 1, 'center');
@@ -1829,7 +1834,6 @@ function draw (force) {
 							const progress = (startTimestamp - damages[units[i].Id]['Timestamp']) / battleSeconds;
 							const floatOffset = progress * 20;
 							ctx.globalAlpha = 1 - progress;
-							ctx.font = 'bold ' + canvasFontSize + 'px ' + canvasFontFamily;
 							
 							drawGlowMessage(
 								`-${damages[units[i].Id]['Damage']}`,
@@ -1839,9 +1843,7 @@ function draw (force) {
 								damageColor
 							);
 							
-							// Reset font
 							ctx.globalAlpha = 1;
-							ctx.font = canvasFont;
 						}
 						// Draw icon and strength
 						drawGlowMessage(unitTypes[units[i].Type].Icon + units[i].Strength, units[i].Vec.X, units[i].Vec.Y + unitHalfSize, 'center', forces[getForceIndexById(units[i].Force)].Color);

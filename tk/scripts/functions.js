@@ -731,7 +731,7 @@ function loadData (_scenario, _date, _player, _playerForce, _cities, _officers, 
 		}
 		officers[i].Progress = _officers[i].Progress;
 		// Battle image
-		if (Number.isInteger(officers[i].City)) battleImages[i] = newImg("../rotk/portraits/" + officers[i].Name.split(' ').join('_') + ".jpg");
+		if (Number.isInteger(officers[i].City)) battleImages[i] = newImg(`../rotk/portraits/${officers[i].Name.split(' ').join('_')}.jpg`);
 	}
 	
 	// Units
