@@ -53,6 +53,7 @@ var battleX;
 var battleY;
 var battleWidth;
 var battleHeight;
+var battleMiddleX;
 var attX;
 var defX;
 var forceY;
@@ -602,6 +603,7 @@ window.onload = function () {
 	//battleY = infoY + playerCard.clientHeight + cardMargin * 2;
 	battleWidth = window.innerWidth - battleX;
 	battleHeight = window.innerHeight - battleY;
+	battleMiddleX = battleX + battleWidth / 2;
 	attX = battleX + battleWidth * 0.25;
 	defX = battleX + battleWidth * 0.75;
 	forceY = battleY + battleInfoHeight * 0.15;
@@ -1802,7 +1804,7 @@ function draw (force) {
 				closeCard(infoCard);
 				drawImage(sceneImage, battleX, battleY, battleWidth, battleHeight);
 				
-				// Draw unit portrait
+				// Draw battle unit portrait
 				for (var i = 0; i < units.length; i++) {
 					if (units[i].Vec && (units[i].Objective[1] == battles[0]['Commander0'] || units[i].Objective[1] == battles[0]['Commander1'])) {
 						x = units[i].Vec.X - portraitRadius - portraitPad / 2;
@@ -1829,7 +1831,7 @@ function draw (force) {
 					}
 				}
 				
-				// Draw unit icon, strength, morale and damage info
+				// Draw battle unit icon, strength, morale and damage info
 				for (var i = 0; i < units.length; i++) {
 					if (units[i].Vec && (units[i].Objective[1] == battles[0]['Commander0'] || units[i].Objective[1] == battles[0]['Commander1'])) {
 						// Draw damage
@@ -1848,8 +1850,15 @@ function draw (force) {
 							
 							ctx.globalAlpha = 1;
 						}
+
 						// Draw icon and strength
-						drawGlowMessage(unitTypes[units[i].Type].Icon + units[i].Strength, units[i].Vec.X, units[i].Vec.Y + unitHalfSize, 'center', forces[getForceIndexById(units[i].Force)].Color);
+						drawGlowMessage(
+							unitTypes[units[i].Type].Icon + units[i].Strength,
+							units[i].Vec.X,
+							units[i].Vec.Y + unitHalfSize,
+							'center',
+							forces[getForceIndexById(units[i].Force)].Color
+						);
 						
 						// Draw morale bar
 						var startPoint = units[i].Vec.add(moraleBarPositionModifier);
@@ -1866,8 +1875,8 @@ function draw (force) {
 				drawGlowMessage(battles[0]['DisplayStats1'], defX, statsY, 'center');
 				drawGlowMessage(`☗ ${getDeployedStrength(battles[0]['Commander0'])}`, attX, strengthY, 'center');
 				drawGlowMessage(`☗ ${getDeployedStrength(battles[0]['Commander1'])}`, defX, strengthY, 'center');
-				if (!battles[0]['Resumed']) drawGlowMessage('Paused', battleX + battleWidth / 2, statsY, 'center');
-				drawGlowMessage(battleSpeed + 'X', battleX + battleWidth / 2, strengthY, 'center');
+				if (!battles[0]['Resumed']) drawGlowMessage('Paused', battleMiddleX, statsY, 'center');
+				drawGlowMessage(battleSpeed + 'X', battleMiddleX, strengthY, 'center');
 			}
 		}
 		
