@@ -1369,20 +1369,19 @@ function animateMap (timestamp) {
 				if (unitCollisions.length > 0) {
 					for (var j = 0; j < unitCollisions.length; j++) {
 						const uc = unitCollisions[j];
-						
-						var attStats = getAssistedStats(i);
-						const atk0 = calculateAttack(attStats[0], attStats[1]).toFixed(1);
-						const def0 = calculateDefense(attStats[0], attStats[2]).toFixed(1);
-						
-						var defStats = getAssistedStats(uc);
-						const atk1 = calculateAttack(defStats[0], defStats[1]).toFixed(1);
-						const def1 = calculateDefense(defStats[0], defStats[2]).toFixed(1);
+						// Get attack and defense
+						const stats0 = getAssistedStats(i);
+						const atk0 = calculateAttack(stats0[0], stats0[1]).toFixed(1);
+						const def0 = calculateDefense(stats0[0], stats0[2]).toFixed(1);
+						const stats1 = getAssistedStats(uc);
+						const atk1 = calculateAttack(stats1[0], stats1[1]).toFixed(1);
+						const def1 = calculateDefense(stats1[0], stats1[2]).toFixed(1);
 						
 						// Get abilities
-						var attOfficers = getDeployedAssistOfficers(i).concat(i);
-						var attAbilities = getAbilities(attOfficers);
-						var defOfficers = getDeployedAssistOfficers(uc).concat(uc);
-						var defAbilities = getAbilities(defOfficers);
+						const officers0 = getDeployedAssistOfficers(i).concat(i);
+						const abilities0 = getAbilities(officers0);
+						const officers1 = getDeployedAssistOfficers(uc).concat(uc);
+						const abilities1 = getAbilities(officers1);
 						
 						battles.push({
 							'Commander0': i,
@@ -1396,8 +1395,8 @@ function animateMap (timestamp) {
 								'ATK': atk1,
 								'DEF': def1
 							},
-							'Abilities0': attAbilities,
-							'Abilities1': defAbilities,
+							'Abilities0': abilities0,
+							'Abilities1': abilities1,
 							'DisplayName0': `${officers[i].Name} Unit`,
 							'DisplayName1': `${officers[uc].Name} Unit`,
 							'DisplayStats0': `⚔${atk0} ⛨${def0}`,
@@ -1478,49 +1477,47 @@ function animateMap (timestamp) {
 }
 
 function initBattle () {
-	var attCommander = battles[0]['Commander0'];
-	var defCommander = battles[0]['Commander1'];
-	var attUnits = getDeployedUnits(attCommander);
-	var defUnits = getDeployedUnits(defCommander);
+	const units0 = getDeployedUnits(battles[0]['Commander0']);
+	const units1 = getDeployedUnits(battles[0]['Commander1']);
 	
 	// Assign back row position based on unit type
-	var attBackRow = [];
-	var defBackRow = [];
-	for (var i = 0; i < attUnits.length; i++) if (unitTypes[units[attUnits[i]].Type].Type == 'bow') attBackRow.push(attUnits[i]);
-	for (var i = 0; i < defUnits.length; i++) if (unitTypes[units[defUnits[i]].Type].Type == 'bow') defBackRow.push(defUnits[i]);
+	var backRow0 = [];
+	var backRow1 = [];
+	for (var i = 0; i < units0.length; i++) if (unitTypes[units[units0[i]].Type].Type == 'bow') backRow0.push(units0[i]);
+	for (var i = 0; i < units1.length; i++) if (unitTypes[units[units1[i]].Type].Type == 'bow') backRow1.push(units1[i]);
 	
-	// Attacking units battle position or vector
+	// units0 battle position or vector
 	var backCount = 0;
 	var frontCount = 0;
-	for (var i = 0; i < attUnits.length; i++) {
-		if (attBackRow.includes(attUnits[i])) {
-			units[attUnits[i]].Vec = new Point(
+	for (var i = 0; i < units0.length; i++) {
+		if (backRow0.includes(units0[i])) {
+			units[units0[i]].Vec = new Point(
 				battleX + unitHalfSize,
-				battleY + (battleHeight - unitSize * attBackRow.length) / 2 + (backCount++ * unitSize) + unitHalfSize
+				battleY + (battleHeight - unitSize * backRow0.length) / 2 + (backCount++ * unitSize) + unitHalfSize
 			);
 		}
 		else {
-			units[attUnits[i]].Vec = new Point(
+			units[units0[i]].Vec = new Point(
 				battleX + unitSize + unitHalfSize,
-				battleY + (battleHeight - unitSize * (attUnits.length - attBackRow.length)) / 2 + (frontCount++ * unitSize) + unitHalfSize
+				battleY + (battleHeight - unitSize * (units0.length - backRow0.length)) / 2 + (frontCount++ * unitSize) + unitHalfSize
 			);
 		}
 	}
 	
-	// Defending units battle position or vector
+	// units1 battle position or vector
 	backCount = 0;
 	frontCount = 0;
-	for (var i = 0; i < defUnits.length; i++) {
-		if (defBackRow.includes(defUnits[i])) {
-			units[defUnits[i]].Vec = new Point(
+	for (var i = 0; i < units1.length; i++) {
+		if (backRow1.includes(units1[i])) {
+			units[units1[i]].Vec = new Point(
 				battleX + battleWidth - unitHalfSize,
-				battleY + (battleHeight - unitSize * defBackRow.length) / 2 + (backCount++ * unitSize) + unitHalfSize
+				battleY + (battleHeight - unitSize * backRow1.length) / 2 + (backCount++ * unitSize) + unitHalfSize
 			);
 		}
 		else {
-			units[defUnits[i]].Vec = new Point(
+			units[units1[i]].Vec = new Point(
 				battleX + battleWidth - unitSize - unitHalfSize,
-				battleY + (battleHeight - unitSize * (defUnits.length - defBackRow.length)) / 2 + (frontCount++ * unitSize) + unitHalfSize
+				battleY + (battleHeight - unitSize * (units1.length - backRow1.length)) / 2 + (frontCount++ * unitSize) + unitHalfSize
 			);
 		}
 	}
@@ -1539,22 +1536,22 @@ function animateBattle (timestamp) {
 		
 		// Animate when battle is not paused
 		if (battles[0]['Resumed']) {
-			var attUnits = getDeployedUnits(battles[0]['Commander0']);
-			var defUnits = getDeployedUnits(battles[0]['Commander1']);
+			const units0 = getDeployedUnits(battles[0]['Commander0']);
+			const units1 = getDeployedUnits(battles[0]['Commander1']);
 			// Find Target
-			if (defUnits.length > 0) {
-				for (var i = 0; i < attUnits.length; i++) {
-					if (units[attUnits[i]].Target == null) units[attUnits[i]].Target = units[getNearestTarget(attUnits[i], defUnits)].Id;
+			if (units1.length > 0) {
+				for (var i = 0; i < units0.length; i++) {
+					if (units[units0[i]].Target == null) units[units0[i]].Target = units[getNearestTarget(units0[i], units1)].Id;
 				}
 			}
-			if (attUnits.length > 0) {
-				for (var i = 0; i < defUnits.length; i++) {
-					if (units[defUnits[i]].Target == null) units[defUnits[i]].Target = units[getNearestTarget(defUnits[i], attUnits)].Id;
+			if (units0.length > 0) {
+				for (var i = 0; i < units1.length; i++) {
+					if (units[units1[i]].Target == null) units[units1[i]].Target = units[getNearestTarget(units1[i], units0)].Id;
 				}
 			}
 			
-			animateUnits(attUnits, elapsedTimestamp, battles[0]['Abilities0'], battles[0]['Abilities1']);
-			animateUnits(defUnits, elapsedTimestamp, battles[0]['Abilities1'], battles[0]['Abilities0']);
+			animateUnits(units0, elapsedTimestamp, battles[0]['Abilities0'], battles[0]['Abilities1']);
+			animateUnits(units1, elapsedTimestamp, battles[0]['Abilities1'], battles[0]['Abilities0']);
 			
 			// Remove defeated units
 			for (var i = units.length - 1; i >= 0; i--) {
@@ -1564,7 +1561,7 @@ function animateBattle (timestamp) {
 					for (var j = 0; j < units.length; j++) {
 						if (units[j].Target === defeatedId) units[j].Target = null;
 					}
-					// Remove damage label
+					// Remove damage messages
 					if (damages[defeatedId]) damages[defeatedId] = null;
 					// Remove unit
 					units.splice(i, 1);
