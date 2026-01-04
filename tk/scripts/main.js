@@ -1031,6 +1031,7 @@ function onMouseClick (e) {
 }
 
 function playClick (e) {
+	// Already in the middle of animation
 	if (startTimestamp > 0) return;
 	
 	for (var i = 0; i < forces.length; i++) {
@@ -1161,7 +1162,9 @@ function animateMap (timestamp) {
 		requestAnimationFrame(animateMap);
 	}
 	else {
+		// Map animation completed
 		startTimestamp = mapAnimationStep = 0;
+
 		// Development progress
 		var redirected = [];
 		for (var i = 0; i < officers.length; i++) {
@@ -1582,16 +1585,16 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 		var unit = units[unitIndexes[i]];
 		var targetIndex = getUnitIndexById(unit.Target);
 		if (Number.isInteger(targetIndex)) {
-			var unitType = unitTypes[unit.Type];
-			var subtract = units[targetIndex].Vec.subtract(unit.Vec);
-			var distance = subtract.length();
+			const unitType = unitTypes[unit.Type];
+			const unitToTargetVec = units[targetIndex].Vec.subtract(unit.Vec);
+			const distance = unitToTargetVec.length();
 			if (distance <= unitType.ScaledRange) {
 				// Attack target
 				unit.Cooldown -= modifiedElapsed;
 				if (unit.Cooldown <= 0) {
-					var assistedStats0 = getAssistedStats(unit.Objective[1]);
-					var assistedStats1 = getAssistedStats(units[targetIndex].Objective[1]);
-					var damage = floor(calculateDamage(
+					const assistedStats0 = getAssistedStats(unit.Objective[1]);
+					const assistedStats1 = getAssistedStats(units[targetIndex].Objective[1]);
+					const damage = floor(calculateDamage(
 						applyAbilities(unit.Morale, allyAbilities, enemyAbilities),
 						calculateAttack(assistedStats0[0], assistedStats0[1]),
 						calculateDefense(assistedStats1[0], assistedStats1[2]),
@@ -1609,7 +1612,7 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 			}
 			else {
 				// Move closer to target
-				var normalized = subtract.normalize();
+				const normalized = unitToTargetVec.normalize();
 				unit.Vec = unit.Vec.add(normalized.scale(unitType.ScaledSpeed * modifiedElapsed));
 			}
 		}
