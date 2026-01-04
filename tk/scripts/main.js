@@ -1559,13 +1559,13 @@ function animateBattle (timestamp) {
 			// Remove defeated units
 			for (var i = units.length - 1; i >= 0; i--) {
 				if (units[i].Strength <= 0) {
-					const deadUnitId = units[i].Id;
+					const defeatedId = units[i].Id;
 					// Unlock all targeting enemies
 					for (var j = 0; j < units.length; j++) {
-						if (units[j].Target === deadUnitId) units[j].Target = null;
+						if (units[j].Target === defeatedId) units[j].Target = null;
 					}
 					// Remove damage label
-					if (damages[deadUnitId]) damages[deadUnitId] = null;
+					if (damages[defeatedId]) damages[defeatedId] = null;
 					// Remove unit
 					units.splice(i, 1);
 				}
@@ -1588,8 +1588,8 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 		var targetIndex = getUnitIndexById(unit.Target);
 		if (Number.isInteger(targetIndex)) {
 			const unitType = unitTypes[unit.Type];
-			const unitToTargetVec = units[targetIndex].Vec.subtract(unit.Vec);
-			const distance = unitToTargetVec.length();
+			const unitToTarget = units[targetIndex].Vec.subtract(unit.Vec);
+			const distance = unitToTarget.length();
 			if (distance <= unitType.ScaledRange) {
 				// Attack target
 				unit.Cooldown -= modifiedElapsed;
@@ -1614,8 +1614,8 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 			}
 			else {
 				// Move closer to target
-				const normalized = unitToTargetVec.normalize();
-				unit.Vec = unit.Vec.add(normalized.scale(unitType.ScaledSpeed * modifiedElapsed));
+				const direction = unitToTarget.normalize();
+				unit.Vec = unit.Vec.add(direction.scale(unitType.ScaledSpeed * modifiedElapsed));
 			}
 		}
 	}
@@ -1625,7 +1625,7 @@ function draw (force) {
 	var now = performance.now();
 	elapsed = now - then;
 	if (elapsed > fpsInterval || force) {
-		// If forcing, start the clock over. If not, stay on the beat
+		// If forcing draw, start the clock over. If not, stay on the beat
 		then = force ? now : now - (elapsed % fpsInterval);
 		
 		// Invalidate
