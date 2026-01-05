@@ -219,12 +219,10 @@ function getCities (forceId, alliance, sort) {
 }
 
 function getCityPosition (cityIndex) {
-	var mapValue = cityIndex + cityIndexStart;
-	var x = 0;
-	var y = 0;
+	const mapValue = cityIndex + cityIndexStart;
 	for (var i = 0; i < map.length; i++) {
 		for (var j = 0; j < map[i].length; j++) {
-			if (mapValue == map[i][j]) return new Point(i, j);
+			if (mapValue === map[i][j]) return new Point(i, j);
 		}
 	}
 	return new Point(0, 0);
@@ -233,8 +231,10 @@ function getCityPosition (cityIndex) {
 function getCityTransferPartners (cityIndex) {
 	var partners = [];
 	for (var i = 0; i < cities.length; i++) {
-		// Target city is not the same city and from the same force, also there is transferable resource and the target can receive it
-		if (cityIndex != i && cities[cityIndex].Force == cities[i].Force && ((cities[cityIndex].Gold > 0 && cities[i].Gold < maxGold) || (cities[cityIndex].Food > 0 && cities[i].Food < maxFood))) partners.push(i);
+		const canTransferGold = cities[cityIndex].Gold > 0 && cities[i].Gold < maxGold;
+		const canTransferFood = cities[cityIndex].Food > 0 && cities[i].Food < maxFood;
+		// Target city is not the same city and from the same force, also there is transferable resource and the target can receive
+		if (cityIndex != i && cities[cityIndex].Force == cities[i].Force && (canTransferGold || canTransferFood)) partners.push(i);
 	}
 	return partners;
 }

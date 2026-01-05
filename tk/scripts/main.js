@@ -1054,11 +1054,12 @@ function playClick (e) {
 	// Already in the middle of animation
 	if (startTimestamp > 0) return;
 	
+	// Enemies actions
 	for (var i = 0; i < forces.length; i++) {
-		var forceId = forces[i].Id;
+		const forceId = forces[i].Id;
 		if (forceId === playerForce) continue;
 		
-		var diligence = getForceDiligence(i);
+		const diligence = getForceDiligence(i);
 		
 		// Enemies march
 		var marchableCities = getForceMarchableCities(forceId);
@@ -1068,12 +1069,12 @@ function playClick (e) {
 			var targetLookup = enemyTargetLookup > targetCities.length ? targetCities.length : enemyTargetLookup;
 			for (var k = 0; k < targetLookup; k++) {
 				var target = targetCities[k];
-				// Skip if there is not enough advantage vs target city or not enough diligence to beat the random number
+				// Skip if there is not enough advantage vs target city, or not enough diligence to beat the random number
 				if (getCityStrength(source) * enemyAggresion <= getCityStrength(target) || diligence * enemyAggresion <= Math.random() * 100) continue;
 				
 				var viableOfficers = getCityViableOfficers(source, 'LDR');
 				var viableUnits = getCityViableUnits(source);
-				// Safety check before final march preparation
+				// Safety check before further march preparation
 				if (viableOfficers.length <= 0 || viableUnits.length <= 0) continue;
 				
 				var totalCost = 0;
