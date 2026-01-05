@@ -173,6 +173,10 @@ function getObjectiveName (object) {
 	return hasObjective(object) && object.Objective[0] ? object.Objective[0] : '-';
 }
 
+function getPath (object) {
+	return hasObjective(object) && object.Objective[2] ? object.Objective[2] : null;
+}
+
 function getCityIndexByName (cityName) {
 	for (var i = 0; i < cities.length; i++) if (cities[i].Name == cityName) return i;
 	return null;
@@ -733,8 +737,9 @@ function loadData (_scenario, _date, _player, _playerForce, _cities, _officers, 
 		officers[i].Position = new Point(_officers[i].Position.X, _officers[i].Position.Y);
 		officers[i].Objective = _officers[i].Objective;
 		if (getObjectiveName(officers[i]) == 'March') {
-			for (var j = 0; j < officers[i].Objective[2].Points.length; j++) {
-				officers[i].Objective[2].Points[j] = new Point(officers[i].Objective[2].Points[j].X, officers[i].Objective[2].Points[j].Y);
+			var path = getPath(officers[i]);
+			for (var j = 0; j < path.Points.length; j++) {
+				path.Points[j] = new Point(path.Points[j].X, path.Points[j].Y);
 			}
 		}
 		officers[i].Progress = _officers[i].Progress;

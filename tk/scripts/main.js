@@ -1366,12 +1366,13 @@ function animateMap (timestamp) {
 		date = dateArray.join('-');
 		openPlayerCard();
 		
-		// Update positions of commander and units
+		// Update positions of commander, units and assist officers
 		for (var i = 0; i < officers.length; i++) {
 			if (getObjectiveName(officers[i]) == 'March' && (battles.length == 0 || !inBattle(i))) {
 				var cityCollision = deployedCityCollision(i);
-				if (officers[i].Objective[2].Points[1]) {
-					var newPos = officers[i].Objective[2].Points[1];
+				var path = getPath(officers[i]);
+				if (path.Points[1]) {
+					var newPos = path.Points[1];
 					if (!Number.isInteger(cityCollision)) officers[i].Position = newPos;
 					officers[i].Progress += 10;
 					for (var j = 0; j < units.length; j++) {
@@ -1386,7 +1387,7 @@ function animateMap (timestamp) {
 							officers[j].Progress += 10;
 						}
 					}
-					if (!Number.isInteger(cityCollision)) officers[i].Objective[2].Points.shift();
+					if (!Number.isInteger(cityCollision)) path.Points.shift();
 				}
 				
 				// City threatened, attack back
@@ -1814,8 +1815,8 @@ function draw (force) {
 					y = canvasPad + officers[i].Position.Y * squareSize + unitPad;
 					
 					// Draw deployed units path
+					var path = getPath(officers[i]);
 					if (mousePos.X >= x && mousePos.X < x + deployedWidth && mousePos.Y >= y && mousePos.Y < y + deployedHeight) {
-						var path = officers[i].Objective[2];
 						for (var j = 1; j < path.Points.length; j++) {
 							const pointX = canvasPad + path.Points[j].X * squareSize + unitPad;
 							const pointY = canvasPad + path.Points[j].Y * squareSize + unitPad;
@@ -1824,8 +1825,8 @@ function draw (force) {
 					}
 					
 					// Draw units
-					if (officers[i].Objective[2].Points[1]) {
-						var diff = officers[i].Position.subtract(officers[i].Objective[2].Points[1]);
+					if (path.Points[1]) {
+						var diff = officers[i].Position.subtract(path.Points[1]);
 						x -= diff.X * squareSize * mapAnimationStep;
 						y -= diff.Y * squareSize * mapAnimationStep;
 					}
