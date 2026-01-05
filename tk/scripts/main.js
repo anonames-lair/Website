@@ -1814,8 +1814,14 @@ function draw (force) {
 					x = canvasPad + officers[i].Position.X * squareSize + unitPad;
 					y = canvasPad + officers[i].Position.Y * squareSize + unitPad;
 					
-					// Draw deployed units path
 					var path = getPath(officers[i]);
+					if (path.Points[1]) {
+						var toNext = path.Points[1].subtract(officers[i].Position);
+						x += toNext.X * squareSize * mapAnimationStep;
+						y += toNext.Y * squareSize * mapAnimationStep;
+					}
+					
+					// Draw deployed units path
 					if (mousePos.X >= x && mousePos.X < x + deployedWidth && mousePos.Y >= y && mousePos.Y < y + deployedHeight) {
 						for (var j = 1; j < path.Points.length; j++) {
 							const pointX = canvasPad + path.Points[j].X * squareSize + unitPad;
@@ -1825,11 +1831,6 @@ function draw (force) {
 					}
 					
 					// Draw units
-					if (path.Points[1]) {
-						var diff = officers[i].Position.subtract(path.Points[1]);
-						x -= diff.X * squareSize * mapAnimationStep;
-						y -= diff.Y * squareSize * mapAnimationStep;
-					}
 					drawImage(unitScaled, x, y, deployedWidth, deployedHeight);
 					
 					// Dot indicator
