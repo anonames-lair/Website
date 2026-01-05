@@ -1055,124 +1055,117 @@ function playClick (e) {
 	if (startTimestamp > 0) return;
 	
 	for (var i = 0; i < forces.length; i++) {
-		if (i != getForceIndexById(playerForce)) {
-			var forceId = forces[i].Id;
-			var diligence = getForceDiligence(i);
-			// Enemies march
-			var marchableCities = getForceMarchableCities(forceId);
-			for (var j = 0; j < marchableCities.length; j++) {
-				var source = marchableCities[j];
-				var targetCities = getCities(forceId, 'enemy', [source, 'near']);
-				var targetLookup = enemyTargetLookup > targetCities.length ? targetCities.length : enemyTargetLookup;
-				for (var k = 0; k < targetLookup; k++) {
-					var target = targetCities[k];
-					if (getCityStrength(source) * enemyAggresion > getCityStrength(target) && Math.random() * 100 < diligence * enemyAggresion) {
-						var viableOfficers = getCityViableOfficers(source, 'LDR');
-						var viableUnits = getCityViableUnits(source);
-						if (viableOfficers.length > 0 && viableUnits.length > 0) {
-							var commander = viableOfficers[0];
-							var totalCost = 0;
-							for (var l = 0; l < viableUnits.length; l++) totalCost += units[viableUnits[l]].Strength * marchCost;
-							if (cities[source].Food >= totalCost) {
-								deploy(commander, target, viableUnits, []);
-								cities[source].Food -= totalCost;
-							}
-						}
-					}
-				}
+		var forceId = forces[i].Id;
+		if (forceId === playerForce) continue;
+		
+		var diligence = getForceDiligence(i);
+		
+		// Enemies march
+		var marchableCities = getForceMarchableCities(forceId);
+		for (var j = 0; j < marchableCities.length; j++) {
+			var source = marchableCities[j];
+			var targetCities = getCities(forceId, 'enemy', [source, 'near']);
+			var targetLookup = enemyTargetLookup > targetCities.length ? targetCities.length : enemyTargetLookup;
+			for (var k = 0; k < targetLookup; k++) {
+				var target = targetCities[k];
+				// Skip if there is not enough advantage vs target city or not enough diligence to beat the random number
+				if (getCityStrength(source) * enemyAggresion <= getCityStrength(target) || diligence * enemyAggresion <= Math.random() * 100) continue;
+				
+				var viableOfficers = getCityViableOfficers(source, 'LDR');
+				var viableUnits = getCityViableUnits(source);
+				// Safety check before final march preparation
+				if (viableOfficers.length <= 0 || viableUnits.length <= 0) continue;
+				
+				var totalCost = 0;
+				for (var l = 0; l < viableUnits.length; l++) totalCost += units[viableUnits[l]].Strength * marchCost;
+				// Not enough food to march
+				if (cities[source].Food < totalCost) continue;
+				
+				var commander = viableOfficers[0];
+				deploy(commander, target, viableUnits, []);
+				cities[source].Food -= totalCost;
+			}
+		}
+		
+		// Enemies development and military
+		var enemyCities = getCities(forceId, 'force');
+		for (var j = 0; j < enemyCities.length; j++) {
+			var viableOfficers = getCityViableOfficers(enemyCities[j]);
+			if (viableOfficers.length <= 0) continue;
+			
+			var city = cities[enemyCities[j]];
+			var viableUnits = getCityViableUnits(enemyCities[j]);
+			var unitCount = getCityUnitCount(enemyCities[j], true);
+			var recruitable = false;
+			var drillable = false;
+			for (var k = 0; k < viableUnits.length; k++) {
+				if (units[viableUnits[k]].Strength < strengthLimit) recruitable = true;
+				if (units[viableUnits[k]].Morale < moraleLimit) drillable = true;
 			}
 			
-			// Enemies development and military
-			var enemyCities = getCities(forceId, 'force');
-			for (var j = 0; j < enemyCities.length; j++) {
-				var city = cities[enemyCities[j]];
-				var viableOfficers = getCityViableOfficers(enemyCities[j]);
-				if (viableOfficers.length > 0) {
-					var viableUnits = getCityViableUnits(enemyCities[j]);
-					var unitCount = getCityUnitCount(enemyCities[j], true);
-					
-					var recruitable = false;
-					var drillable = false;
-					for (var k = 0; k < viableUnits.length; k++) {
-						if (units[viableUnits[k]].Strength < strengthLimit) recruitable = true;
-						if (units[viableUnits[k]].Morale < moraleLimit) drillable = true;
-					}
-					
-					for (var k = 0; k < viableOfficers.length; k++) {
-						if (Math.random() * 100 < diligence) {
-							switch (parseInt(Math.random() * (viableUnits.length > 0 ? 11 : 8))) {
-								case 0:
-									if (city.cFarm < city.Farm && city.Gold >= devCost) {
-										assignDevObjective('Farm', viableOfficers[k], enemyCities[j]);
-									}
+			for (var k = 0; k < viableOfficers.length; k++) {
+				if (diligence <= Math.random() * 100) continue;
+				
+				switch (parseInt(Math.random() * (viableUnits.length > 0 ? 11 : 8))) {
+					case 0:
+						if (city.cFarm < city.Farm && city.Gold >= devCost) assignDevObjective('Farm', viableOfficers[k], enemyCities[j]);
+						break;
+					case 1:
+						if (city.cTrade < city.Trade && city.Gold >= devCost) assignDevObjective('Trade', viableOfficers[k], enemyCities[j]);
+						break;
+					case 2:
+						if (city.cTech < city.Tech && city.Gold >= devCost) assignDevObjective('Tech', viableOfficers[k], enemyCities[j]);
+						break;
+					case 3:
+						if (city.cDefense < city.Defense && city.Gold >= devCost) assignDevObjective('Defense', viableOfficers[k], enemyCities[j]);
+						break;
+					case 4: case 5:
+						if (city.cOrder < orderLimit && city.Gold >= devCost) assignDevObjective('Order', viableOfficers[k], enemyCities[j]);
+						break;
+					case 6:
+						if (unitCount < unitLimit && city.Gold >= getCityHighestEstablishCost(enemyCities[j])) {
+							var cityUnitTypes = getCityUnitTypes(enemyCities[j]);
+							var unitTypeIndex = cityUnitTypes[parseInt(Math.random() * cityUnitTypes.length)];
+							officers[viableOfficers[k]].Objective = ['Establish', unitTypeIndex];
+							officers[viableOfficers[k]].Progress = 0;
+							
+							city.Gold -= unitTypes[unitTypeIndex].Cost;
+						}
+						break;
+					case 7:
+						// Get force's cities and sort ascending by officer count
+						var citiesOfficerCount = getCities(officers[viableOfficers[k]].Force, 'force').map((x) => [x, getCityOfficers(x).length]).sort(function (a, b) {
+							if (a[1] == b[1]) return 0;
+							else return (a[1] < b[1]) ? -1 : 1;
+						});
+						// Transfer if the city officer count minus the lowest officer count is bigger than 1
+						if (getCityOfficers(officers[viableOfficers[k]].City).length - citiesOfficerCount[0][1] > 1) {
+							officers[viableOfficers[k]].Objective = ['Transfer', citiesOfficerCount[0][0]];
+							officers[viableOfficers[k]].Progress = 0;
+						}
+						break;
+					case 8:
+						if (recruitable && city.Gold >= getCityHighestRecruitCost(enemyCities[j])) {
+							for (var l = 0; l < viableUnits.length; l++) {
+								if (units[viableUnits[l]].Strength < strengthLimit && !hasObjective(units[viableUnits[l]])) {
+									assignOfficerUnit('Recruit', viableOfficers[k], viableUnits[l]);
+									
+									city.Gold -= unitTypes[units[viableUnits[l]].Type].Cost * recruitCostMultiplier;
 									break;
-								case 1:
-									if (city.cTrade < city.Trade && city.Gold >= devCost) {
-										assignDevObjective('Trade', viableOfficers[k], enemyCities[j]);
-									}
-									break;
-								case 2:
-									if (city.cTech < city.Tech && city.Gold >= devCost) {
-										assignDevObjective('Tech', viableOfficers[k], enemyCities[j]);
-									}
-									break;
-								case 3:
-									if (city.cDefense < city.Defense && city.Gold >= devCost) {
-										assignDevObjective('Defense', viableOfficers[k], enemyCities[j]);
-									}
-									break;
-								case 4: case 5:
-									if (city.cOrder < orderLimit && city.Gold >= devCost) {
-										assignDevObjective('Order', viableOfficers[k], enemyCities[j]);
-									}
-									break;
-								case 6:
-									if (unitCount < unitLimit && city.Gold >= getCityHighestEstablishCost(enemyCities[j])) {
-										var cityUnitTypes = getCityUnitTypes(enemyCities[j]);
-										var unitTypeIndex = cityUnitTypes[parseInt(Math.random() * cityUnitTypes.length)];
-										officers[viableOfficers[k]].Objective = ['Establish', unitTypeIndex];
-										officers[viableOfficers[k]].Progress = 0;
-										
-										city.Gold -= unitTypes[unitTypeIndex].Cost;
-									}
-									break;
-								case 7:
-									// Get force's cities and sort ascending by officer count
-									var citiesOfficerCount = getCities(officers[viableOfficers[k]].Force, 'force').map((x) => [x, getCityOfficers(x).length]).sort(function (a, b) {
-										if (a[1] == b[1]) return 0;
-										else return (a[1] < b[1]) ? -1 : 1;
-									});
-									// Transfer if the city officer count minus the lowest officer count is bigger than 1
-									if (getCityOfficers(officers[viableOfficers[k]].City).length - citiesOfficerCount[0][1] > 1) {
-										officers[viableOfficers[k]].Objective = ['Transfer', citiesOfficerCount[0][0]];
-										officers[viableOfficers[k]].Progress = 0;
-									}
-									break;
-								case 8:
-									if (recruitable && city.Gold >= getCityHighestRecruitCost(enemyCities[j])) {
-										for (var l = 0; l < viableUnits.length; l++) {
-											if (units[viableUnits[l]].Strength < strengthLimit && !hasObjective(units[viableUnits[l]])) {
-												assignOfficerUnit('Recruit', viableOfficers[k], viableUnits[l]);
-												
-												city.Gold -= unitTypes[units[viableUnits[l]].Type].Cost * recruitCostMultiplier;
-												break;
-											}
-										}
-									}
-									break;
-								case 9: case 10:
-									if (drillable) {
-										for (var l = 0; l < viableUnits.length; l++) {
-											if (units[viableUnits[l]].Morale < moraleLimit && !hasObjective(units[viableUnits[l]])) {
-												assignOfficerUnit('Drill', viableOfficers[k], viableUnits[l]);
-												break;
-											}
-										}
-									}
-									break;
+								}
 							}
 						}
-					}
+						break;
+					case 9: case 10:
+						if (drillable) {
+							for (var l = 0; l < viableUnits.length; l++) {
+								if (units[viableUnits[l]].Morale < moraleLimit && !hasObjective(units[viableUnits[l]])) {
+									assignOfficerUnit('Drill', viableOfficers[k], viableUnits[l]);
+									break;
+								}
+							}
+						}
+						break;
 				}
 			}
 		}
@@ -1190,333 +1183,335 @@ function animateMap (timestamp) {
 		draw();
 		openPlayerCard();
 		requestAnimationFrame(animateMap);
+		return;
 	}
-	else {
-		// Map animation completed
-		startTimestamp = mapAnimationStep = 0;
-
-		// Development progress
-		var redirected = [];
-		for (var i = 0; i < officers.length; i++) {
-			if (hasObjective(officers[i]) && !redirected.includes(i)) {
-				var objective = getObjectiveName(officers[i]);
-				var index = officers[i].Objective[1];
-				officers[i].Progress += 10;
-				if (officers[i].Progress >= objectiveLength[objective]) {
-					switch (objective) {
-						case 'Farm':
-							cities[index].cFarm += floor(officers[i].POL * devMultiplier);
-							if (cities[index].cFarm > cities[index].Farm) cities[index].cFarm = cities[index].Farm;
-							cities[index].cOrder -= orderDistrubtion;
-							if (cities[index].cOrder < 0) cities[index].cOrder = 0;
-							dismissOfficer(i);
-							break;
-						case 'Trade':
-							cities[index].cTrade += floor(officers[i].POL * devMultiplier);
-							if (cities[index].cTrade > cities[index].Trade) cities[index].cTrade = cities[index].Trade;
-							cities[index].cOrder -= orderDistrubtion;
-							if (cities[index].cOrder < 0) cities[index].cOrder = 0;
-							dismissOfficer(i);
-							break;
-						case 'Tech':
-							cities[index].cTech += floor(officers[i].INT * devMultiplier);
-							if (cities[index].cTech > cities[index].Tech) cities[index].cTech = cities[index].Tech;
-							cities[index].cOrder -= orderDistrubtion;
-							if (cities[index].cOrder < 0) cities[index].cOrder = 0;
-							dismissOfficer(i);
-							break;
-						case 'Defense':
-							cities[index].cDefense += floor(officers[i].WAR * devMultiplier);
-							if (cities[index].cDefense > cities[index].Defense) cities[index].cDefense = cities[index].Defense;
-							cities[index].cOrder -= orderDistrubtion;
-							if (cities[index].cOrder < 0) cities[index].cOrder = 0;
-							dismissOfficer(i);
-							break;
-						case 'Order':
-							cities[index].cOrder += floor(officers[i].LDR * devMultiplier);
-							if (cities[index].cOrder > orderLimit) cities[index].cOrder = orderLimit;
-							dismissOfficer(i);
-							break;
-						case 'Establish':
-							units.push(new Unit(
-								getNewUnitId(),
-								index,
-								officers[i].Force,
-								officers[i].City,
-								officers[i].Position,
-								establishMorale,
-								floor(officers[i].CHR * recruitMultiplier),
-								'-',
-								'-',
-								null,
-								null,
-								0
-							));
-							dismissOfficer(i);
-							break;
-						case 'Recruit':
-							index = getUnitIndexById(index);
-							units[index].Strength += floor(officers[i].CHR * recruitMultiplier);
-							if (units[index].Strength > strengthLimit) units[index].Strength = strengthLimit;
-							dismissUnit(index);
-							dismissOfficer(i);
-							break;
-						case 'Drill':
-							index = getUnitIndexById(index);
-							units[index].Morale += floor(officers[i].LDR * drillMultiplier);
-							if (units[index].Morale > moraleLimit) units[index].Morale = moraleLimit;
-							dismissUnit(index);
-							dismissOfficer(i);
-							break;
-						case 'Employ':
-							if (Math.random() * officers[i].CHR > Math.random() * getForceDiligence(getForceIndexById(officers[index].Force))) {
-								if (hasObjective(officers[index])) {
-									if (getObjectiveName(officers[index]) == 'March') dismissDeployed(index);
-									else if (getObjectiveName(officers[index]) == 'Recruit' || getObjectiveName(officers[index]) == 'Drill') {
-										const unitIndex = getUnitIndexById(officers[index].Objective[1]);
-										dismissUnit(unitIndex);
-									}
-								}
-								officers[index].Force = officers[i].Force;
-								officers[index].City = officers[i].City;
-								officers[index].Objective = ['Return', officers[i].City];
-								officers[index].Progress = 0;
-								redirected.push(index);
-								// Dismiss all employer
-								for (var j = 0; j < officers.length; j++) {
-									if (getObjectiveName(officers[j]) == 'Employ' && officers[j].Objective[1] == index) {
-										officers[j].Objective = ['Return', officers[j].City];
-										officers[j].Progress = 0;
-										redirected.push(j);
-									}
-								}
-							}
-							officers[i].Objective = ['Return', officers[i].City];
-							officers[i].Progress = 0;
-							break;
-						case 'Transfer':
-							officers[i].City = index;
-							officers[i].Position = getCityPosition(index);
-							dismissOfficer(i);
-							break;
-						case 'Return':
-							officers[i].Position = getCityPosition(index);
-							dismissOfficer(i);
-							break;
+	
+	// Map animation completed
+	startTimestamp = mapAnimationStep = 0;
+	
+	// Development progress
+	var redirected = [];
+	for (var i = 0; i < officers.length; i++) {
+		if (!hasObjective(officers[i]) || redirected.includes(i)) continue;
+		
+		var objective = getObjectiveName(officers[i]);
+		var index = officers[i].Objective[1];
+		officers[i].Progress += 10;
+		
+		if (officers[i].Progress < objectiveLength[objective]) continue;
+		
+		switch (objective) {
+			case 'Farm':
+				cities[index].cFarm += floor(officers[i].POL * devMultiplier);
+				if (cities[index].cFarm > cities[index].Farm) cities[index].cFarm = cities[index].Farm;
+				cities[index].cOrder -= orderDistrubtion;
+				if (cities[index].cOrder < 0) cities[index].cOrder = 0;
+				dismissOfficer(i);
+				break;
+			case 'Trade':
+				cities[index].cTrade += floor(officers[i].POL * devMultiplier);
+				if (cities[index].cTrade > cities[index].Trade) cities[index].cTrade = cities[index].Trade;
+				cities[index].cOrder -= orderDistrubtion;
+				if (cities[index].cOrder < 0) cities[index].cOrder = 0;
+				dismissOfficer(i);
+				break;
+			case 'Tech':
+				cities[index].cTech += floor(officers[i].INT * devMultiplier);
+				if (cities[index].cTech > cities[index].Tech) cities[index].cTech = cities[index].Tech;
+				cities[index].cOrder -= orderDistrubtion;
+				if (cities[index].cOrder < 0) cities[index].cOrder = 0;
+				dismissOfficer(i);
+				break;
+			case 'Defense':
+				cities[index].cDefense += floor(officers[i].WAR * devMultiplier);
+				if (cities[index].cDefense > cities[index].Defense) cities[index].cDefense = cities[index].Defense;
+				cities[index].cOrder -= orderDistrubtion;
+				if (cities[index].cOrder < 0) cities[index].cOrder = 0;
+				dismissOfficer(i);
+				break;
+			case 'Order':
+				cities[index].cOrder += floor(officers[i].LDR * devMultiplier);
+				if (cities[index].cOrder > orderLimit) cities[index].cOrder = orderLimit;
+				dismissOfficer(i);
+				break;
+			case 'Establish':
+				units.push(new Unit(
+					getNewUnitId(),
+					index,
+					officers[i].Force,
+					officers[i].City,
+					officers[i].Position,
+					establishMorale,
+					floor(officers[i].CHR * recruitMultiplier),
+					'-',
+					'-',
+					null,
+					null,
+					0
+				));
+				dismissOfficer(i);
+				break;
+			case 'Recruit':
+				index = getUnitIndexById(index);
+				units[index].Strength += floor(officers[i].CHR * recruitMultiplier);
+				if (units[index].Strength > strengthLimit) units[index].Strength = strengthLimit;
+				dismissUnit(index);
+				dismissOfficer(i);
+				break;
+			case 'Drill':
+				index = getUnitIndexById(index);
+				units[index].Morale += floor(officers[i].LDR * drillMultiplier);
+				if (units[index].Morale > moraleLimit) units[index].Morale = moraleLimit;
+				dismissUnit(index);
+				dismissOfficer(i);
+				break;
+			case 'Employ':
+				if (Math.random() * officers[i].CHR > Math.random() * getForceDiligence(getForceIndexById(officers[index].Force))) {
+					if (hasObjective(officers[index])) {
+						if (getObjectiveName(officers[index]) == 'March') dismissDeployed(index);
+						else if (getObjectiveName(officers[index]) == 'Recruit' || getObjectiveName(officers[index]) == 'Drill') {
+							const unitIndex = getUnitIndexById(officers[index].Objective[1]);
+							dismissUnit(unitIndex);
+						}
+					}
+					officers[index].Force = officers[i].Force;
+					officers[index].City = officers[i].City;
+					officers[index].Objective = ['Return', officers[i].City];
+					officers[index].Progress = 0;
+					redirected.push(index);
+					// Dismiss all employer
+					for (var j = 0; j < officers.length; j++) {
+						if (getObjectiveName(officers[j]) == 'Employ' && officers[j].Objective[1] == index) {
+							officers[j].Objective = ['Return', officers[j].City];
+							officers[j].Progress = 0;
+							redirected.push(j);
+						}
 					}
 				}
-			}
+				officers[i].Objective = ['Return', officers[i].City];
+				officers[i].Progress = 0;
+				break;
+			case 'Transfer':
+				officers[i].City = index;
+				officers[i].Position = getCityPosition(index);
+				dismissOfficer(i);
+				break;
+			case 'Return':
+				officers[i].Position = getCityPosition(index);
+				dismissOfficer(i);
+				break;
 		}
-		// Military progress
-		for (var i = 0; i < units.length; i++) {
-			if (hasObjective(units[i])) {
-				var objective = getObjectiveName(units[i]);
-				var index = units[i].Objective[1];
-				units[i].Progress += 10;
-				if (units[i].Progress >= objectiveLength[objective]) {
-					switch (objective) {
-						case 'Transfer':
-							units[i].City = index;
-							units[i].Position = getCityPosition(index);
-							dismissUnit(i);
-							break;
-						case 'Return':
-							units[i].Position = getCityPosition(index);
-							dismissUnit(i);
-							break;
-					}
-				}
-			}
+	}
+	// Military progress
+	for (var i = 0; i < units.length; i++) {
+		if (!hasObjective(units[i])) continue;
+		
+		var objective = getObjectiveName(units[i]);
+		var index = units[i].Objective[1];
+		units[i].Progress += 10;
+		
+		if (units[i].Progress < objectiveLength[objective]) continue;
+		
+		switch (objective) {
+			case 'Transfer':
+				units[i].City = index;
+				units[i].Position = getCityPosition(index);
+				dismissUnit(i);
+				break;
+			case 'Return':
+				units[i].Position = getCityPosition(index);
+				dismissUnit(i);
+				break;
 		}
-		// Revolts
+	}
+	// Revolts
+	for (var i = 0; i < cities.length; i++) {
+		if (cities[i].cOrder <= orderLimit / 2 && Math.random() * orderLimit / 2 > cities[i].cOrder) {
+			cities[i].cFarm -= revoltImpact + floor(Math.random() * 20 - 5);
+			if (cities[i].cFarm < devMinimum) cities[i].cFarm = devMinimum;
+			cities[i].cTrade -= revoltImpact + floor(Math.random() * 20 - 5);
+			if (cities[i].cTrade < devMinimum) cities[i].cTrade = devMinimum;
+			cities[i].cTech -= revoltImpact + floor(Math.random() * 20 - 5);
+			if (cities[i].cTech < devMinimum) cities[i].cTech = devMinimum;
+			cities[i].cDefense -= revoltImpact + floor(Math.random() * 20 - 5);
+			if (cities[i].cDefense < devMinimum) cities[i].cDefense = devMinimum;
+		}
+	}
+	
+	// Increase date
+	var dateArray = date.split('-').map((x) => parseInt(x));
+	dateArray[2] += 10;
+	if (dateArray[2] > 30) {
+		dateArray[2] = 1;
+		dateArray[1] += 1;
+		// Trade income and farm harvest
 		for (var i = 0; i < cities.length; i++) {
-			if (cities[i].cOrder <= orderLimit / 2 && Math.random() * orderLimit / 2 > cities[i].cOrder) {
-				cities[i].cFarm -= revoltImpact + floor(Math.random() * 20 - 5);
-				if (cities[i].cFarm < devMinimum) cities[i].cFarm = devMinimum;
-				cities[i].cTrade -= revoltImpact + floor(Math.random() * 20 - 5);
-				if (cities[i].cTrade < devMinimum) cities[i].cTrade = devMinimum;
-				cities[i].cTech -= revoltImpact + floor(Math.random() * 20 - 5);
-				if (cities[i].cTech < devMinimum) cities[i].cTech = devMinimum;
-				cities[i].cDefense -= revoltImpact + floor(Math.random() * 20 - 5);
-				if (cities[i].cDefense < devMinimum) cities[i].cDefense = devMinimum;
-			}
+			if (cities[i].Force === '-') continue;
+			
+			cities[i].Gold += cities[i].cTrade * incomeMultiplier;
+			if (cities[i].Gold > maxGold) cities[i].Gold = maxGold;
+			cities[i].Food += cities[i].cFarm * harvestMultiplier;
+			if (cities[i].Food > maxFood) cities[i].Food = maxFood;
 		}
 		
-		// Increase date
-		var dateArray = date.split('-').map((x) => parseInt(x));
-		dateArray[2] += 10;
-		if (dateArray[2] > 30) {
-			dateArray[2] = 1;
-			dateArray[1] += 1;
-			// Trade income and farm harvest
-			for (var i = 0; i < cities.length; i++) {
-				if (cities[i].Force != '-') {
-					cities[i].Gold += cities[i].cTrade * incomeMultiplier;
-					if (cities[i].Gold > maxGold) cities[i].Gold = maxGold;
-					cities[i].Food += cities[i].cFarm * harvestMultiplier;
-					if (cities[i].Food > maxFood) cities[i].Food = maxFood;
+		if (dateArray[1] > 12) {
+			dateArray[1] = 1;
+			dateArray[0] += 1;
+		}
+	}
+	date = dateArray.join('-');
+	openPlayerCard();
+	
+	// Update positions of commander, units and assist officers
+	for (var i = 0; i < officers.length; i++) {
+		if (getObjectiveName(officers[i]) == 'March' && (battles.length == 0 || !inBattle(i))) {
+			var cityCollision = deployedCityCollision(i);
+			var path = getPath(officers[i]);
+			if (path.Points[1]) {
+				var newPos = path.Points[1];
+				if (!Number.isInteger(cityCollision)) officers[i].Position = newPos;
+				officers[i].Progress += 10;
+				for (var j = 0; j < units.length; j++) {
+					if (getObjectiveName(units[j]) == 'March' && units[j].Objective[1] == i) {
+						if (!Number.isInteger(cityCollision)) units[j].Position = newPos;
+						units[j].Progress += 10;
+					}
+				}
+				for (var j = 0; j < officers.length; j++) {
+					if (getObjectiveName(officers[j]) == 'Assist' && officers[j].Objective[1] == i) {
+						if (!Number.isInteger(cityCollision)) officers[j].Position = newPos;
+						officers[j].Progress += 10;
+					}
+				}
+				if (!Number.isInteger(cityCollision)) path.Points.shift();
+			}
+			
+			// City threatened, attack back
+			cityCollision = deployedCityCollision(i);
+			if (Number.isInteger(cityCollision)) {
+				var viableOfficers = getCityViableOfficers(cityCollision, 'LDR');
+				var viableUnits = getCityViableUnits(cityCollision);
+				if (viableOfficers.length > 0 && viableUnits.length > 0) {
+					var commander = viableOfficers[0];
+					var totalCost = 0;
+					for (var j = 0; j < viableUnits.length; j++) totalCost += units[viableUnits[j]].Strength * marchCost;
+					if (cities[cityCollision].Food >= totalCost) {
+						deploy(commander, officers[i].City, viableUnits, []);
+						cities[cityCollision].Food -= totalCost;
+					}
 				}
 			}
 			
-			if (dateArray[1] > 12) {
-				dateArray[1] = 1;
-				dateArray[0] += 1;
+			// Unit collisions
+			var unitCollisions = deployedUnitCollisions(i);
+			if (unitCollisions.length > 0) {
+				for (var j = 0; j < unitCollisions.length; j++) {
+					const uc = unitCollisions[j];
+					// Get attack and defense
+					const stats0 = getAssistedStats(i);
+					const atk0 = calculateAttack(stats0[0], stats0[1]).toFixed(1);
+					const def0 = calculateDefense(stats0[0], stats0[2]).toFixed(1);
+					const stats1 = getAssistedStats(uc);
+					const atk1 = calculateAttack(stats1[0], stats1[1]).toFixed(1);
+					const def1 = calculateDefense(stats1[0], stats1[2]).toFixed(1);
+					
+					// Get abilities
+					const officers0 = getDeployedAssistOfficers(i).concat(i);
+					const abilities0 = getAbilities(officers0);
+					const officers1 = getDeployedAssistOfficers(uc).concat(uc);
+					const abilities1 = getAbilities(officers1);
+					
+					battles.push({
+						'Commander0': i,
+						'Commander1': uc,
+						'Resumed': false,
+						'Stats0': {
+							'ATK': atk0,
+							'DEF': def0
+						},
+						'Stats1': {
+							'ATK': atk1,
+							'DEF': def1
+						},
+						'Abilities0': abilities0,
+						'Abilities1': abilities1,
+						'DisplayName0': `${officers[i].Name} Unit`,
+						'DisplayName1': `${officers[uc].Name} Unit`,
+						'DisplayStats0': `⚔${atk0} ⛨${def0}`,
+						'DisplayStats1': `⚔${atk1} ⛨${def1}`
+					});
+				}
 			}
-		}
-		date = dateArray.join('-');
-		openPlayerCard();
-		
-		// Update positions of commander, units and assist officers
-		for (var i = 0; i < officers.length; i++) {
-			if (getObjectiveName(officers[i]) == 'March' && (battles.length == 0 || !inBattle(i))) {
-				var cityCollision = deployedCityCollision(i);
-				var path = getPath(officers[i]);
-				if (path.Points[1]) {
-					var newPos = path.Points[1];
-					if (!Number.isInteger(cityCollision)) officers[i].Position = newPos;
-					officers[i].Progress += 10;
-					for (var j = 0; j < units.length; j++) {
-						if (getObjectiveName(units[j]) == 'March' && units[j].Objective[1] == i) {
-							if (!Number.isInteger(cityCollision)) units[j].Position = newPos;
-							units[j].Progress += 10;
-						}
-					}
+			else if (Number.isInteger(cityCollision)) {
+				// Deployed vs City collisions
+				cities[cityCollision].cOrder -= orderDistrubtion;
+				if (cities[cityCollision].cOrder < 0) cities[cityCollision].cOrder = 0;
+				cities[cityCollision].cDefense -= demolishFixed + floor(getDeployedStrength(i) * demolishMultiplier);
+				if (cities[cityCollision].cDefense <= 0) {
+					// City captured
+					var nearestCities = getCities(cities[cityCollision].Force, 'force', [cityCollision, 'near']);
 					for (var j = 0; j < officers.length; j++) {
-						if (getObjectiveName(officers[j]) == 'Assist' && officers[j].Objective[1] == i) {
-							if (!Number.isInteger(cityCollision)) officers[j].Position = newPos;
-							officers[j].Progress += 10;
-						}
-					}
-					if (!Number.isInteger(cityCollision)) path.Points.shift();
-				}
-				
-				// City threatened, attack back
-				cityCollision = deployedCityCollision(i);
-				if (Number.isInteger(cityCollision)) {
-					var viableOfficers = getCityViableOfficers(cityCollision, 'LDR');
-					var viableUnits = getCityViableUnits(cityCollision);
-					if (viableOfficers.length > 0 && viableUnits.length > 0) {
-						var commander = viableOfficers[0];
-						var totalCost = 0;
-						for (var j = 0; j < viableUnits.length; j++) totalCost += units[viableUnits[j]].Strength * marchCost;
-						if (cities[cityCollision].Food >= totalCost) {
-							deploy(commander, officers[i].City, viableUnits, []);
-							cities[cityCollision].Food -= totalCost;
-						}
-					}
-				}
-				
-				// Unit collisions
-				var unitCollisions = deployedUnitCollisions(i);
-				if (unitCollisions.length > 0) {
-					for (var j = 0; j < unitCollisions.length; j++) {
-						const uc = unitCollisions[j];
-						// Get attack and defense
-						const stats0 = getAssistedStats(i);
-						const atk0 = calculateAttack(stats0[0], stats0[1]).toFixed(1);
-						const def0 = calculateDefense(stats0[0], stats0[2]).toFixed(1);
-						const stats1 = getAssistedStats(uc);
-						const atk1 = calculateAttack(stats1[0], stats1[1]).toFixed(1);
-						const def1 = calculateDefense(stats1[0], stats1[2]).toFixed(1);
-						
-						// Get abilities
-						const officers0 = getDeployedAssistOfficers(i).concat(i);
-						const abilities0 = getAbilities(officers0);
-						const officers1 = getDeployedAssistOfficers(uc).concat(uc);
-						const abilities1 = getAbilities(officers1);
-						
-						battles.push({
-							'Commander0': i,
-							'Commander1': uc,
-							'Resumed': false,
-							'Stats0': {
-								'ATK': atk0,
-								'DEF': def0
-							},
-							'Stats1': {
-								'ATK': atk1,
-								'DEF': def1
-							},
-							'Abilities0': abilities0,
-							'Abilities1': abilities1,
-							'DisplayName0': `${officers[i].Name} Unit`,
-							'DisplayName1': `${officers[uc].Name} Unit`,
-							'DisplayStats0': `⚔${atk0} ⛨${def0}`,
-							'DisplayStats1': `⚔${atk1} ⛨${def1}`
-						});
-					}
-				}
-				else if (Number.isInteger(cityCollision)) {
-					// Deployed vs City collisions
-					cities[cityCollision].cOrder -= orderDistrubtion;
-					if (cities[cityCollision].cOrder < 0) cities[cityCollision].cOrder = 0;
-					cities[cityCollision].cDefense -= demolishFixed + floor(getDeployedStrength(i) * demolishMultiplier);
-					if (cities[cityCollision].cDefense <= 0) {
-						// City captured
-						var nearestCities = getCities(cities[cityCollision].Force, 'force', [cityCollision, 'near']);
-						for (var j = 0; j < officers.length; j++) {
-							if (officers[j].City == cityCollision) {
-								if (nearestCities.length > 1) {
-									// Return all officers to nearest city
-									if (hasObjective(officers[j])) {
-										if (getObjectiveName(officers[j]) == 'March') dismissDeployed(j);
-										else if (getObjectiveName(officers[j]) == 'Recruit' || getObjectiveName(officers[j]) == 'Drill') {
-											var unitIndex = getUnitIndexById(officers[j].Objective[1]);
-											dismissUnit(unitIndex);
-										}
+						if (officers[j].City == cityCollision) {
+							if (nearestCities.length > 1) {
+								// Return all officers to nearest city
+								if (hasObjective(officers[j])) {
+									if (getObjectiveName(officers[j]) == 'March') dismissDeployed(j);
+									else if (getObjectiveName(officers[j]) == 'Recruit' || getObjectiveName(officers[j]) == 'Drill') {
+										var unitIndex = getUnitIndexById(officers[j].Objective[1]);
+										dismissUnit(unitIndex);
 									}
-									officers[j].City = nearestCities[1];
-									officers[j].Objective = ['Return', nearestCities[1]];
-									officers[j].Progress = 0;
 								}
-								else {
-									// Auto employ officers of captured city
-									if (hasObjective(officers[j])) {
-										if (getObjectiveName(officers[j]) == 'March') dismissDeployed(j);
-										else if (getObjectiveName(officers[j]) == 'Recruit' || getObjectiveName(officers[j]) == 'Drill') {
-											var unitIndex = getUnitIndexById(officers[j].Objective[1]);
-											dismissUnit(unitIndex);
-										}
+								officers[j].City = nearestCities[1];
+								officers[j].Objective = ['Return', nearestCities[1]];
+								officers[j].Progress = 0;
+							}
+							else {
+								// Auto employ officers of captured city
+								if (hasObjective(officers[j])) {
+									if (getObjectiveName(officers[j]) == 'March') dismissDeployed(j);
+									else if (getObjectiveName(officers[j]) == 'Recruit' || getObjectiveName(officers[j]) == 'Drill') {
+										var unitIndex = getUnitIndexById(officers[j].Objective[1]);
+										dismissUnit(unitIndex);
 									}
-									officers[j].Force = officers[i].Force;
-									officers[j].City = officers[i].City;
-									officers[j].Objective = ['Return', officers[i].City];
-									officers[j].Progress = 0;
 								}
+								officers[j].Force = officers[i].Force;
+								officers[j].City = officers[i].City;
+								officers[j].Objective = ['Return', officers[i].City];
+								officers[j].Progress = 0;
 							}
 						}
-						// Dismiss units of captured city
-						for (var j = 0; j < units.length; j++) {
-							if (units[j].City == cityCollision) {
-								units[j].Force = officers[i].Force;
-								if (getObjectiveName(units[j]) != 'Return') dismissUnit(j);
-							}
+					}
+					// Dismiss units of captured city
+					for (var j = 0; j < units.length; j++) {
+						if (units[j].City == cityCollision) {
+							units[j].Force = officers[i].Force;
+							if (getObjectiveName(units[j]) != 'Return') dismissUnit(j);
 						}
-						
-						cities[cityCollision].Force = officers[i].Force;
-						cities[cityCollision].cDefense = captureDefense;
-						// Dismiss all deployed from the same force with i that target the captured city
-						for (var j = 0; j < officers.length; j++) {
-							if (officers[j].Force == officers[i].Force && getObjectiveName(officers[j]) == 'March' && officers[j].Objective[1] == cityCollision) {
-								dismissDeployed(j);
-							}
+					}
+					
+					cities[cityCollision].Force = officers[i].Force;
+					cities[cityCollision].cDefense = captureDefense;
+					// Dismiss all deployed from the same force with i that target the captured city
+					for (var j = 0; j < officers.length; j++) {
+						if (officers[j].Force == officers[i].Force && getObjectiveName(officers[j]) == 'March' && officers[j].Objective[1] == cityCollision) {
+							dismissDeployed(j);
 						}
 					}
 				}
 			}
 		}
-		
-		// Init battle if there are battles, or end turn
-		if (battles.length > 0) {
-			initBattle();
-			stopAudio(mainSound);
-			playAudio(battleSound);
-		}
-		else {
-			openInfoCard('City', officers[player].City);
-			draw();
-			saveData();
-		}
+	}
+	
+	// Init battle if there are battles, or end turn
+	if (battles.length > 0) {
+		initBattle();
+		stopAudio(mainSound);
+		playAudio(battleSound);
+	}
+	else {
+		openInfoCard('City', officers[player].City);
+		draw();
+		saveData();
 	}
 }
 
@@ -1572,53 +1567,53 @@ function initBattle () {
 }
 
 function animateBattle (timestamp) {
-	if (battles.length > 0) {
-		// Calculate elapsed time
-		var currentTimestamp = performance.now();
-		var elapsedTimestamp = currentTimestamp - startTimestamp;
-		startTimestamp = currentTimestamp;
-		
-		// Animate when battle is not paused
-		if (battles[0]['Resumed']) {
-			const units0 = getDeployedUnits(battles[0]['Commander0']);
-			const units1 = getDeployedUnits(battles[0]['Commander1']);
-			// Find Target
-			if (units1.length > 0) {
-				for (var i = 0; i < units0.length; i++) {
-					if (units[units0[i]].Target == null) units[units0[i]].Target = units[getNearestTarget(units0[i], units1)].Id;
-				}
+	if (battles.length <= 0) return;
+	
+	// Calculate elapsed time
+	var currentTimestamp = performance.now();
+	var elapsedTimestamp = currentTimestamp - startTimestamp;
+	startTimestamp = currentTimestamp;
+	
+	// Animate when battle is not paused
+	if (battles[0]['Resumed']) {
+		const units0 = getDeployedUnits(battles[0]['Commander0']);
+		const units1 = getDeployedUnits(battles[0]['Commander1']);
+		// Find Target
+		if (units1.length > 0) {
+			for (var i = 0; i < units0.length; i++) {
+				if (units[units0[i]].Target == null) units[units0[i]].Target = units[getNearestTarget(units0[i], units1)].Id;
 			}
-			if (units0.length > 0) {
-				for (var i = 0; i < units1.length; i++) {
-					if (units[units1[i]].Target == null) units[units1[i]].Target = units[getNearestTarget(units1[i], units0)].Id;
-				}
+		}
+		if (units0.length > 0) {
+			for (var i = 0; i < units1.length; i++) {
+				if (units[units1[i]].Target == null) units[units1[i]].Target = units[getNearestTarget(units1[i], units0)].Id;
 			}
-			
-			animateUnits(units0, elapsedTimestamp, battles[0]['Abilities0'], battles[0]['Abilities1']);
-			animateUnits(units1, elapsedTimestamp, battles[0]['Abilities1'], battles[0]['Abilities0']);
-			
-			// Remove defeated units
-			for (var i = units.length - 1; i >= 0; i--) {
-				if (units[i].Strength <= 0) {
-					const defeatedId = units[i].Id;
-					// Unlock all targeting enemies
-					for (var j = 0; j < units.length; j++) {
-						if (units[j].Target === defeatedId) units[j].Target = null;
-					}
-					// Remove damage messages
-					if (damages[defeatedId]) damages[defeatedId] = null;
-					// Remove unit
-					units.splice(i, 1);
-				}
-			}
-			
-			// Remove elapsed damage info
-			for (var i = 0; i < damages.length; i++) if (damages[i] && startTimestamp - damages[i]['Timestamp'] > battleSeconds) damages[i] = null;
 		}
 		
-		draw();
-		requestAnimationFrame(animateBattle);
+		animateUnits(units0, elapsedTimestamp, battles[0]['Abilities0'], battles[0]['Abilities1']);
+		animateUnits(units1, elapsedTimestamp, battles[0]['Abilities1'], battles[0]['Abilities0']);
+		
+		// Remove defeated units
+		for (var i = units.length - 1; i >= 0; i--) {
+			if (units[i].Strength <= 0) {
+				const defeatedId = units[i].Id;
+				// Unlock all targeting enemies
+				for (var j = 0; j < units.length; j++) {
+					if (units[j].Target === defeatedId) units[j].Target = null;
+				}
+				// Remove damage messages
+				if (damages[defeatedId]) damages[defeatedId] = null;
+				// Remove unit
+				units.splice(i, 1);
+			}
+		}
+		
+		// Remove elapsed damage info
+		for (var i = 0; i < damages.length; i++) if (damages[i] && startTimestamp - damages[i]['Timestamp'] > battleSeconds) damages[i] = null;
 	}
+	
+	draw();
+	requestAnimationFrame(animateBattle);
 }
 
 function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilities) {
