@@ -165,6 +165,14 @@ function checkAll (prefix) {
 	}
 }
 
+function hasObjective (object) {
+	return object.Objective && object.Objective !== '-';
+}
+
+function getObjectiveName (object) {
+	return hasObjective(object) && object.Objective[0] ? object.Objective[0] : '-';
+}
+
 function getCityIndexByName (cityName) {
 	for (var i = 0; i < cities.length; i++) if (cities[i].Name == cityName) return i;
 	return null;
@@ -244,10 +252,10 @@ function getCityUnitCount (cityIndex, includeEstablishTransfer) {
 	for (var i = 0; i < units.length; i++) if (units[i].City == cityIndex) count++;
 	if (includeEstablishTransfer) {
 		for (var i = 0; i < officers.length; i++) {
-			if (officers[i].City == cityIndex && officers[i].Objective != '-' && officers[i].Objective[0] == 'Establish') count++;
+			if (officers[i].City == cityIndex && getObjectiveName(officers[i]) == 'Establish') count++;
 		}
 		for (var i = 0; i < units.length; i++) {
-			if (units[i].Objective != '-' && units[i].Objective[0] == 'Transfer' && units[i].Objective[1] == cityIndex) count++;
+			if (getObjectiveName(units[i]) == 'Transfer' && units[i].Objective[1] == cityIndex) count++;
 		}
 	}
 	return count;
@@ -274,7 +282,7 @@ function getCityUnits (cityIndex) {
 function getCityViableOfficers (cityIndex, sort) {
 	var viableOfficers = [];
 	for (var i = 0; i < officers.length; i++) {
-		if (officers[i].City == cityIndex && officers[i].Objective == '-') viableOfficers.push(i);
+		if (officers[i].City == cityIndex && !hasObjective(officers[i])) viableOfficers.push(i);
 	}
 	
 	if (sort) return sortOfficers(viableOfficers, sort);
@@ -284,7 +292,7 @@ function getCityViableOfficers (cityIndex, sort) {
 function getCityNonViableOfficers (cityIndex, excludeReturn) {
 	var nonViableOfficers = [];
 	for (var i = 0; i < officers.length; i++) {
-		if (officers[i].City == cityIndex && officers[i].Objective != '-' && (!excludeReturn || officers[i].Objective[0] != 'Return')) nonViableOfficers.push(i);
+		if (officers[i].City == cityIndex && (!excludeReturn || getObjectiveName(officers[i]) != 'Return')) nonViableOfficers.push(i);
 	}
 	return nonViableOfficers;
 }
@@ -292,7 +300,7 @@ function getCityNonViableOfficers (cityIndex, excludeReturn) {
 function getCityViableUnits (cityIndex) {
 	var viableUnits = [];
 	for (var i = 0; i < units.length; i++) {
-		if (units[i].City == cityIndex && units[i].Objective == '-') viableUnits.push(i);
+		if (units[i].City == cityIndex && !hasObjective(units[i])) viableUnits.push(i);
 	}
 	return viableUnits.sort((a, b) => units[a].Type - units[b].Type);
 }
@@ -366,7 +374,7 @@ function getTransferCities (cityIndex) {
 function getForceViableOfficers (forceId) {
 	var viableOfficers = [];
 	for (var i = 0; i < officers.length; i++) {
-		if (officers[i].Force == forceId && officers[i].Objective == '-') viableOfficers.push(i);
+		if (officers[i].Force == forceId && !hasObjective(officers[i])) viableOfficers.push(i);
 	}
 	return viableOfficers;
 }
@@ -374,7 +382,7 @@ function getForceViableOfficers (forceId) {
 function getForceViableUnits (forceId) {
 	var viableUnits = [];
 	for (var i = 0; i < units.length; i++) {
-		if (units[i].Force == forceId && units[i].Objective == '-') viableUnits.push(i);
+		if (units[i].Force == forceId && !hasObjective(units[i])) viableUnits.push(i);
 	}
 	return viableUnits;
 }
@@ -452,7 +460,7 @@ function getUnits (forceId, alliance) {
 function getDeployedUnits (commander) {
 	var deployedUnits = [];
 	for (var i = 0; i < units.length; i++) {
-		if (units[i].Objective != '-' && units[i].Objective[0] == 'March' && units[i].Objective[1] == commander) deployedUnits.push(i);
+		if (getObjectiveName(units[i]) == 'March' && units[i].Objective[1] == commander) deployedUnits.push(i);
 	}
 	return deployedUnits;
 }
@@ -460,7 +468,7 @@ function getDeployedUnits (commander) {
 function getDeployedAssistOfficers (commander) {
 	var assistOfficers = [];
 	for (var i = 0; i < officers.length; i++) {
-		if (officers[i].Objective != '-' && officers[i].Objective[0] == 'Assist' && officers[i].Objective[1] == commander) assistOfficers.push(i);
+		if (getObjectiveName(officers[i]) == 'Assist' && officers[i].Objective[1] == commander) assistOfficers.push(i);
 	}
 	return assistOfficers;
 }	
@@ -538,7 +546,7 @@ function getStatsByName (officerName) {
 function getAssistedStats (officerIndex) {
 	var stats = getStats(officerIndex);
 	for (var i = 0; i < officers.length; i++) {
-		if (officers[i].Objective != '-' && officers[i].Objective[0] == 'Assist' && officers[i].Objective[1] == officerIndex) {
+		if (getObjectiveName(officers[i]) == 'Assist' && officers[i].Objective[1] == officerIndex) {
 			stats[0] += assistPercentage / 100 * officers[i].LDR;
 			stats[1] += assistPercentage / 100 * officers[i].WAR;
 			stats[2] += assistPercentage / 100 * officers[i].INT;
@@ -638,7 +646,7 @@ function deployedCityCollision (officerIndex) {
 function deployedUnitCollisions (officerIndex) {
 	var unitCollisions = [];
 	for (var i = 0; i < officers.length; i++) {
-		if (officers[i].Force != officers[officerIndex].Force && officers[i].Objective != '-' && officers[i].Objective[0] == 'March' &&
+		if (officers[i].Force != officers[officerIndex].Force && getObjectiveName(officers[i]) == 'March' &&
 			officers[i].Position.X == officers[officerIndex].Position.X && officers[i].Position.Y == officers[officerIndex].Position.Y) {
 			unitCollisions.push(i);
 		}
@@ -724,7 +732,7 @@ function loadData (_scenario, _date, _player, _playerForce, _cities, _officers, 
 		officers[i].City = _officers[i].City;
 		officers[i].Position = new Point(_officers[i].Position.X, _officers[i].Position.Y);
 		officers[i].Objective = _officers[i].Objective;
-		if (officers[i].Objective != '-' && officers[i].Objective[0] == 'March') {
+		if (getObjectiveName(officers[i]) == 'March') {
 			for (var j = 0; j < officers[i].Objective[2].Points.length; j++) {
 				officers[i].Objective[2].Points[j] = new Point(officers[i].Objective[2].Points[j].X, officers[i].Objective[2].Points[j].Y);
 			}

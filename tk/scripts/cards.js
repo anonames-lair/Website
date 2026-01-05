@@ -851,13 +851,13 @@ function personel (cityIndex, objective) {
 		else if (objective == 'Dismiss') {
 			for (var i = 0; i < choosenOfficers.length; i++) {
 				var officer = officers[choosenOfficers[i]];
-				if (officer.Objective[0] == 'March') dismissDeployed(choosenOfficers[i], true);
-				else if (officer.Objective[0] == 'Assist' || officer.Objective[0] == 'Employ') {
+				if (getObjectiveName(officer) == 'March') dismissDeployed(choosenOfficers[i], true);
+				else if (getObjectiveName(officer) == 'Assist' || getObjectiveName(officer) == 'Employ') {
 					officer.Objective = officer.Progress > 0 ? ['Return', cityIndex] : '-';
 					officer.Progress = officer.Progress > 0 ? 0 : '-';
 				}
 				else {
-					if (officer.Objective[0] == 'Recruit' || officer.Objective[0] == 'Drill') {
+					if (getObjectiveName(officer) == 'Recruit' || getObjectiveName(officer) == 'Drill') {
 						var unitIndex = getUnitIndexById(officer.Objective[1]);
 						dismissUnit(unitIndex);
 					}
@@ -931,10 +931,10 @@ function openOfficerCard (cityIndex, objective) {
 		if (nonViableOfficers.length > 0) {
 			for (var i = 0; i < nonViableOfficers.length; i++) {
 				var officer = officers[nonViableOfficers[i]];
-				if (officer.Objective[0] != 'Return') {
+				if (getObjectiveName(officer) != 'Return') {
 					officersHTML += `<label for="officer${nonViableOfficers[i]}">
 							<input type="checkbox" id="officer${nonViableOfficers[i]}">
-							<div class="officerCB">${officer.Name}</div><div>${officer.Objective[0]}</div>
+							<div class="officerCB">${officer.Name}</div><div>${getObjectiveName(officer)}</div>
 						</label>`;
 				}
 			}
@@ -1016,7 +1016,7 @@ function dismissDeployed (commander, redraw) {
 		officers[commander].Progress = progress > 0 ? 0 : '-';
 		
 		for (var i = 0; i < units.length; i++) {
-			if (units[i].Objective != '-' && units[i].Objective[0] == 'March'  && units[i].Objective[1] == commander) {
+			if (getObjectiveName(units[i]) == 'March'  && units[i].Objective[1] == commander) {
 				units[i].Objective = progress > 0 ? ['Return', cityIndex] : '-';
 				units[i].Progress = progress > 0 ? 0 : '-';
 				units[i].Vec = null;
@@ -1024,7 +1024,7 @@ function dismissDeployed (commander, redraw) {
 		}
 		
 		for (var i = 0; i < officers.length; i++) {
-			if (officers[i].Objective != '-' && officers[i].Objective[0] == 'Assist' && officers[i].Objective[1] == commander) {
+			if (getObjectiveName(officers[i]) == 'Assist' && officers[i].Objective[1] == commander) {
 				officers[i].Objective = progress > 0 ? ['Return', cityIndex] : '-';
 				officers[i].Progress = progress > 0 ? 0 : '-';
 			}
@@ -1079,7 +1079,7 @@ function createOfficersTable (officerIndexes, cityIndex) {
 	var officersHTML = '';
 	for (var i = 0; i < officerIndexes.length; i++) {
 		var officer = officers[officerIndexes[i]];
-		var objective = officer.Objective == '-' ? '-' : officer.Objective[0];
+		var objective = getObjectiveName(officer);
 		officersHTML += `<tr>
 				<td>${officer.Name}</td>
 				<td>${officer.LDR}</td>
@@ -1122,7 +1122,7 @@ function createUnitsTable (unitIndexes) {
 	var unitsHTML = '';
 	for (var i = 0; i < unitIndexes.length; i++) {
 		var unit = units[unitIndexes[i]];
-		var objective = unit.Objective == '-' ? '-' : unit.Objective[0];
+		var objective = getObjectiveName(unit);
 		var name = '-';
 		switch (objective) {
 			case 'March':
