@@ -787,6 +787,12 @@ function onMouseMove (e) {
 			if (getObjectiveName(officers[i]) == 'March') {
 				var x = canvasPad + officers[i].Position.X * squareSize + unitPad;
 				var y = canvasPad + officers[i].Position.Y * squareSize + unitPad;
+				var path = getPath(officers[i]);
+				if (path.Points[1]) {
+					var toNext = path.Points[1].subtract(officers[i].Position);
+					x += toNext.X * squareSize * mapAnimationStep;
+					y += toNext.Y * squareSize * mapAnimationStep;
+				}
 				var w = squareSize - unitPad * 2;
 				var h = squareSize - unitPad * 2;
 				if (eX >= x && eX < x + w && eY >= y && eY < y + h) {
