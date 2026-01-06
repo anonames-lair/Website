@@ -679,6 +679,7 @@ function openUnitCard (cityIndex, objective) {
 					assignOfficerUnit('Recruit', viableOfficers.shift(), recruitIndex);
 					city.Gold -= cost;
 				}
+				else viableOfficers.shift();
 			}
 			else if (iter % 2 != 0 && drillIndex >= 0) {
 				viableOfficers.sort((a, b) => officers[b].LDR - officers[a].LDR);
