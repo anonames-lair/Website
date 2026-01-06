@@ -1193,12 +1193,14 @@ function animateMap (timestamp) {
 	// Development progress
 	var redirected = [];
 	for (var i = 0; i < officers.length; i++) {
+		// Officer do not have objective or in the middle of redirection
 		if (!hasObjective(officers[i]) || redirected.includes(i)) continue;
 		
 		var objective = getObjectiveName(officers[i]);
 		var index = officers[i].Objective[1];
 		officers[i].Progress += 10;
 		
+		// Objective is not finished
 		if (officers[i].Progress < objectiveLength[objective]) continue;
 		
 		switch (objective) {
@@ -1769,37 +1771,38 @@ function draw (force) {
 			// Draw cities
 			for (var i = 0; i < map.length; i++) {
 				for (var j = 0; j < map[i].length; j++) {
+					// Not a city
+					if (map[i][j] < cityIndexStart) continue;
+					
 					x = canvasPad + i * squareSize - cityPad;
 					y = canvasPad + j * squareSize - cityPad;
 					
-					if (map[i][j] >= cityIndexStart) {
-						const index = map[i][j] - cityIndexStart;
-						if (cities[index].Force == '-') {
-							drawImage(cities[index].cTech < cities[index].Tech ? emptySmallCity : emptyBigCity, x, y, citySize, citySize);
-							//fillRect(x, y, citySize, citySize, cityColor);
-						}
-						else {
-							const forceIndex = getForceIndexById(cities[index].Force);
-							drawImage(
-								cities[index].cTech < cities[index].Tech ? forces[forceIndex].SmallCity : forces[forceIndex].BigCity,
-								x,
-								y,
-								citySize,
-								citySize
+					const index = map[i][j] - cityIndexStart;
+					if (cities[index].Force === '-') {
+						drawImage(cities[index].cTech < cities[index].Tech ? emptySmallCity : emptyBigCity, x, y, citySize, citySize);
+						//fillRect(x, y, citySize, citySize, cityColor);
+					}
+					else {
+						const forceIndex = getForceIndexById(cities[index].Force);
+						drawImage(
+							cities[index].cTech < cities[index].Tech ? forces[forceIndex].SmallCity : forces[forceIndex].BigCity,
+							x,
+							y,
+							citySize,
+							citySize
+						);
+						//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
+						if (infoIconHover) {
+							ctx.fillStyle = fontDark;
+							drawMessage(
+								`${getCityViableOfficers(index).length}/${getCityOfficers(index).length}`,
+								x + cityHalf,
+								y + citySize + dotSize,
+								'center'
 							);
-							//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
-							if (infoIconHover) {
-								ctx.fillStyle = fontDark;
-								drawMessage(
-									`${getCityViableOfficers(index).length}/${getCityOfficers(index).length}`,
-									x + cityHalf,
-									y + citySize + dotSize,
-									'center'
-								);
-							}
-							ctx.fillStyle = getTextColor(forces[forceIndex].Color);
-							drawMessage(forces[forceIndex].Name[0], x + cityHalf, y + cityHalf + 1, 'center');
 						}
+						ctx.fillStyle = getTextColor(forces[forceIndex].Color);
+						drawMessage(forces[forceIndex].Name[0], x + cityHalf, y + cityHalf + 1, 'center');
 					}
 				}
 			}

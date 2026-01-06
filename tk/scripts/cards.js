@@ -1315,9 +1315,9 @@ function openInfoCard (mode, index, sort) {
 
 // Import card
 function importData (data) {
-	if (data ===  undefined) data = getElement('importTextarea') ? getElement('importTextarea').value : '';
+	if (data === undefined) data = getElement('importTextarea') ? getElement('importTextarea').value : '';
 	
-	if (data.length == 0) return;
+	if (data.length === 0) return;
 	
 	var json = JSON.parse(data);
 	if (json && json['player']) {
