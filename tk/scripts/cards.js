@@ -139,9 +139,17 @@ function openCityCard (cityIndex, select) {
 	cityCard.innerHTML = string;
 	
 	cityCard.style.visibility = 'visible';
-	if (mousePos.X + cityCard.clientWidth + buttonWidth > mapSize) cityCard.style.left = (mousePos.X - cityCard.clientWidth) + 'px';
+	const cardWidth = cityCard.clientWidth;
+	const cardHeight = cityCard.clientHeight;
+	const outsizeX = buttonWidth;
+	const outsizeY = buttonHeight * 3;
+	if (mousePos.X + cardWidth + outsizeX > mapSize) {
+		cityCard.style.left = mousePos.X + outsizeX > mapSize ? (mapSize - cardWidth - outsizeX) + 'px' : (mousePos.X - cardWidth) + 'px';
+	}
 	else cityCard.style.left = mousePos.X + 'px';
-	if (mousePos.Y + cityCard.clientHeight > mapSize) cityCard.style.top = (mousePos.Y - cityCard.clientHeight) + 'px';
+	if (mousePos.Y + cardHeight + outsizeY > mapSize) {
+		cityCard.style.top = mousePos.Y + outsizeY > mapSize ? (mapSize - cardHeight - outsizeY) + 'px' : (mousePos.Y - cardHeight) + 'px';
+	}
 	else cityCard.style.top = mousePos.Y + 'px';
 }
 
