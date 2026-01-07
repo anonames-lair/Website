@@ -11,6 +11,7 @@ var officerCard;
 var deployedCard;
 var infoCard;
 var importCard;
+var alertCard;
 var hidden;
 var clickSound;
 var confirmSound;
@@ -538,6 +539,10 @@ window.onload = function () {
 	importCard = document.createElement('div');
 	importCard.classList.add('importCard');
 	document.body.appendChild(importCard);
+	
+	alertCard =  document.createElement('div');
+	alertCard.setAttribute("id", "alertCard");
+	document.body.appendChild(alertCard);
 	
 	hidden = document.createElement('div');
 	hidden.style.visibility = 'hidden';

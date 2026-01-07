@@ -16,6 +16,19 @@ function stopAudio (audio) {
 	audio.currentTime = 0;
 }
 
+function showAlert (message, duration = 2000) {
+	const alertCard = getElement('alertCard');
+	
+	// Set the message and make it visible
+	alertCard.innerText = message;
+	alertCard.classList.add('show');
+	
+	// Hide it after the specified duration
+	setTimeout(() => {
+		alertCard.classList.remove('show');
+	}, duration);
+}
+
 function newImg (path) {
 	tempImg = new Image();
 	tempImg.src = path;

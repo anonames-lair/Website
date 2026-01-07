@@ -71,6 +71,27 @@ select {
 	visibility: hidden;
 }
 
+#alertCard {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	border: 1px solid #333333;
+	border-radius: $cardRadius;
+	box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+	background-color: $cardBackColor;
+	padding: 12px 24px;
+	font-size: $titleFontSize;
+	z-index: 1000;
+	opacity: 0;
+	transition: opacity 0.2s ease-out;
+	pointer-events: none;
+}
+
+#alertCard.show {
+	opacity: 1;
+}
+
 #importUpload {
 	display: none;
 }

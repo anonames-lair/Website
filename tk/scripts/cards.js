@@ -15,7 +15,7 @@ function openPlayerCard () {
 		<div class="playerContent">
 			<div class="playerPortrait">
 				${getPortrait(officers[player].Name, 'big')}
-				<input type="button" value="Save" onclick="saveData()">
+				<input type="button" value="Save" onclick="saveData(); showAlert('Game data has been saved.');">
 			</div>
 			<div class="playerProfile">
 				<div class="playerName allyColor">${officers[player].Name}</div>
