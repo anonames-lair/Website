@@ -140,4 +140,5 @@ const mapImage = newImg("images/map.png");
 const citySmallImage = newImg("images/citySmall.png");
 const cityBigImage = newImg("images/cityBig.png");
 const unitImage = newImg("images/unit.png");
+const focusImage = newImg("images/focus.png");
 const sceneImage = newImg("images/scene.png");

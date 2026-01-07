@@ -30,6 +30,7 @@ var downloadString;
 var battles;
 var battleImages;
 var battleSpeed;
+var focusIndex;
 var damages;
 var mousePos;
 var infoIconHover;
@@ -666,6 +667,7 @@ window.onload = function () {
 	infoIconHover = officerSort = false;
 	then = startTimestamp = mapAnimationStep = gState = 0;
 	battleSpeed = 1;
+	focusIndex = -1;
 	copyString = 'COPY DATA';
 	downloadString = 'DOWNLOAD DATA';
 	battles = [];
@@ -1050,6 +1052,7 @@ function onMouseClick (e) {
 			for (var i = 0; i < enemyDeployed.length; i++) {
 				var distance = units[enemyDeployed[i]].Vec.subtract(mousePos).length();
 				if (distance < portraitRadius) {
+					focusIndex = enemyDeployed[i];
 					for (var j = 0; j < playerDeployed.length; j++) units[playerDeployed[j]].Target = units[enemyDeployed[i]].Id;
 					return;
 				}
@@ -1575,6 +1578,8 @@ function initBattle () {
 		}
 	}
 	
+	focusIndex = -1;
+	
 	// Start battle animation
 	startTimestamp = performance.now();
 	requestAnimationFrame(animateBattle);
@@ -1615,6 +1620,8 @@ function animateBattle (timestamp) {
 				for (var j = 0; j < units.length; j++) {
 					if (units[j].Target === defeatedId) units[j].Target = null;
 				}
+				// Remove Focus
+				if (focusIndex === i) focusIndex = -1;
 				// Remove damage messages
 				if (damages[defeatedId]) damages[defeatedId] = null;
 				// Remove unit
@@ -1922,6 +1929,9 @@ function draw (force) {
 						var startPoint = units[i].Vec.add(moraleBarPositionModifier);
 						drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize, 0)));
 						drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize * units[i].Morale / moraleLimit, 0)), moraleColor);
+						
+						// Draw focus indicator
+						if (focusIndex === i) drawImage(focusImage, units[i].Vec.X - portraitRadius, units[i].Vec.Y - portraitRadius, portraitSize, portraitSize);
 					}
 				}
 				

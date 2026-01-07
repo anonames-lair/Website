@@ -141,14 +141,14 @@ function openCityCard (cityIndex, select) {
 	cityCard.style.visibility = 'visible';
 	const cardWidth = cityCard.clientWidth;
 	const cardHeight = cityCard.clientHeight;
-	const outsizeX = buttonWidth;
-	const outsizeY = buttonHeight * 3;
-	if (mousePos.X + cardWidth + outsizeX > mapSize) {
-		cityCard.style.left = mousePos.X + outsizeX > mapSize ? (mapSize - cardWidth - outsizeX) + 'px' : (mousePos.X - cardWidth) + 'px';
+	const overflowX = buttonWidth;
+	const overflowY = buttonHeight * 3;
+	if (mousePos.X + cardWidth + overflowX > mapSize) {
+		cityCard.style.left = mousePos.X + overflowX > mapSize ? (mapSize - cardWidth - overflowX) + 'px' : (mousePos.X - cardWidth) + 'px';
 	}
 	else cityCard.style.left = mousePos.X + 'px';
-	if (mousePos.Y + cardHeight + outsizeY > mapSize) {
-		cityCard.style.top = mousePos.Y + outsizeY > mapSize ? (mapSize - cardHeight - outsizeY) + 'px' : (mousePos.Y - cardHeight) + 'px';
+	if (mousePos.Y + cardHeight + overflowY > mapSize) {
+		cityCard.style.top = mousePos.Y + overflowY > mapSize ? (mapSize - cardHeight - overflowY) + 'px' : (mousePos.Y - cardHeight) + 'px';
 	}
 	else cityCard.style.top = mousePos.Y + 'px';
 }
