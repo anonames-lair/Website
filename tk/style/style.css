@@ -160,12 +160,16 @@ select {
 
 .playerContent {
   display: grid;
-  grid-template-columns: 60px auto;
+  grid-template-columns: 60px 225px auto;
   grid-template-areas: "portrait profile";
 }
 
 .playerPortrait {
   grid-area: portrait;
+}
+
+.playerPortrait input {
+  width: 100%;
 }
 
 .playerProfile {

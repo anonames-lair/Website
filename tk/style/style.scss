@@ -191,12 +191,16 @@ select {
 
 .playerContent {
 	display: grid;
-	grid-template-columns: $imageSize * 2 auto;
+	grid-template-columns: $imageSize * 2 225px auto;
 	grid-template-areas: "portrait profile";
 }
 
 .playerPortrait {
 	grid-area: portrait;
+}
+
+.playerPortrait input {
+	width: 100%;
 }
 
 .playerProfile {
