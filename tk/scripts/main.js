@@ -677,7 +677,10 @@ window.onload = function () {
 	// Play Warlord scenario as Cao Cao right of the bat
 	init('Warlords', 15);
 	*/
-	draw();
+	
+	document.fonts.load(canvasFont).then(() => {
+		draw();
+	});
 }
 
 function init (scenario, officerIndex) {
