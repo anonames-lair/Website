@@ -1727,7 +1727,7 @@ function draw (force) {
 			for (var i = 0; i < scenarios.length; i++) {
 				for (var j = 0; j < scenarios[i].Playables.length; j++) {
 					var y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
-					fillRect(x, y, w, h, highlightColor);
+					fillRect(x, y, w, h, scenarioColor);
 					if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 					drawRect(x, y, w, h, fontDark);
 					ctx.fillStyle = fontDark;
@@ -1741,7 +1741,7 @@ function draw (force) {
 			
 			// Import data
 			var y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
-			fillRect(x, y, w, h, highlightColor);
+			fillRect(x, y, w, h, scenarioColor);
 			if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 			drawRect(x, y, w, h, fontDark);
 			ctx.fillStyle = fontDark;
@@ -1749,7 +1749,7 @@ function draw (force) {
 			
 			// Copy data
 			y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
-			fillRect(x, y, w, h, highlightColor);
+			fillRect(x, y, w, h, scenarioColor);
 			if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 			drawRect(x, y, w, h, fontDark);
 			ctx.fillStyle = fontDark;
@@ -1758,7 +1758,7 @@ function draw (force) {
 			if (localStorage['player']) {
 				// Download data
 				y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
-				fillRect(x, y, w, h, highlightColor);
+				fillRect(x, y, w, h, scenarioColor);
 				if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 				drawRect(x, y, w, h, fontDark);
 				ctx.fillStyle = fontDark;
@@ -1766,7 +1766,7 @@ function draw (force) {
 				
 				// Load data
 				y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
-				fillRect(x, y, w, h, highlightColor);
+				fillRect(x, y, w, h, scenarioColor);
 				if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 				drawRect(x, y, w, h, fontDark);
 				ctx.fillStyle = fontDark;
