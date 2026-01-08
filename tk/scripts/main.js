@@ -1208,6 +1208,7 @@ function animateMap (timestamp) {
 	startTimestamp = mapAnimationStep = 0;
 	
 	// Development progress
+	var expandCityMessages = [];
 	var redirected = [];
 	for (var i = 0; i < officers.length; i++) {
 		// Officer do not have objective or in the middle of redirection
@@ -1236,7 +1237,14 @@ function animateMap (timestamp) {
 				dismissOfficer(i);
 				break;
 			case 'Tech':
-				cities[index].cTech += floor(officers[i].INT * devMultiplier);
+				// Detect city expandsion
+				const improvement = floor(officers[i].INT * devMultiplier);
+				if (cities[index].cTech < cities[index].Tech && cities[index].cTech + improvement >= cities[index].Tech) {
+					const color = forces[cities[index].Force].Color;
+					expandCityMessages.push(`<span style="color: ${color};">${cities[index].Name}</span> is now a big city.`);
+				}
+				
+				cities[index].cTech += improvement;
 				if (cities[index].cTech > cities[index].Tech) cities[index].cTech = cities[index].Tech;
 				cities[index].cOrder -= orderDistrubtion;
 				if (cities[index].cOrder < 0) cities[index].cOrder = 0;
@@ -1521,6 +1529,9 @@ function animateMap (timestamp) {
 			}
 		}
 	}
+	
+	// Show expand city alert
+	if (expandCityMessages.length > 0) showAlert(expandCityMessages.join('<br>'));
 	
 	// Init battle if there are battles, or end turn
 	if (battles.length > 0) {

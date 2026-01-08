@@ -20,7 +20,7 @@ function showAlert (message, duration = 2000) {
 	const alertCard = getElement('alertCard');
 	
 	// Set the message and make it visible
-	alertCard.innerText = message;
+	alertCard.innerHTML = message;
 	alertCard.classList.add('show');
 	
 	// Hide it after the specified duration
