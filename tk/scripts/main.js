@@ -1208,7 +1208,8 @@ function animateMap (timestamp) {
 	startTimestamp = mapAnimationStep = 0;
 	
 	// Development progress
-	var alertMessages = [];
+	var expandCities = [];
+	var revoltCities = [];
 	var redirected = [];
 	for (var i = 0; i < officers.length; i++) {
 		// Officer do not have objective or in the middle of redirection
@@ -1240,8 +1241,7 @@ function animateMap (timestamp) {
 				// Detect city expansion
 				const improvement = floor(officers[i].INT * devMultiplier);
 				if (cities[index].cTech < cities[index].Tech && cities[index].cTech + improvement >= cities[index].Tech) {
-					const color = forces[getForceIndexById(cities[index].Force)].Color;
-					alertMessages.push(`<span style="color: ${color};">${cities[index].Name}</span> is now a big city.`);
+					expandCities.push(index);
 				}
 				
 				cities[index].cTech += improvement;
@@ -1355,9 +1355,8 @@ function animateMap (timestamp) {
 	// Revolts
 	for (var i = 0; i < cities.length; i++) {
 		if (cities[i].cOrder <= orderLimit / 2 && Math.random() * orderLimit / 2 > cities[i].cOrder) {
-			// Revolt alert message
-			const color = cities[i].Force === '-' ? cityColor : forces[getForceIndexById(cities[i].Force)].Color;
-			alertMessages.push(`People of <span style="color: ${color};">${cities[i].Name}</span> have revolted.`);
+			
+			revoltCities.push(i);
 			
 			cities[i].cFarm -= revoltImpact + floor(Math.random() * 20 - 5);
 			if (cities[i].cFarm < devMinimum) cities[i].cFarm = devMinimum;
@@ -1535,6 +1534,15 @@ function animateMap (timestamp) {
 	}
 	
 	// Show alert messages
+	var alertMessages = [];
+	if (expandCities.length > 0) {
+		if (expandCities.length > 10) alertMessages.push(`Expand cities:<br>${expandCities.map(i => cities[i].Name).join(', ')}`);
+		else alertMessages.push(expandCities.map(i => `${cities[i].Name} is now a big city.`).join('<br>'));
+	}
+	if (revoltCities.length > 0) {
+		if (revoltCities.length > 10) alertMessages.push(`Revolt cities:<br>${revoltCities.map(i => cities[i].Name).join(', ')}`);
+		else alertMessages.push(revoltCities.map(i => `People of ${cities[i].Name} have revolted.`).join('<br>'));
+	}
 	if (alertMessages.length > 0) showAlert(alertMessages.join('<br>'));
 	
 	// Init battle if there are battles, or end turn
