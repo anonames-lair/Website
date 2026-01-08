@@ -32,22 +32,23 @@ function showAlert (message, duration = 2000) {
 function formatList (indexes, label, singularFunction) {
 	if (indexes.length === 0) return null;
 	
-	if (indexes.length > 10) return `<div class="reportSection">
-			<div class="reportHeader">${label}</div>
-			<div class="compactList">
-				${indexes.map(i => {
-					const color = cities[i].Force === playerForce ? forces[getForceIndexById(cities[i].Force)].Color : fontDark;
-					return `<div style="color: ${color}">${cities[i].Name}</div>`;
-				}).join('')}
-			</div>
-		</div>`;
-	else return `<div class="reportSection">
-			<div class="reportHeader">${label}</div>
-			${indexes.map(i => {
-				const color = cities[i].Force === playerForce ? forces[getForceIndexById(cities[i].Force)].Color : fontDark;
-				return singularFunction(`<span style="color: ${color}">${cities[i].Name}</span>`);
-			}).join('<br>')}
-		</div>`;
+	const citiesData = indexes.map(i => {
+		const isPlayer = cities[i].Force === playerForce;
+		return {
+			name: cities[i].Name,
+			color: isPlayer ? forces[getForceIndexById(cities[i].Force)].Color : fontDark
+		};
+	});
+	
+	var listHTML;
+	if (indexes.length > 10) {
+		listHTML = `<div class="compactList">${citiesData.map(data => `<div style="color:${data.color}">${data.name}</div>`).join('')}</div>`;
+	}
+	else {
+		listHTML = citiesData.map(data => singularFunction(`<span style="color:${data.color}">${data.name}</span>`)).join('<br>');
+	}
+	
+	return `<div class="reportSection"><div class="reportHeader">${label}</div>${listHTML}</div>`;
 }
 
 function newImg (path) {

@@ -82,7 +82,7 @@ select {
 	border-radius: $cardRadius;
 	box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 	background-color: $cardBackColor;
-	padding: 12px 24px;
+	padding: 12px 24px 18px 24px;
 	font-size: $titleFontSize;
 	z-index: 1000;
 	opacity: 0;
