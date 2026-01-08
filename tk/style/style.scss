@@ -73,8 +73,10 @@ select {
 
 #alertCard {
 	position: fixed;
-	top: 20px;
+	top: 7vh;
 	left: 50%;
+	max-height: 80vh;
+	overflow-y: auto;
 	transform: translateX(-50%);
 	border: 1px solid #333333;
 	border-radius: $cardRadius;

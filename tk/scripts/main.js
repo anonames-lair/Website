@@ -1208,7 +1208,7 @@ function animateMap (timestamp) {
 	startTimestamp = mapAnimationStep = 0;
 	
 	// Development progress
-	var expandCityMessages = [];
+	var alertMessages = [];
 	var redirected = [];
 	for (var i = 0; i < officers.length; i++) {
 		// Officer do not have objective or in the middle of redirection
@@ -1237,11 +1237,11 @@ function animateMap (timestamp) {
 				dismissOfficer(i);
 				break;
 			case 'Tech':
-				// Detect city expandsion
+				// Detect city expansion
 				const improvement = floor(officers[i].INT * devMultiplier);
 				if (cities[index].cTech < cities[index].Tech && cities[index].cTech + improvement >= cities[index].Tech) {
-					const color = forces[cities[index].Force].Color;
-					expandCityMessages.push(`<span style="color: ${color};">${cities[index].Name}</span> is now a big city.`);
+					const color = forces[getForceIndexById(cities[index].Force)].Color;
+					alertMessages.push(`<span style="color: ${color};">${cities[index].Name}</span> is now a big city.`);
 				}
 				
 				cities[index].cTech += improvement;
@@ -1355,6 +1355,10 @@ function animateMap (timestamp) {
 	// Revolts
 	for (var i = 0; i < cities.length; i++) {
 		if (cities[i].cOrder <= orderLimit / 2 && Math.random() * orderLimit / 2 > cities[i].cOrder) {
+			// Revolt alert message
+			const color = cities[i].Force === '-' ? cityColor : forces[getForceIndexById(cities[i].Force)].Color;
+			alertMessages.push(`People of <span style="color: ${color};">${cities[i].Name}</span> have revolted.`);
+			
 			cities[i].cFarm -= revoltImpact + floor(Math.random() * 20 - 5);
 			if (cities[i].cFarm < devMinimum) cities[i].cFarm = devMinimum;
 			cities[i].cTrade -= revoltImpact + floor(Math.random() * 20 - 5);
@@ -1530,8 +1534,8 @@ function animateMap (timestamp) {
 		}
 	}
 	
-	// Show expand city alert
-	if (expandCityMessages.length > 0) showAlert(expandCityMessages.join('<br>'));
+	// Show alert messages
+	if (alertMessages.length > 0) showAlert(alertMessages.join('<br>'));
 	
 	// Init battle if there are battles, or end turn
 	if (battles.length > 0) {
