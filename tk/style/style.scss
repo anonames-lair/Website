@@ -94,6 +94,29 @@ select {
 	opacity: 1;
 }
 
+.reportSection {
+	text-align: center;
+}
+
+.reportHeader {
+	margin: 5px;
+	padding: 3px;
+	border-radius: 4px;
+	background: $statsBackColor;
+	font-weight: bold;
+	color: #8B0000;
+}
+
+.compactList {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(100px, 1fr));
+	gap: 3px;
+}
+
+.compactList div {
+	font-size: $contentFontSize;
+}
+
 #importUpload {
 	display: none;
 }

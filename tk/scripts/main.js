@@ -1534,15 +1534,11 @@ function animateMap (timestamp) {
 	}
 	
 	// Show alert messages
+	const expandReport = formatList(expandCities, 'Expanded Cities', name => `${name} is now a big city.`);
+	const revoltReport = formatList(revoltCities, 'Revolts', name => `People of ${name} have revolted.`);
 	var alertMessages = [];
-	if (expandCities.length > 0) {
-		if (expandCities.length > 10) alertMessages.push(`Expand cities:<br>${expandCities.map(i => cities[i].Name).join(', ')}`);
-		else alertMessages.push(expandCities.map(i => `${cities[i].Name} is now a big city.`).join('<br>'));
-	}
-	if (revoltCities.length > 0) {
-		if (revoltCities.length > 10) alertMessages.push(`Revolt cities:<br>${revoltCities.map(i => cities[i].Name).join(', ')}`);
-		else alertMessages.push(revoltCities.map(i => `People of ${cities[i].Name} have revolted.`).join('<br>'));
-	}
+	if (expandReport) alertMessages.push(expandReport);
+	if (revoltReport) alertMessages.push(revoltReport);
 	if (alertMessages.length > 0) showAlert(alertMessages.join('<br>'));
 	
 	// Init battle if there are battles, or end turn
