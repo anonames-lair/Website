@@ -51,6 +51,10 @@ function formatList (indexes, label, singularFunction) {
 	return `<div class="reportSection"><div class="reportHeader">${label}</div>${listHTML}</div>`;
 }
 
+function showBio (index) {
+	showAlert(`<div style="text-align: center;">${biography[index] ? biography[index] : 'No biography yet.'}</div>`);
+}
+
 function newImg (path) {
 	tempImg = new Image();
 	tempImg.src = path;
@@ -549,7 +553,8 @@ function getOfficerIndexByName (officerName) {
 }
 
 function getPortrait (officerName, size) {
-	return `<img class="${size}Portrait" src="../rotk/portraits/${officerName.split(' ').join('_')}.jpg">`;
+	const index = getOfficerIndexByName(officerName);
+	return `<img class="${size}Portrait" onclick="showBio(${index})" src="../rotk/portraits/${officerName.split(' ').join('_')}.jpg">`;
 }
 
 function getOfficers (forceId, alliance, sort) {

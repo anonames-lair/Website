@@ -672,6 +672,16 @@ window.onload = function () {
 	downloadString = 'DOWNLOAD DATA';
 	battles = [];
 	battleImages = [];
+	for (var i = 0; i < scenarios.length; i++) {
+		for (var j = 0; j < scenarios[i].Officers.length; j++) {
+			const officerName = scenarios[i].Officers[j][1];
+			for (var k = 0; k < officers.length; k++) {
+				if (officers[k].Name !== officerName) continue;
+				
+				battleImages[k] = newImg(`../rotk/portraits/${officerName.split(' ').join('_')}.jpg`);
+			}
+		}
+	}
 	damages = [];
 	/*
 	// Play Warlord scenario as Cao Cao right of the bat
@@ -722,13 +732,11 @@ function applyScenario (name) {
 			for (var j = 0; j < scenarios[i].Officers.length; j++) {
 				const officerName = scenarios[i].Officers[j][1];
 				for (var k = 0; k < officers.length; k++) {
-					if (officers[k].Name == officerName) {
-						officers[k].Force = scenarios[i].Officers[j][0];
-						officers[k].City = scenarios[i].Officers[j][2];
-						officers[k].Position = getCityPosition(scenarios[i].Officers[j][2]);
-						
-						battleImages[k] = newImg(`../rotk/portraits/${officers[k].Name.split(' ').join('_')}.jpg`);
-					}
+					if (officers[k].Name !== officerName) continue;
+					
+					officers[k].Force = scenarios[i].Officers[j][0];
+					officers[k].City = scenarios[i].Officers[j][2];
+					officers[k].Position = getCityPosition(scenarios[i].Officers[j][2]);
 				}
 			}
 			
@@ -1728,7 +1736,10 @@ function draw (force) {
 				for (var j = 0; j < scenarios[i].Playables.length; j++) {
 					var y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
 					fillRect(x, y, w, h, scenarioColor);
-					if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
+					if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) {
+						fillRect(x, y, w, h, buttonColor);
+						drawImage(battleImages[scenarios[i].Playables[j]], x + w - h, y, h, h);
+					}
 					drawRect(x, y, w, h, fontDark);
 					ctx.fillStyle = fontDark;
 					drawMessage(
