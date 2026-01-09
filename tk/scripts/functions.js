@@ -52,7 +52,7 @@ function formatList (indexes, label, singularFunction) {
 }
 
 function showBio (index) {
-	showAlert(`<div style="text-align: center;">${biography[index] ? biography[index] : 'No biography yet.'}</div>`);
+	showAlert(`<div style="text-align: center;">${biography[index] ? biography[index] : 'No biography yet.'}</div>`, 3000);
 }
 
 function newImg (path) {

@@ -1568,7 +1568,7 @@ function animateMap (timestamp) {
 	var alertMessages = [];
 	if (expandReport) alertMessages.push(expandReport);
 	if (revoltReport) alertMessages.push(revoltReport);
-	if (alertMessages.length > 0) showAlert(alertMessages.join('<br>'));
+	if (alertMessages.length > 0) showAlert(alertMessages.join('<br>'), 3000);
 	
 	// Init battle if there are battles, or end turn
 	if (battles.length > 0) {
