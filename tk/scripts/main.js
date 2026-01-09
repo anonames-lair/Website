@@ -674,10 +674,7 @@ window.onload = function () {
 				'top': false,
 				'bottom': false
 			};
-		}
-	}
-	for (var i = 0; i < mapWidth; i++) {
-		for (var j = 0; j < mapHeight; j++) {
+			
 			if (map[i][j] === 0) {
 				if (i - 1 >= 0 && map[i - 1][j] !== 1) neighbors[i][j]['left'] = true;
 				if (i + 1 < mapWidth && map[i + 1][j] !== 1) neighbors[i][j]['right'] = true;
@@ -685,7 +682,6 @@ window.onload = function () {
 				if (j + 1 < mapHeight && map[i][j + 1] !== 1) neighbors[i][j]['bottom'] = true;
 			}
 		}
-		
 	}
 	
 	mousePos = new Point.Zero();
