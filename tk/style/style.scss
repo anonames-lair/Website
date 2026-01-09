@@ -1,3 +1,5 @@
+// variables
+$cardBorder: 1px solid #333333;
 $cardRadius: 5px;
 $cardPadding: 5px;
 $cardBackColor: #DDDDDD;
@@ -75,12 +77,12 @@ select {
 	position: fixed;
 	top: 7vh;
 	left: 50%;
+	transform: translateX(-50%);
 	max-height: 80vh;
 	overflow-y: auto;
-	transform: translateX(-50%);
-	border: 1px solid #333333;
+	border: $cardBorder;
 	border-radius: $cardRadius;
-	box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 	background-color: $cardBackColor;
 	padding: 14px 24px;
 	font-size: $titleFontSize;
@@ -100,9 +102,9 @@ select {
 
 .reportHeader {
 	margin-bottom: 5px;
-	padding: 3px;
 	border-radius: 4px;
 	background: $statsBackColor;
+	padding: 3px;
 	font-weight: bold;
 	color: #8B0000;
 }
@@ -136,7 +138,7 @@ select {
 
 .playerCard, .hoverCard, .selectCard, .cityCard, .marchCard, .devCard, .unitCard, .officerCard, .deployedCard, .infoCard, .importCard {
 	position: fixed;
-	border: 1px solid #333333;
+	border: $cardBorder;
 	border-radius: $cardRadius;
 	background-color: $cardBackColor;
 	visibility: hidden;
