@@ -9,6 +9,8 @@ In addition to the 'IMPORT DATA' feature, external save data can also be importe
 
 Click the (i) icon to show/hide the number of officers in each city.
 
+Click the player portrait to show biography.
+
 OFFICER AND UNIT
 ================
 LDR is used to increase Order and Drill units.
