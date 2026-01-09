@@ -73,6 +73,7 @@ var playerForce;
 var forces = [];
 var officers = [];
 var units = [];
+var neighbors = {};
 
 var unitTypes = [];
 // Name, Type, Speed, Range, Effectiveness, Cost, Icon
@@ -106,18 +107,18 @@ scenarios.push(new Scenario(
 		['Lu Bu Forces', 277, '#545454', [7]],              // 3
 		['Tao Qian Forces', 415, '#AAFFAA', [11]],          // 4
 		['Yuan Shu Forces', 552, '#F516ED', [12, 13]],      // 5
-		['Kong Rong Forces', 217, '#AAFFAA', [18]],         // 6
+		['Kong Rong Forces', 217, '#D6E8AA', [18]],         // 6
 		['Yuan Shao Forces', 551, '#FFFF00', [15, 19, 20]], // 7
 		['Gongsun Zan Forces', 124, '#E33A10', [21, 22]],   // 8
 		['Gongsun Du Forces', 117, '#925DF5', [23]],        // 9
-		['Zhang Yang Forces', 596, '#3B1604', [17]],        // 10
-		['Ma Teng Forces', 303, '#572A03', [0, 1]],         // 11
+		['Zhang Yang Forces', 596, '#2A1303', [17]],        // 10
+		['Ma Teng Forces', 303, '#772A03', [0, 1]],         // 11
 		['Liu Yong Forces', 269, '#130A45', [44]],          // 12
 		['Yan Baihu Forces', 510, '#7A4B1C', [43]],         // 13
 		['Wang Lang Forces', 434, '#CCCCCC', [46]],         // 14
 		['Shi Xie Forces', 364, '#7A283E', [49]],           // 15
 		['Liu Biao Forces', 248, '#2BC8F0', [34, 35, 37]],  // 16
-		['Zhang Lu Forces', 580, '#5BF55B', [24]],          // 17
+		['Zhang Lu Forces', 580, '#5BD35B', [24]],          // 17
 		['Liu Zhang Forces', 272, '#0D0D47', [26, 27, 28]]  // 18
 	], [
 		// Officers
@@ -655,12 +656,36 @@ window.onload = function () {
 	}
 	
 	//invert map
-	for (var i = 0; i < map.length; i++) {
-		for (var j = i + 1; j < map.length; j++) {
+	for (var i = 0; i < mapWidth; i++) {
+		for (var j = i + 1; j < mapHeight; j++) {
 			var temp = map[i][j];
 			map[i][j] = map[j][i];
 			map[j][i] = temp;
 		}
+	}
+	
+	// Prepare neighbors
+	for (var i = 0; i < mapWidth; i++) {
+		neighbors[i] = {};
+		for (var j = 0; j < mapHeight; j++) {
+			neighbors[i][j] = {
+				'left': false,
+				'right': false,
+				'top': false,
+				'bottom': false
+			};
+		}
+	}
+	for (var i = 0; i < mapWidth; i++) {
+		for (var j = 0; j < mapHeight; j++) {
+			if (map[i][j] === 0) {
+				if (i - 1 >= 0 && map[i - 1][j] !== 1) neighbors[i][j]['left'] = true;
+				if (i + 1 < mapWidth && map[i + 1][j] !== 1) neighbors[i][j]['right'] = true;
+				if (j - 1 >= 0 && map[i][j - 1] !== 1) neighbors[i][j]['top'] = true;
+				if (j + 1 < mapHeight && map[i][j + 1] !== 1) neighbors[i][j]['bottom'] = true;
+			}
+		}
+		
 	}
 	
 	mousePos = new Point.Zero();
@@ -1730,11 +1755,13 @@ function draw (force) {
 			var line = 1;
 			// Scenarios
 			var x = scenarioX;
+			var y;
 			var w = scenarioWidth;
 			var h = buttonHeight;
+			var hHalf = h / 2 + 1;
 			for (var i = 0; i < scenarios.length; i++) {
 				for (var j = 0; j < scenarios[i].Playables.length; j++) {
-					var y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
+					y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
 					fillRect(x, y, w, h, scenarioColor);
 					if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) {
 						fillRect(x, y, w, h, buttonColor);
@@ -1745,18 +1772,18 @@ function draw (force) {
 					drawMessage(
 						`[${scenarios[i].Date}] ${scenarios[i].Name}: ${officers[scenarios[i].Playables[j]].Name}`,
 						x + buttonPad,
-						y + buttonHeight / 2 + 1
+						y + hHalf
 					);
 				}
 			}
 			
 			// Import data
-			var y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
+			y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
 			fillRect(x, y, w, h, scenarioColor);
 			if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 			drawRect(x, y, w, h, fontDark);
 			ctx.fillStyle = fontDark;
-			drawMessage('IMPORT DATA', x + buttonPad, y + buttonHeight / 2 + 1);
+			drawMessage('IMPORT DATA', x + buttonPad, y + hHalf);
 			
 			// Copy data
 			y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
@@ -1764,7 +1791,7 @@ function draw (force) {
 			if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 			drawRect(x, y, w, h, fontDark);
 			ctx.fillStyle = fontDark;
-			drawMessage(copyString, x + buttonPad, y + buttonHeight / 2 + 1);
+			drawMessage(copyString, x + buttonPad, y + hHalf);
 			
 			if (localStorage['player']) {
 				// Download data
@@ -1773,7 +1800,7 @@ function draw (force) {
 				if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 				drawRect(x, y, w, h, fontDark);
 				ctx.fillStyle = fontDark;
-				drawMessage(downloadString, x + buttonPad, y + buttonHeight / 2 + 1);
+				drawMessage(downloadString, x + buttonPad, y + hHalf);
 				
 				// Load data
 				y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
@@ -1781,7 +1808,7 @@ function draw (force) {
 				if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 				drawRect(x, y, w, h, fontDark);
 				ctx.fillStyle = fontDark;
-				drawMessage('LOAD DATA', x + buttonPad, y + buttonHeight / 2 + 1);
+				drawMessage('LOAD DATA', x + buttonPad, y + hHalf);
 			}
 		}
 		else if (gState == 1) {
@@ -1798,19 +1825,19 @@ function draw (force) {
 					
 					if (map[i][j] === 0) {
 						fillRect(x + squareFourth, y + squareFourth, squareHalf, squareHalf, roadColor);
-						if (i - 1 >= 0 && map[i - 1][j] !== 1) {
+						if (neighbors[i][j]['left']) {
 							fillRect(x, y + squareFourth, squareFourth, squareHalf, roadColor);
 							drawLine(x, y + squareFourth, x, y + squareFourth + squareHalf, cityColor);
 						}
-						if (i + 1 < mapWidth && map[i + 1][j] !== 1) {
+						if (neighbors[i][j]['right']) {
 							fillRect(x + squareFourth + squareHalf, y + squareFourth, squareFourth, squareHalf, roadColor);
 							drawLine(x + squareSize, y + squareFourth, x + squareSize, y + squareFourth + squareHalf, cityColor);
 						}
-						if (j - 1 >= 0 && map[i][j - 1] !== 1) {
+						if (neighbors[i][j]['top']) {
 							fillRect(x + squareFourth, y, squareHalf, squareFourth, roadColor);
 							drawLine(x + squareFourth, y, x + squareFourth + squareHalf, y, cityColor);
 						}
-						if (j + 1 < mapHeight && map[i][j + 1] !== 1) {
+						if (neighbors[i][j]['bottom']) {
 							fillRect(x + squareFourth, y + squareFourth + squareHalf, squareHalf, squareFourth, roadColor);
 							drawLine(x + squareFourth, y + squareSize, x + squareFourth + squareHalf, y + squareSize, cityColor);
 						}
