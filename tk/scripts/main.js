@@ -502,18 +502,6 @@ window.onload = function () {
 	playerCard.classList.add('playerCard');
 	document.body.appendChild(playerCard);
 	
-	hoverCard = document.createElement('div');
-	hoverCard.classList.add('hoverCard');
-	document.body.appendChild(hoverCard);
-	
-	selectCard = document.createElement('div');
-	selectCard.classList.add('selectCard');
-	document.body.appendChild(selectCard);
-	
-	cityCard = document.createElement('div');
-	cityCard.classList.add('cityCard');
-	document.body.appendChild(cityCard);
-	
 	marchCard = document.createElement('div');
 	marchCard.classList.add('marchCard');
 	document.body.appendChild(marchCard);
@@ -530,13 +518,25 @@ window.onload = function () {
 	officerCard.classList.add('officerCard');
 	document.body.appendChild(officerCard);
 	
+	infoCard = document.createElement('div');
+	infoCard.classList.add('infoCard');
+	document.body.appendChild(infoCard);
+	
+	hoverCard = document.createElement('div');
+	hoverCard.classList.add('hoverCard');
+	document.body.appendChild(hoverCard);
+	
 	deployedCard = document.createElement('div');
 	deployedCard.classList.add('deployedCard');
 	document.body.appendChild(deployedCard);
 	
-	infoCard = document.createElement('div');
-	infoCard.classList.add('infoCard');
-	document.body.appendChild(infoCard);
+	cityCard = document.createElement('div');
+	cityCard.classList.add('cityCard');
+	document.body.appendChild(cityCard);
+	
+	selectCard = document.createElement('div');
+	selectCard.classList.add('selectCard');
+	document.body.appendChild(selectCard);
 	
 	importCard = document.createElement('div');
 	importCard.classList.add('importCard');
@@ -591,25 +591,29 @@ window.onload = function () {
 	infoX = isPortrait ? canvasPad : canvasPad * 2 + mapSize;
 	infoY = isPortrait ? canvasPad * 2 + mapSize : canvasPad;
 	
-	infoXHalf = infoX + (window.innerWidth - infoX) / 2;
-	infoYHalf = infoY + (window.innerHeight - infoY) / 2;
+	const infoWidth = window.innerWidth - infoX;
+	const infoHeight = window.innerHeight - infoY;
+	infoXHalf = infoX + infoWidth / 2;
+	infoYHalf = infoY + infoHeight / 2;
 	
 	marchCard.style.left = devCard.style.left = unitCard.style.left = officerCard.style.left = importCard.style.left = (canvasPad + cardMargin) + 'px';
 	marchCard.style.top = devCard.style.top = unitCard.style.top = officerCard.style.top = importCard.style.top = (canvasPad + cardMargin) + 'px';
 	marchCard.style.width = devCard.style.width = unitCard.style.width = officerCard.style.width = importCard.style.width = (mapSize - (canvasPad + cardMargin) * 2) + 'px';
 	marchCard.style.height = devCard.style.height = unitCard.style.height = officerCard.style.height = importCard.style.height = (mapSize - (canvasPad + cardMargin) * 2) + 'px';
 	
+	const cardWidth = infoWidth - (cardMargin * 2);
+	const playerCardHeight = infoHeight / 5 - (cardMargin * 2);
 	playerCard.style.left = (infoX + cardMargin) + 'px';
 	playerCard.style.top = (infoY + cardMargin) + 'px';
-	playerCard.style.width = (window.innerWidth - infoX - (cardMargin * 2)) + 'px';
-	playerCard.style.height = ((window.innerHeight - infoY) / (isMobile || isPortrait ? 4 : 4.23) - (cardMargin * 2)) + 'px';
+	playerCard.style.width = cardWidth + 'px';
+	playerCard.style.height = (playerCardHeight > 125 ? playerCardHeight : 125) + 'px';
 	playerCard.innerHTML = `<div id="playerContent"></div><div id="playSvg"></div>`;
 	
 	battleX = infoX;
 	battleY = infoY;
 	//battleY = infoY + playerCard.clientHeight + cardMargin * 2;
-	battleWidth = window.innerWidth - battleX;
-	battleHeight = window.innerHeight - battleY;
+	battleWidth = infoWidth;
+	battleHeight = infoHeight;
 	battleMiddleX = battleX + battleWidth / 2;
 	attX = battleX + battleWidth * 0.25;
 	defX = battleX + battleWidth * 0.75;
@@ -619,8 +623,8 @@ window.onload = function () {
 	
 	infoCard.style.left = (infoX + cardMargin) + 'px';
 	infoCard.style.top = (infoY + playerCard.clientHeight + cardMargin * 2) + 'px';
-	infoCard.style.width = (window.innerWidth - infoX - (cardMargin * 2)) + 'px';
-	infoCard.style.height = (window.innerHeight - infoY - playerCard.clientHeight - (cardMargin * 3)) + 'px';
+	infoCard.style.width = cardWidth + 'px';
+	infoCard.style.height = (infoHeight - playerCard.clientHeight - (cardMargin * 3)) + 'px';
 	
 	playSvg = getElement('playSvg');
 	playSvg.onclick = playClick;

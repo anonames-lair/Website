@@ -145,7 +145,7 @@ const damageColor = '#FF0000';
 const moraleColor = '#48F0FF';
 
 // Card
-const cardMargin = 10;
+const cardMargin = 6;
 const hoverMarginX = 10;
 const hoverMarginY = 0;
 const buttonWidth = 100;
