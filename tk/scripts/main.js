@@ -602,7 +602,7 @@ window.onload = function () {
 	playerCard.style.left = (infoX + cardMargin) + 'px';
 	playerCard.style.top = (infoY + cardMargin) + 'px';
 	playerCard.style.width = (window.innerWidth - infoX - (cardMargin * 2)) + 'px';
-	playerCard.style.height = ((window.innerHeight - infoY) / (isMobile || isPortrait ? 4 : 4.75) - (cardMargin * 2)) + 'px';
+	playerCard.style.height = ((window.innerHeight - infoY) / (isMobile || isPortrait ? 4 : 4.23) - (cardMargin * 2)) + 'px';
 	playerCard.innerHTML = `<div id="playerContent"></div><div id="playSvg"></div>`;
 	
 	battleX = infoX;
