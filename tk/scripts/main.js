@@ -33,7 +33,7 @@ var battleSpeed;
 var focusIndex;
 var damages;
 var mousePos;
-var infoIconHover;
+var showCityOfficer;
 var elapsed;
 var then;
 var startTimestamp;
@@ -685,7 +685,7 @@ window.onload = function () {
 	}
 	
 	mousePos = new Point.Zero();
-	infoIconHover = officerSort = false;
+	showCityOfficer = officerSort = false;
 	then = startTimestamp = mapAnimationStep = gState = 0;
 	battleSpeed = 1;
 	focusIndex = -1;
@@ -996,7 +996,7 @@ function onMouseClick (e) {
 			
 			// Clicked info icon
 			if (indexX == infoIconX && indexY == infoIconY) {
-				infoIconHover = !infoIconHover;
+				showCityOfficer = !showCityOfficer;
 				draw();
 				return;
 			}
@@ -1732,278 +1732,279 @@ function animateUnits (unitIndexes, elapsedTimestamp, allyAbilities, enemyAbilit
 function draw (force) {
 	var now = performance.now();
 	elapsed = now - then;
-	if (elapsed > fpsInterval || force) {
-		// If forcing draw, start the clock over. If not, stay on the beat
-		then = force ? now : now - (elapsed % fpsInterval);
+	if (elapsed < fpsInterval && !force) return;
+	
+	// If forcing draw, start the clock over. If not, stay on the beat
+	then = force ? now : now - (elapsed % fpsInterval);
+	
+	// Invalidate
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	
+	ctx.font = canvasFont;
+	
+	// Begin drawing
+	ctx.beginPath();
+	
+	if (gState == 0) {
+		// Draw title image
+		drawImage(titleImage, 0, 0, titleWidth, titleHeight);
 		
-		// Invalidate
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		
-		ctx.font = canvasFont;
-		
-		// Begin drawing
-		ctx.beginPath();
-		
-		if (gState == 0) {
-			// Draw title image
-			drawImage(titleImage, 0, 0, titleWidth, titleHeight);
-			
-			var line = 1;
-			// Scenarios
-			var x = scenarioX;
-			var y;
-			var w = scenarioWidth;
-			var h = buttonHeight;
-			var hHalf = h / 2 + 1;
-			for (var i = 0; i < scenarios.length; i++) {
-				for (var j = 0; j < scenarios[i].Playables.length; j++) {
-					y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
-					fillRect(x, y, w, h, scenarioColor);
-					if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) {
-						fillRect(x, y, w, h, buttonColor);
-						drawImage(battleImages[scenarios[i].Playables[j]], x + w - h, y, h, h);
-					}
-					drawRect(x, y, w, h, fontDark);
-					ctx.fillStyle = fontDark;
-					drawMessage(
-						`[${scenarios[i].Date}] ${scenarios[i].Name}: ${officers[scenarios[i].Playables[j]].Name}`,
-						x + buttonPad,
-						y + hHalf
-					);
+		var line = 1;
+		// Scenarios
+		var x = scenarioX;
+		var y;
+		var w = scenarioWidth;
+		var h = buttonHeight;
+		var hHalf = h / 2 + 1;
+		for (var i = 0; i < scenarios.length; i++) {
+			for (var j = 0; j < scenarios[i].Playables.length; j++) {
+				y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
+				fillRect(x, y, w, h, scenarioColor);
+				if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) {
+					fillRect(x, y, w, h, buttonColor);
+					drawImage(battleImages[scenarios[i].Playables[j]], x + w - h, y, h, h);
 				}
+				drawRect(x, y, w, h, fontDark);
+				ctx.fillStyle = fontDark;
+				drawMessage(
+					`[${scenarios[i].Date}] ${scenarios[i].Name}: ${officers[scenarios[i].Playables[j]].Name}`,
+					x + buttonPad,
+					y + hHalf
+				);
 			}
-			
-			// Import data
+		}
+		
+		// Import data
+		y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
+		fillRect(x, y, w, h, scenarioColor);
+		if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
+		drawRect(x, y, w, h, fontDark);
+		ctx.fillStyle = fontDark;
+		drawMessage('IMPORT DATA', x + buttonPad, y + hHalf);
+		
+		// Copy data
+		y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
+		fillRect(x, y, w, h, scenarioColor);
+		if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
+		drawRect(x, y, w, h, fontDark);
+		ctx.fillStyle = fontDark;
+		drawMessage(copyString, x + buttonPad, y + hHalf);
+		
+		if (localStorage['player']) {
+			// Download data
 			y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
 			fillRect(x, y, w, h, scenarioColor);
 			if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 			drawRect(x, y, w, h, fontDark);
 			ctx.fillStyle = fontDark;
-			drawMessage('IMPORT DATA', x + buttonPad, y + hHalf);
+			drawMessage(downloadString, x + buttonPad, y + hHalf);
 			
-			// Copy data
+			// Load data
 			y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
 			fillRect(x, y, w, h, scenarioColor);
 			if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
 			drawRect(x, y, w, h, fontDark);
 			ctx.fillStyle = fontDark;
-			drawMessage(copyString, x + buttonPad, y + hHalf);
-			
-			if (localStorage['player']) {
-				// Download data
-				y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
-				fillRect(x, y, w, h, scenarioColor);
-				if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
-				drawRect(x, y, w, h, fontDark);
-				ctx.fillStyle = fontDark;
-				drawMessage(downloadString, x + buttonPad, y + hHalf);
-				
-				// Load data
-				y = canvasPad + (line * buttonHeight) + (++line * buttonMargin);
-				fillRect(x, y, w, h, scenarioColor);
-				if (mousePos.X >= x && mousePos.X < x + w && mousePos.Y >= y && mousePos.Y < y + h) fillRect(x, y, w, h, buttonColor);
-				drawRect(x, y, w, h, fontDark);
-				ctx.fillStyle = fontDark;
-				drawMessage('LOAD DATA', x + buttonPad, y + hHalf);
-			}
+			drawMessage('LOAD DATA', x + buttonPad, y + hHalf);
 		}
-		else if (gState == 1) {
-			var x = canvasPad;
-			var y = canvasPad;
-			// Draw background map
-			drawImage(mapImage, x, y, mapSize, mapSize);
-			// Draw roads
-			ctx.globalAlpha = roadAlpha;
-			for (var i = 0; i < map.length; i++) {
-				for (var j = 0; j < map[i].length; j++) {
-					x = canvasPad + i * squareSize;
-					y = canvasPad + j * squareSize;
-					
-					if (map[i][j] === 0) {
-						fillRect(x + squareFourth, y + squareFourth, squareHalf, squareHalf, roadColor);
-						if (neighbors[i][j]['left']) {
-							fillRect(x, y + squareFourth, squareFourth, squareHalf, roadColor);
-							drawLine(x, y + squareFourth, x, y + squareFourth + squareHalf, cityColor);
-						}
-						if (neighbors[i][j]['right']) {
-							fillRect(x + squareFourth + squareHalf, y + squareFourth, squareFourth, squareHalf, roadColor);
-							drawLine(x + squareSize, y + squareFourth, x + squareSize, y + squareFourth + squareHalf, cityColor);
-						}
-						if (neighbors[i][j]['top']) {
-							fillRect(x + squareFourth, y, squareHalf, squareFourth, roadColor);
-							drawLine(x + squareFourth, y, x + squareFourth + squareHalf, y, cityColor);
-						}
-						if (neighbors[i][j]['bottom']) {
-							fillRect(x + squareFourth, y + squareFourth + squareHalf, squareHalf, squareFourth, roadColor);
-							drawLine(x + squareFourth, y + squareSize, x + squareFourth + squareHalf, y + squareSize, cityColor);
-						}
-					}
-				}
-			}
-			ctx.globalAlpha = 1.0;
-			
-			// Draw cities
-			for (var i = 0; i < map.length; i++) {
-				for (var j = 0; j < map[i].length; j++) {
-					// Not a city
-					if (map[i][j] < cityIndexStart) continue;
-					
-					x = canvasPad + i * squareSize - cityPad;
-					y = canvasPad + j * squareSize - cityPad;
-					
-					const index = map[i][j] - cityIndexStart;
-					if (cities[index].Force === '-') {
-						drawImage(cities[index].cTech < cities[index].Tech ? emptySmallCity : emptyBigCity, x, y, citySize, citySize);
-						//fillRect(x, y, citySize, citySize, cityColor);
-					}
-					else {
-						const forceIndex = getForceIndexById(cities[index].Force);
-						drawImage(
-							cities[index].cTech < cities[index].Tech ? forces[forceIndex].SmallCity : forces[forceIndex].BigCity,
-							x,
-							y,
-							citySize,
-							citySize
-						);
-						//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
-						if (infoIconHover) {
-							ctx.fillStyle = fontDark;
-							drawMessage(
-								`${getCityViableOfficers(index).length}/${getCityOfficers(index).length}`,
-								x + cityHalf,
-								y + citySize + dotSize,
-								'center'
-							);
-						}
-						ctx.fillStyle = getTextColor(forces[forceIndex].Color);
-						drawMessage(forces[forceIndex].Name[0], x + cityHalf, y + cityHalf + 1, 'center');
-					}
-				}
-			}
-			
-			// Draw deployed units
-			for (var i = 0; i < officers.length; i++) {
-				if (getObjectiveName(officers[i]) == 'March') {
-					x = canvasPad + officers[i].Position.X * squareSize + unitPad;
-					y = canvasPad + officers[i].Position.Y * squareSize + unitPad;
-					
-					var path = getPath(officers[i]);
-					if (path.Points[1]) {
-						var toNext = path.Points[1].subtract(officers[i].Position);
-						x += toNext.X * squareSize * mapAnimationStep;
-						y += toNext.Y * squareSize * mapAnimationStep;
-					}
-					
-					// Draw deployed units path
-					if (mousePos.X >= x && mousePos.X < x + deployedWidth && mousePos.Y >= y && mousePos.Y < y + deployedHeight) {
-						for (var j = 1; j < path.Points.length; j++) {
-							const pointX = canvasPad + path.Points[j].X * squareSize + unitPad;
-							const pointY = canvasPad + path.Points[j].Y * squareSize + unitPad;
-							fillRect(pointX, pointY, deployedWidth, deployedHeight, giveAlpha(forces[getForceIndexById(officers[i].Force)].Color));
-						}
-					}
-					
-					// Draw units
-					drawImage(unitScaled, x, y, deployedWidth, deployedHeight);
-					
-					// Dot indicator
-					fillRect(x + dotSize, y - dotSize, dotSize, dotSize, forces[getForceIndexById(officers[i].Force)].Color);
-					
-					// Battle indicator on map
-					if (battles.length > 0 && (i == battles[0]['Commander0'] || i == battles[0]['Commander1'])) {
-						drawImage(downImage, x, y - deployedHeight, deployedWidth, deployedHeight);
-					}
-				}
-			}
-			
-			// Draw info icon
-			drawImage(infoImage, canvasPad + (squareSize * infoIconX), canvasPad + (squareSize * infoIconY), squareSize, squareSize);
-			
-			// Draw battle scene
-			if (battles.length > 0) {
-				closeCard(playerCard, true);
-				closeCard(infoCard);
-				drawImage(sceneImage, battleX, battleY, battleWidth, battleHeight);
-				
-				// Draw battle unit portrait
-				for (var i = 0; i < units.length; i++) {
-					if (units[i].Vec && (units[i].Objective[1] == battles[0]['Commander0'] || units[i].Objective[1] == battles[0]['Commander1'])) {
-						x = units[i].Vec.X - portraitRadius - portraitPad / 2;
-						y = units[i].Vec.Y - portraitRadius;
-						
-						const isHurting = damages[units[i].Id] && startTimestamp - damages[units[i].Id]['Timestamp'] < unitHurtingTime;
-						
-						// Draw portrait outline
-						ctx.fillStyle = isHurting ? unitHurtingColor : unitOutlineColor;
-						ctx.beginPath();
-						ctx.arc(units[i].Vec.X, units[i].Vec.Y, portraitRadius + 2 , 0, Math.PI * 2);
-						ctx.closePath();
-						ctx.fill();
-						
-						if (!isHurting) {
-							// Draw portrait
-							ctx.save();
-							ctx.beginPath();
-							ctx.arc(units[i].Vec.X, units[i].Vec.Y, portraitRadius, 0, Math.PI * 2);
-							ctx.clip();
-							drawImage(battleImages[units[i].Objective[1]], x, y, portraitSize + portraitPad, portraitSize + portraitPad);
-							ctx.restore();
-						}
-					}
-				}
-				
-				// Draw battle unit icon, strength, morale and damage info
-				for (var i = 0; i < units.length; i++) {
-					if (units[i].Vec && (units[i].Objective[1] == battles[0]['Commander0'] || units[i].Objective[1] == battles[0]['Commander1'])) {
-						// Draw damage
-						if (damages[units[i].Id] && startTimestamp - damages[units[i].Id]['Timestamp'] < battleSeconds) {
-							const progress = (startTimestamp - damages[units[i].Id]['Timestamp']) / battleSeconds;
-							const floatOffset = progress * 20;
-							ctx.globalAlpha = 1 - progress;
-							
-							drawGlowMessage(
-								`-${damages[units[i].Id]['Damage']}`,
-								units[i].Vec.X,
-								units[i].Vec.Y + damagePad - floatOffset,
-								'center',
-								damageColor
-							);
-							
-							ctx.globalAlpha = 1;
-						}
-
-						// Draw icon and strength
-						drawGlowMessage(
-							unitTypes[units[i].Type].Icon + units[i].Strength,
-							units[i].Vec.X,
-							units[i].Vec.Y + unitHalfSize,
-							'center',
-							forces[getForceIndexById(units[i].Force)].Color
-						);
-						
-						// Draw morale bar
-						var startPoint = units[i].Vec.add(moraleBarPositionModifier);
-						drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize, 0)));
-						drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize * units[i].Morale / moraleLimit, 0)), moraleColor);
-						
-						// Draw focus indicator
-						if (focusIndex === i) drawImage(focusImage, units[i].Vec.X - portraitRadius, units[i].Vec.Y - portraitRadius, portraitSize, portraitSize);
-					}
-				}
-				
-				// Draw battle info
-				fillRect(battleX, battleY, battleWidth, battleInfoHeight, highlightColor);
-				drawGlowMessage(battles[0]['DisplayName0'], attX, forceY, 'center');
-				drawGlowMessage(battles[0]['DisplayName1'], defX, forceY, 'center');
-				drawGlowMessage(battles[0]['DisplayStats0'], attX, statsY, 'center');
-				drawGlowMessage(battles[0]['DisplayStats1'], defX, statsY, 'center');
-				drawGlowMessage(`☗ ${getDeployedStrength(battles[0]['Commander0'])}`, attX, strengthY, 'center');
-				drawGlowMessage(`☗ ${getDeployedStrength(battles[0]['Commander1'])}`, defX, strengthY, 'center');
-				if (!battles[0]['Resumed']) drawGlowMessage('Paused', battleMiddleX, statsY, 'center');
-				drawGlowMessage(battleSpeed + 'X', battleMiddleX, strengthY, 'center');
-			}
-		}
-		
-		ctx.stroke();
 	}
+	else if (gState == 1) {
+		var x = canvasPad;
+		var y = canvasPad;
+		// Draw background map
+		drawImage(mapImage, x, y, mapSize, mapSize);
+		// Draw roads
+		ctx.globalAlpha = roadAlpha;
+		for (var i = 0; i < map.length; i++) {
+			for (var j = 0; j < map[i].length; j++) {
+				x = canvasPad + i * squareSize;
+				y = canvasPad + j * squareSize;
+				
+				if (map[i][j] === 0) {
+					fillRect(x + squareFourth, y + squareFourth, squareHalf, squareHalf, roadColor);
+					if (neighbors[i][j]['left']) {
+						fillRect(x, y + squareFourth, squareFourth, squareHalf, roadColor);
+						drawLine(x, y + squareFourth, x, y + squareFourth + squareHalf, cityColor);
+					}
+					if (neighbors[i][j]['right']) {
+						fillRect(x + squareFourth + squareHalf, y + squareFourth, squareFourth, squareHalf, roadColor);
+						drawLine(x + squareSize, y + squareFourth, x + squareSize, y + squareFourth + squareHalf, cityColor);
+					}
+					if (neighbors[i][j]['top']) {
+						fillRect(x + squareFourth, y, squareHalf, squareFourth, roadColor);
+						drawLine(x + squareFourth, y, x + squareFourth + squareHalf, y, cityColor);
+					}
+					if (neighbors[i][j]['bottom']) {
+						fillRect(x + squareFourth, y + squareFourth + squareHalf, squareHalf, squareFourth, roadColor);
+						drawLine(x + squareFourth, y + squareSize, x + squareFourth + squareHalf, y + squareSize, cityColor);
+					}
+				}
+			}
+		}
+		ctx.globalAlpha = 1.0;
+		
+		// Draw cities
+		for (var i = 0; i < map.length; i++) {
+			for (var j = 0; j < map[i].length; j++) {
+				// Not a city
+				if (map[i][j] < cityIndexStart) continue;
+				
+				x = canvasPad + i * squareSize - cityPad;
+				y = canvasPad + j * squareSize - cityPad;
+				
+				const index = map[i][j] - cityIndexStart;
+				if (cities[index].Force === '-') {
+					drawImage(cities[index].cTech < cities[index].Tech ? emptySmallCity : emptyBigCity, x, y, citySize, citySize);
+					//fillRect(x, y, citySize, citySize, cityColor);
+				}
+				else {
+					const forceIndex = getForceIndexById(cities[index].Force);
+					drawImage(
+						cities[index].cTech < cities[index].Tech ? forces[forceIndex].SmallCity : forces[forceIndex].BigCity,
+						x,
+						y,
+						citySize,
+						citySize
+					);
+					//fillRect(x, y, citySize, citySize, forces[forceIndex].Color);
+					if (showCityOfficer) {
+						const viableOfficers = getCityViableOfficers(index).length;
+						ctx.fillStyle = viableOfficers === 0 ? unitOutlineColor : fontDark;
+						drawMessage(
+							`${viableOfficers}/${getCityOfficers(index).length}`,
+							x + cityHalf,
+							y + citySize + dotSize,
+							'center'
+						);
+					}
+					ctx.fillStyle = getTextColor(forces[forceIndex].Color);
+					drawMessage(forces[forceIndex].Name[0], x + cityHalf, y + cityHalf + 1, 'center');
+				}
+			}
+		}
+		
+		// Draw deployed units
+		for (var i = 0; i < officers.length; i++) {
+			if (getObjectiveName(officers[i]) == 'March') {
+				x = canvasPad + officers[i].Position.X * squareSize + unitPad;
+				y = canvasPad + officers[i].Position.Y * squareSize + unitPad;
+				
+				var path = getPath(officers[i]);
+				if (path.Points[1]) {
+					var toNext = path.Points[1].subtract(officers[i].Position);
+					x += toNext.X * squareSize * mapAnimationStep;
+					y += toNext.Y * squareSize * mapAnimationStep;
+				}
+				
+				// Draw deployed units path
+				if (mousePos.X >= x && mousePos.X < x + deployedWidth && mousePos.Y >= y && mousePos.Y < y + deployedHeight) {
+					for (var j = 1; j < path.Points.length; j++) {
+						const pointX = canvasPad + path.Points[j].X * squareSize + unitPad;
+						const pointY = canvasPad + path.Points[j].Y * squareSize + unitPad;
+						fillRect(pointX, pointY, deployedWidth, deployedHeight, giveAlpha(forces[getForceIndexById(officers[i].Force)].Color));
+					}
+				}
+				
+				// Draw units
+				drawImage(unitScaled, x, y, deployedWidth, deployedHeight);
+				
+				// Dot indicator
+				fillRect(x + dotSize, y - dotSize, dotSize, dotSize, forces[getForceIndexById(officers[i].Force)].Color);
+				
+				// Battle indicator on map
+				if (battles.length > 0 && (i == battles[0]['Commander0'] || i == battles[0]['Commander1'])) {
+					drawImage(downImage, x, y - deployedHeight, deployedWidth, deployedHeight);
+				}
+			}
+		}
+		
+		// Draw info icon
+		drawImage(infoImage, canvasPad + (squareSize * infoIconX), canvasPad + (squareSize * infoIconY), squareSize, squareSize);
+		
+		// Draw battle scene
+		if (battles.length > 0) {
+			closeCard(playerCard, true);
+			closeCard(infoCard);
+			drawImage(sceneImage, battleX, battleY, battleWidth, battleHeight);
+			
+			// Draw battle unit portrait
+			for (var i = 0; i < units.length; i++) {
+				if (units[i].Vec && (units[i].Objective[1] == battles[0]['Commander0'] || units[i].Objective[1] == battles[0]['Commander1'])) {
+					x = units[i].Vec.X - portraitRadius - portraitPad / 2;
+					y = units[i].Vec.Y - portraitRadius;
+					
+					const isHurting = damages[units[i].Id] && startTimestamp - damages[units[i].Id]['Timestamp'] < unitHurtingTime;
+					
+					// Draw portrait outline
+					ctx.fillStyle = isHurting ? unitHurtingColor : unitOutlineColor;
+					ctx.beginPath();
+					ctx.arc(units[i].Vec.X, units[i].Vec.Y, portraitRadius + 2 , 0, Math.PI * 2);
+					ctx.closePath();
+					ctx.fill();
+					
+					if (!isHurting) {
+						// Draw portrait
+						ctx.save();
+						ctx.beginPath();
+						ctx.arc(units[i].Vec.X, units[i].Vec.Y, portraitRadius, 0, Math.PI * 2);
+						ctx.clip();
+						drawImage(battleImages[units[i].Objective[1]], x, y, portraitSize + portraitPad, portraitSize + portraitPad);
+						ctx.restore();
+					}
+				}
+			}
+			
+			// Draw battle unit icon, strength, morale and damage info
+			for (var i = 0; i < units.length; i++) {
+				if (units[i].Vec && (units[i].Objective[1] == battles[0]['Commander0'] || units[i].Objective[1] == battles[0]['Commander1'])) {
+					// Draw damage
+					if (damages[units[i].Id] && startTimestamp - damages[units[i].Id]['Timestamp'] < battleSeconds) {
+						const progress = (startTimestamp - damages[units[i].Id]['Timestamp']) / battleSeconds;
+						const floatOffset = progress * 20;
+						ctx.globalAlpha = 1 - progress;
+						
+						drawGlowMessage(
+							`-${damages[units[i].Id]['Damage']}`,
+							units[i].Vec.X,
+							units[i].Vec.Y + damagePad - floatOffset,
+							'center',
+							damageColor
+						);
+						
+						ctx.globalAlpha = 1;
+					}
+
+					// Draw icon and strength
+					drawGlowMessage(
+						unitTypes[units[i].Type].Icon + units[i].Strength,
+						units[i].Vec.X,
+						units[i].Vec.Y + unitHalfSize,
+						'center',
+						forces[getForceIndexById(units[i].Force)].Color
+					);
+					
+					// Draw morale bar
+					var startPoint = units[i].Vec.add(moraleBarPositionModifier);
+					drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize, 0)));
+					drawBoldLine(startPoint, startPoint.add(new Point(moraleBarSize * units[i].Morale / moraleLimit, 0)), moraleColor);
+					
+					// Draw focus indicator
+					if (focusIndex === i) drawImage(focusImage, units[i].Vec.X - portraitRadius, units[i].Vec.Y - portraitRadius, portraitSize, portraitSize);
+				}
+			}
+			
+			// Draw battle info
+			fillRect(battleX, battleY, battleWidth, battleInfoHeight, highlightColor);
+			drawGlowMessage(battles[0]['DisplayName0'], attX, forceY, 'center');
+			drawGlowMessage(battles[0]['DisplayName1'], defX, forceY, 'center');
+			drawGlowMessage(battles[0]['DisplayStats0'], attX, statsY, 'center');
+			drawGlowMessage(battles[0]['DisplayStats1'], defX, statsY, 'center');
+			drawGlowMessage(`☗ ${getDeployedStrength(battles[0]['Commander0'])}`, attX, strengthY, 'center');
+			drawGlowMessage(`☗ ${getDeployedStrength(battles[0]['Commander1'])}`, defX, strengthY, 'center');
+			if (!battles[0]['Resumed']) drawGlowMessage('Paused', battleMiddleX, statsY, 'center');
+			drawGlowMessage(battleSpeed + 'X', battleMiddleX, strengthY, 'center');
+		}
+	}
+	
+	ctx.stroke();
 }
