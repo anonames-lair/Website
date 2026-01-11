@@ -111,9 +111,9 @@ scenarios.push(new Scenario(
 		['Yuan Shao Forces', 551, '#FFFF00', [15, 19, 20]], // 7
 		['Gongsun Zan Forces', 124, '#E33A10', [21, 22]],   // 8
 		['Gongsun Du Forces', 117, '#925DF5', [23]],        // 9
-		['Zhang Yang Forces', 596, '#2A1303', [17]],        // 10
+		['Zhang Yang Forces', 596, '#4A3323', [17]],        // 10
 		['Ma Teng Forces', 303, '#772A03', [0, 1]],         // 11
-		['Liu Yong Forces', 269, '#130A45', [44]],          // 12
+		['Liu Yong Forces', 269, '#3A4671', [44]],          // 12
 		['Yan Baihu Forces', 510, '#7A4B1C', [43]],         // 13
 		['Wang Lang Forces', 434, '#CCCCCC', [46]],         // 14
 		['Shi Xie Forces', 364, '#7A283E', [49]],           // 15
