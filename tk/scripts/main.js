@@ -1041,17 +1041,19 @@ function onMouseClick (e) {
 		}
 	}
 	else if (battles.length > 0) {
-		var deployed0 = getDeployedUnits(battles[0]['Commander0']);
-		var deployed1 = getDeployedUnits(battles[0]['Commander1']);
+		var commander0 = battles[0]['Commander0'];
+		var commander1 = battles[0]['Commander1'];
+		var deployed0 = getDeployedUnits(commander0);
+		var deployed1 = getDeployedUnits(commander1);
 		// If battle ended, init another battle if there are any
 		if (deployed0.length == 0 || deployed1.length == 0) {
 			if (deployed0.length == 0) {
 				giveBattleBonus(deployed1);
-				dismissDeployed(battles[0]['Commander0']);
+				dismissDeployed(commander0);
 			}
 			if (deployed1.length == 0) {
 				giveBattleBonus(deployed0);
-				dismissDeployed(battles[0]['Commander1']);
+				dismissDeployed(commander1);
 			}
 			if (battles.length > 0) initBattle();
 			else {
@@ -1076,11 +1078,11 @@ function onMouseClick (e) {
 		// Focus a target
 		var playerDeployed = null;
 		var enemyDeployed = null;
-		if (playerForce == officers[battles[0]['Commander0']].Force) {
+		if (playerForce == officers[commander0].Force) {
 			playerDeployed = deployed0;
 			enemyDeployed = deployed1;
 		}
-		else if (playerForce == officers[battles[0]['Commander1']].Force) {
+		else if (playerForce == officers[commander1].Force) {
 			playerDeployed = deployed1;
 			enemyDeployed = deployed0;
 		}
