@@ -1183,6 +1183,7 @@ function playClick (e) {
 							officers[viableOfficers[k]].Progress = 0;
 							
 							city.Gold -= unitTypes[unitTypeIndex].Cost;
+							unitCount++;
 						}
 						break;
 					case 7:
