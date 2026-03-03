@@ -1,0 +1,136 @@
+* {
+  color: #FFF;
+  font-family: "Tahoma", "Segoe UI", "Trebuchet MS", "Arial", "Helvetica";
+  font-size: 13px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+}
+
+table {
+  
+}
+
+a {
+  color: #FC8;
+}
+
+input[type=search], select {
+  border: 1px solid #577;
+  background-color: #222;
+}
+
+#container {
+  margin: 20px;
+}
+
+#output {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.data {
+  border-collapse: collapse;
+}
+
+.data th {
+  padding: 4px 7px 4px 5px;
+  border: 1px solid #577;
+  background-color: #233;
+  cursor: pointer;
+}
+
+.data th:hover {
+  background-color: #405050;
+}
+
+.data td {
+  padding: 3px 7px 5px 5px;
+  border: 1px solid #577;
+  background-color: #233;
+}
+
+.data tr:hover td {
+  background-color: #405050;
+}
+
+.number {
+  text-align: right;
+}
+
+.total {
+  color: #FC8;
+}
+
+.displayName {
+  padding: 5px;
+  width: stretch;
+  border-bottom: 1px solid #577;
+  background-color: #3b3b3b;
+  text-align: center;
+  color: #FFF;
+}
+
+.displayPortrait {
+  height: 120px;
+}
+
+.stat {
+  border-collapse: collapse;
+}
+
+.stat th {
+  padding: 4px 7px 4px 5px;
+  background-color: #3D3D3D;
+}
+
+.stat td {
+  padding: 3px 7px 5px 5px;
+  background-color: #505050;
+}
+
+/* Home Button - Fixed to Bottom Right */
+.home-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card-bg);
+  color: var(--text);
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: 1px solid #0f3460;
+  font-weight: bold;
+  font-size: 14px;
+  z-index: 9999; /* Highest priority */
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.home-button:hover {
+  background: #1f2a48;
+  transform: scale(1.1);
+  border-color: var(--amicability);
+  box-shadow: 0 0 15px rgba(52, 152, 219, 0.4); /* Subtle blue glow */
+}
+
+.home-icon {
+  font-size: 20px;
+}
+
+@media (pointer: none), (pointer: coarse) {
+  #output {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+}
