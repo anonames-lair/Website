@@ -2950,6 +2950,70 @@ const warriors = {
 			'Requirement': "Wait until the elephant troops charge the camp, you mustn't destroy the bridge beforehand. Then defeat Gan Ning and Jiang Qin."
 		}
 	],
+	'Fu Xi': [
+		{
+			'Game': "DW3",
+			'Name': "Fu Xi's Sword",
+			'Rank': 4,
+			'Base': 46,
+			'Element': "Fire",
+			'Stats': [
+				"Attack: 26",
+				"Defense: 51",
+				"Range: 23",
+				"Musou Charge: 24"
+			],
+			'Stage': "Surprise Attack on Liu Biao (Liu Biao's Forces)",
+			'Requirement': "Defeat Huang Gai."
+		}, {
+			'Game': "DW3",
+			'Name': "Dragon Slayer",
+			'Rank': 5,
+			'Base': 46,
+			'Element': "-",
+			'Stats': [
+				"Musou Max: 86",
+				"HP Max: 80",
+				"Range: 28",
+				"Charge: 8",
+				"The Art of War"
+			],
+			'Stage': "Wan Castle (Zhang Xiu's Forces)",
+			'Requirement': "Defeat Dian Wei, Xu Huang, and Xu Zhu."
+		}
+	],
+	'Nu Wa': [
+		{
+			'Game': "DW3",
+			'Name': "Nu Wa's Rapier",
+			'Rank': 4,
+			'Base': 39,
+			'Element': "Demon",
+			'Stats': [
+				"Musou Max: 62",
+				"HP Max: 62",
+				"Attack: 21",
+				"Defense: 46"
+			],
+			'Stage': "Wan Castle (Zhang Xiu's Forces)",
+			'Requirement': "Defeat Dian Wei."
+		}, {
+			'Game': "DW3",
+			'Name': "Dragon Rapier",
+			'Rank': 5,
+			'Base': 39,
+			'Element': "-",
+			'Stats': [
+				"Attack: 23",
+				"Defense: 41",
+				"Range: 30",
+				"Musou Charge: 20",
+				"Defender"
+			],
+			'Stage': "Yellow Turban Rebellion (Yellow Turban Forces)",
+			'Requirement': "Defeat Guan Yu, Zhang Fei and Liu Bei in approx 5 minutes or less. Zhang Bao's troops will attack, and it will be followed by the item report."
+		}
+	],
 	'Zuo Ci': [
 		{
 			'Game': "DW5",
