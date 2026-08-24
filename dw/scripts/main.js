@@ -19,30 +19,12 @@ window.onload = function () {
 	};
 	mode = document.getElementById('mode');
 	upload = document.getElementById('upload');
+	upload.innerHTML = uploadSvg;
 	download = document.getElementById('download');
+	download.innerHTML = downloadSvg;
 	
 	if (localStorage.progress) {
-		// Load progress from localStorage into temp array, process it, then copy the result to progress array
-		let tempArray = JSON.parse(localStorage.progress);
-		
-		for (let gameName in headers) {
-			if (!tempArray[gameName]) tempArray[gameName] = [];
-			
-			let warriorCount = 0;
-			for (let warriorName in warriors) if (getWarriorGameList(warriorName).includes(gameName)) warriorCount++;
-			
-			while (tempArray[gameName].length < warriorCount) tempArray[gameName].push([]);
-			
-			let k = 0;
-			for (let warriorName in warriors) {
-				if (getWarriorGameList(warriorName).includes(gameName)) {
-					while (tempArray[gameName][k].length < headers[gameName].length) tempArray[gameName][k].push(false);
-					k++;
-				}
-			}
-		}
-		
-		progressArray = tempArray;
+		loadFromLocalStorage();
 	}
 	else {
 		progressArray = {};
@@ -61,19 +43,32 @@ window.onload = function () {
 	}
 	
 	changeMode();
-	upload.innerHTML = uploadSvg;
-	download.innerHTML = downloadSvg;
 	
 	filter.focus();
 }
 
-function changeMode () {
-	isGuideMode = !isGuideMode;
+function loadFromLocalStorage () {
+	// Load progress from localStorage into temp array, process it, then copy the result to progress array
+	let tempArray = JSON.parse(localStorage.progress);
 	
-	if (isGuideMode) mode.innerHTML = guideSvg;
-	else mode.innerHTML = checkboxSvg;
+	for (let gameName in headers) {
+		if (!tempArray[gameName]) tempArray[gameName] = [];
+		
+		let warriorCount = 0;
+		for (let warriorName in warriors) if (getWarriorGameList(warriorName).includes(gameName)) warriorCount++;
+		
+		while (tempArray[gameName].length < warriorCount) tempArray[gameName].push([]);
+		
+		let k = 0;
+		for (let warriorName in warriors) {
+			if (getWarriorGameList(warriorName).includes(gameName)) {
+				while (tempArray[gameName][k].length < headers[gameName].length) tempArray[gameName][k].push(false);
+				k++;
+			}
+		}
+	}
 	
-	render();
+	progressArray = tempArray;
 }
 
 function uploadData () {
@@ -91,7 +86,7 @@ function uploadData () {
 			if (data === undefined || data.length === 0) return;
 			else {
 				localStorage.progress = data;
-				progressArray = JSON.parse(localStorage.progress);
+				loadFromLocalStorage();
 				render();
 			}
 		};
@@ -109,6 +104,14 @@ function downloadData () {
 	link.href = URL.createObjectURL(file);
 	link.download = "progress.txt";
 	link.click();
+}
+
+function changeMode () {
+	isGuideMode = !isGuideMode;
+	
+	mode.innerHTML = isGuideMode ? guideSvg : checkboxSvg;
+	
+	render();
 }
 
 function getWarriorGameList (name) {
