@@ -11,6 +11,8 @@
 	</head>
 	<body>
 		<div id="header">
+			<div id="upload" onclick="uploadData()" title="Upload Data"></div>
+			<div id="download" onclick="downloadData()" title="Download Data"></div>
 			<input type="text" id="filter" oninput="render()" placeholder="Enter character name..">
 			<select id="game" onchange="render()">
 				<option value="All">All</option>
@@ -18,7 +20,7 @@
 				<option value="DW4">DW4</option>
 				<option value="DW5">DW5</option>
 			</select>
-			<div id="mode" onclick="changeMode()"></div>
+			<div id="mode" onclick="changeMode()" title="Toggle Mode"></div>
 		</div>
 		<div id="container"></div>
 		<div id="popup"></div>

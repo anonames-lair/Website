@@ -3,9 +3,11 @@ let game;
 let container;
 let popup;
 let mode;
+let upload;
+let download;
 let isGuideMode = false;
 
-let progress;
+let progressArray;
 
 window.onload = function () {
 	filter = document.getElementById('filter');
@@ -16,47 +18,53 @@ window.onload = function () {
 		popup.style.display = 'none';
 	};
 	mode = document.getElementById('mode');
+	upload = document.getElementById('upload');
+	download = document.getElementById('download');
 	
-	if (localStorage['progress']) {
-		let headerArr = JSON.parse(localStorage['progress']);
+	if (localStorage.progress) {
+		// Load progress from localStorage into temp array, process it then finally copy the result to progress array
+		let tempArray = JSON.parse(localStorage.progress);
 		
-		for (let i in headers) {
-			if (!headerArr[i]) headerArr[i] = [];
+		for (let gameName in headers) {
+			if (!tempArray[gameName]) tempArray[gameName] = [];
 			
 			let warriorCount = 0;
-			for (let j in warriors) if (getWarriorGameList(j).includes(i)) warriorCount++;
+			for (let warriorName in warriors) if (getWarriorGameList(warriorName).includes(gameName)) warriorCount++;
 			
-			while (headerArr[i].length < warriorCount) headerArr[i].push([]);
+			while (tempArray[gameName].length < warriorCount) tempArray[gameName].push([]);
 			
 			let k = 0;
-			for (let j in warriors) {
-				if (getWarriorGameList(j).includes(i)) {
-					while (headerArr[i][k].length < headers[i].length) headerArr[i][k].push(false);
+			for (let warriorName in warriors) {
+				if (getWarriorGameList(warriorName).includes(gameName)) {
+					while (tempArray[gameName][k].length < headers[gameName].length) tempArray[gameName][k].push(false);
 					k++;
 				}
 			}
 		}
 		
-		progress = headerArr;
+		progressArray = tempArray;
 	}
 	else {
-		progress = {};
-		for (let i in headers) {
+		progressArray = {};
+		for (let gameName in headers) {
 			let gameArr = [];
-			for (let j in warriors) {
-				if (getWarriorGameList(j).includes(i)) {
+			for (let warriorName in warriors) {
+				if (getWarriorGameList(warriorName).includes(gameName)) {
 					let warriorArr = [];
-					for (let k = 0; k < headers[i].length; k++) warriorArr.push(false);
+					for (let k = 0; k < headers[gameName].length; k++) warriorArr.push(false);
 					gameArr.push(warriorArr);
 				}
 			}
-			progress[i] = gameArr;
+			progressArray[gameName] = gameArr;
 		}
-		localStorage['progress'] = JSON.stringify(progress);
+		localStorage.progress = JSON.stringify(progressArray);
 	}
 	
-	filter.focus();
 	changeMode();
+	upload.innerHTML = uploadSvg;
+	download.innerHTML = downloadSvg;
+	
+	filter.focus();
 }
 
 function changeMode () {
@@ -66,6 +74,41 @@ function changeMode () {
 	else mode.innerHTML = checkboxSvg;
 	
 	render();
+}
+
+function uploadData () {
+	const fileInput = document.createElement('input');
+	fileInput.type = 'file';
+	fileInput.accept = '.txt';
+	
+	fileInput.addEventListener('change', (event) => {
+		const file = event.target.files[0];
+		if (!file) return;
+	
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			const data = e.target.result;
+			if (data === undefined || data.length === 0) return;
+			else {
+				localStorage.progress = data;
+				progressArray = JSON.parse(localStorage.progress);
+				render();
+			}
+		};
+		
+		reader.readAsText(file);
+	});
+	
+	// 3. Programmatically open the native OS file picker
+	fileInput.click();
+}
+
+function downloadData () {
+	const link = document.createElement("a");
+	const file = new Blob([localStorage.progress], { type: 'text/plain' });
+	link.href = URL.createObjectURL(file);
+	link.download = "progress.txt";
+	link.click();
 }
 
 function getWarriorGameList (name) {
@@ -96,8 +139,8 @@ function showGuide (warrior, weapon) {
 
 function check (e) {
 	let id = e.target.id.split(sprt);
-	progress[id[0]][id[1]][id[2]] = document.getElementById(e.target.id).checked;
-	localStorage['progress'] = JSON.stringify(progress);
+	progressArray[id[0]][id[1]][id[2]] = document.getElementById(e.target.id).checked;
+	localStorage.progress = JSON.stringify(progressArray);
 }
 
 function render () {
@@ -105,35 +148,35 @@ function render () {
 	
 	let str = ``;
 	if (isGuideMode) {
-		for (let i in warriors) {
-			if (i.toLowerCase().includes(filter.value.toLowerCase())) {
+		for (let warriorName in warriors) {
+			if (warriorName.toLowerCase().includes(filter.value.toLowerCase())) {
 				// Warrior's name
 				str += `<div class="warrior">
 					<div>
-						<div class="name">` + i + `</div>
+						<div class="name">` + warriorName + `</div>
 					</div>`;
-				for (let j = 0; j < warriors[i].length; j++) {
-					if (game.value == 'All' || game.value == warriors[i][j].Game) {
+				for (let j = 0; j < warriors[warriorName].length; j++) {
+					if (game.value == 'All' || game.value == warriors[warriorName][j].Game) {
 						// Weapon's stats
 						let statStr = '';
-						if (warriors[i][j].Stats.length > 0) {
+						if (warriors[warriorName][j].Stats.length > 0) {
 							statStr += `<div><div class="stats">`;
-							for (let k = 0; k < warriors[i][j].Stats.length; k++) statStr += `<div class="stat">` + warriors[i][j].Stats[k] + `</div>`;
+							for (let k = 0; k < warriors[warriorName][j].Stats.length; k++) statStr += `<div class="stat">` + warriors[warriorName][j].Stats[k] + `</div>`;
 							statStr += `</div></div>`;
 						}
 						
 						// Warrior's weapons
-						str += `<div class="weapon" onclick="showGuide('` + i + `', ` + j + `)">
+						str += `<div class="weapon" onclick="showGuide('` + warriorName + `', ` + j + `)">
 								<div>
 									<div class="wName">
-										<span class="tag">` + warriors[i][j].Game + `</span> ` + warriors[i][j].Name + `</div>
+										<span class="tag">` + warriors[warriorName][j].Game + `</span> ` + warriors[warriorName][j].Name + `</div>
 								</div>
 								<div class="wDesc">
 									<div class="wImage">
-										<img src="image/` + warriors[i][j].Game + sprt + i + sprt + warriors[i][j].Rank + `.webp" alt="` + warriors[i][j].Name + `" title="` + i + ` ` + warriors[i][j].Rank + `th Weapon">
+										<img src="image/` + warriors[warriorName][j].Game + sprt + warriorName + sprt + warriors[warriorName][j].Rank + `.webp" alt="` + warriors[warriorName][j].Name + `" title="` + warriorName + ` ` + warriors[warriorName][j].Rank + `th Weapon">
 									</div>
-									<div style="color: ` + eleColor(warriors[i][j].Element) + `;"><b>` + warriors[i][j].Element + `</b></div>
-									Base Attack: ` + warriors[i][j].Base + `
+									<div style="color: ` + eleColor(warriors[warriorName][j].Element) + `;"><b>` + warriors[warriorName][j].Element + `</b></div>
+									Base Attack: ` + warriors[warriorName][j].Base + `
 								</div>
 								` + statStr + `
 							</div>`;
@@ -144,19 +187,19 @@ function render () {
 		}
 	}
 	else {
-		for (let i in headers) {
-			if (game.value == 'All' || game.value == i) {
-				str += `<table><tr><th>` + i + `</th>`;
-				for (let j = 0; j < headers[i].length; j++) {
-					str += `<td>` + headers[i][j] + `</td>`;
+		for (let gameName in headers) {
+			if (game.value == 'All' || game.value == gameName) {
+				str += `<table><tr><th>` + gameName + `</th>`;
+				for (let j = 0; j < headers[gameName].length; j++) {
+					str += `<td>` + headers[gameName][j] + `</td>`;
 				}
 				str += `</tr>`;
 				let index = 0;
-				for (let j in warriors) {
-					if (getWarriorGameList(j).includes(i)) {
-						str += `<tr><td>` + j + `</td>`;
-						for (let k = 0; k < headers[i].length; k++) {
-							str += `<td align="center"><input type="checkbox" id="` + i + sprt + index + sprt + k + `" onchange="check(event)"` + (progress[i][index][k] ? ` checked` : ``) + `></td>`;
+				for (let warriorName in warriors) {
+					if (getWarriorGameList(warriorName).includes(gameName)) {
+						str += `<tr><td>` + warriorName + `</td>`;
+						for (let k = 0; k < headers[gameName].length; k++) {
+							str += `<td align="center"><input type="checkbox" id="` + gameName + sprt + index + sprt + k + `" onchange="check(event)"` + (progressArray[gameName][index][k] ? ` checked` : ``) + `></td>`;
 						}
 						str += `</tr>`;
 						index++;
