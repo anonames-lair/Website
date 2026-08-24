@@ -22,7 +22,7 @@ window.onload = function () {
 	download = document.getElementById('download');
 	
 	if (localStorage.progress) {
-		// Load progress from localStorage into temp array, process it then finally copy the result to progress array
+		// Load progress from localStorage into temp array, process it, then copy the result to progress array
 		let tempArray = JSON.parse(localStorage.progress);
 		
 		for (let gameName in headers) {
@@ -99,7 +99,7 @@ function uploadData () {
 		reader.readAsText(file);
 	});
 	
-	// 3. Programmatically open the native OS file picker
+	// Programmatically open the native OS file picker
 	fileInput.click();
 }
 
