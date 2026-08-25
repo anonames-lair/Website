@@ -24,7 +24,14 @@ window.onload = function () {
 	download.innerHTML = downloadSvg;
 	
 	if (localStorage.progress) {
-		loadFromLocalStorage();
+		try {
+			const parsedData = JSON.parse(localStorage.progress);
+			loadFromLocalStorage(parsedData);
+		}
+		catch (error) {
+			console.log("Invalid JSON format:", error.message);
+			alert("Upload failed: The file doesn't contain valid JSON");
+		}
 	}
 	else {
 		progressArray = {};
@@ -47,10 +54,7 @@ window.onload = function () {
 	filter.focus();
 }
 
-function loadFromLocalStorage () {
-	// Load progress from localStorage into temp array, process it, then copy the result to progress array
-	let tempArray = JSON.parse(localStorage.progress);
-	
+function loadFromLocalStorage (tempArray) {
 	for (let gameName in headers) {
 		if (!tempArray[gameName]) tempArray[gameName] = [];
 		
@@ -85,9 +89,16 @@ function uploadData () {
 			const data = e.target.result;
 			if (data === undefined || data.length === 0) return;
 			else {
-				localStorage.progress = data;
-				loadFromLocalStorage();
-				render();
+				try {
+					const parsedData = JSON.parse(data);
+					loadFromLocalStorage(parsedData);
+					localStorage.progress = data;
+					render();
+				}
+				catch (error) {
+					console.log("Invalid JSON format:", error.message);
+					alert("Upload failed: The file doesn't contain valid JSON");
+				}
 			}
 		};
 		
