@@ -23,17 +23,18 @@ window.onload = function () {
 	download = document.getElementById('download');
 	download.innerHTML = downloadSvg;
 	
-	if (localStorage.progress) {
+	if (localStorage.progress !== undefined) {
 		try {
 			const parsedData = JSON.parse(localStorage.progress);
 			loadFromLocalStorage(parsedData);
 		}
 		catch (error) {
 			console.log("Invalid JSON format:", error.message);
-			alert("Upload failed: The file doesn't contain valid JSON");
+			alert("Your stored data does not contain valid JSON");
 		}
 	}
-	else {
+	
+	if (progressArray === undefined) {
 		progressArray = {};
 		for (let gameName in headers) {
 			let gameArr = [];
