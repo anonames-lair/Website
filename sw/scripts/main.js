@@ -7,7 +7,7 @@ let upload;
 let download;
 let isGuideMode = false;
 
-let progressArray;
+let progressJson;
 
 window.onload = function () {
 	filter = document.getElementById('filter');
@@ -34,7 +34,7 @@ window.onload = function () {
 		}
 	}
 	
-	if (progressArray === undefined) {
+	if (progressJson === undefined) {
 		initDefaultProgress();
 	}
 	
@@ -44,23 +44,23 @@ window.onload = function () {
 }
 
 function initDefaultProgress () {
-	progressArray = {};
+	progressJson = {};
 	for (let gameName in headers) {
-		let gameArr = [];
+		let gameArray = [];
 		for (let warriorName in warriors) {
 			if (getWarriorGameList(warriorName).includes(gameName)) {
-				let warriorArr = new Array(headers[gameName].length).fill(false);
-				gameArr.push(warriorArr);
+				let warriorArray = new Array(headers[gameName].length).fill(false);
+				gameArray.push(warriorArray);
 			}
 		}
-		progressArray[gameName] = gameArr;
+		progressJson[gameName] = gameArray;
 	}
-	saveToLocalStorage(progressArray);
+	saveToLocalStorage();
 }
 
-function saveToLocalStorage (data) {
+function saveToLocalStorage () {
 	try {
-		localStorage.setItem('progress', JSON.stringify(data));
+		localStorage.setItem('progress', JSON.stringify(progressJson));
 		return true;
 	} catch (error) {
 		console.error("Failed to save to localStorage:", error);
@@ -69,30 +69,30 @@ function saveToLocalStorage (data) {
 	}
 }
 
-function loadFromLocalStorage (tempArray) {
-	if (!tempArray || typeof tempArray !== 'object' || Array.isArray(tempArray)) {
+function loadFromLocalStorage (tempJson) {
+	if (!tempJson || typeof tempJson !== 'object' || Array.isArray(tempJson)) {
 		initDefaultProgress();
 		return;
 	}
 	
 	for (let gameName in headers) {
-		if (!Array.isArray(tempArray[gameName])) tempArray[gameName] = [];
+		if (!Array.isArray(tempJson[gameName])) tempJson[gameName] = [];
 		
 		let warriorCount = 0;
 		for (let warriorName in warriors) if (getWarriorGameList(warriorName).includes(gameName)) warriorCount++;
 		
-		while (tempArray[gameName].length < warriorCount) tempArray[gameName].push([]);
+		while (tempJson[gameName].length < warriorCount) tempJson[gameName].push([]);
 		
 		let k = 0;
 		for (let warriorName in warriors) {
 			if (getWarriorGameList(warriorName).includes(gameName)) {
-				while (tempArray[gameName][k].length < headers[gameName].length) tempArray[gameName][k].push(false);
+				while (tempJson[gameName][k].length < headers[gameName].length) tempJson[gameName][k].push(false);
 				k++;
 			}
 		}
 	}
 	
-	progressArray = tempArray;
+	progressJson = tempJson;
 }
 
 function uploadData () {
@@ -123,7 +123,7 @@ function uploadData () {
 				try {
 					const parsedData = JSON.parse(data);
 					loadFromLocalStorage(parsedData);
-					saveToLocalStorage(progressArray);
+					saveToLocalStorage();
 					render();
 				}
 				catch (error) {
@@ -184,8 +184,8 @@ function showGuide (warrior, weapon) {
 
 function check (e) {
 	let id = e.target.id.split(sprt);
-	progressArray[id[0]][id[1]][id[2]] = document.getElementById(e.target.id).checked;
-	localStorage.progress = JSON.stringify(progressArray);
+	progressJson[id[0]][id[1]][id[2]] = document.getElementById(e.target.id).checked;
+	saveToLocalStorage();
 }
 
 function render () {
@@ -244,7 +244,7 @@ function render () {
 					if (getWarriorGameList(warriorName).includes(gameName)) {
 						str += `<tr><td>` + warriorName + `</td>`;
 						for (let k = 0; k < headers[gameName].length; k++) {
-							str += `<td align="center"><input type="checkbox" id="` + gameName + sprt + index + sprt + k + `" onchange="check(event)"` + (progressArray[gameName][index][k] ? ` checked` : ``) + `></td>`;
+							str += `<td align="center"><input type="checkbox" id="` + gameName + sprt + index + sprt + k + `" onchange="check(event)"` + (progressJson[gameName][index][k] ? ` checked` : ``) + `></td>`;
 						}
 						str += `</tr>`;
 						index++;
