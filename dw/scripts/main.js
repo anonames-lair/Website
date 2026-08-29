@@ -35,19 +35,7 @@ window.onload = function () {
 	}
 	
 	if (progressArray === undefined) {
-		progressArray = {};
-		for (let gameName in headers) {
-			let gameArr = [];
-			for (let warriorName in warriors) {
-				if (getWarriorGameList(warriorName).includes(gameName)) {
-					let warriorArr = [];
-					for (let k = 0; k < headers[gameName].length; k++) warriorArr.push(false);
-					gameArr.push(warriorArr);
-				}
-			}
-			progressArray[gameName] = gameArr;
-		}
-		localStorage.progress = JSON.stringify(progressArray);
+		initDefaultProgress();
 	}
 	
 	changeMode();
@@ -55,7 +43,38 @@ window.onload = function () {
 	filter.focus();
 }
 
+function initDefaultProgress () {
+	progressArray = {};
+	for (let gameName in headers) {
+		let gameArr = [];
+		for (let warriorName in warriors) {
+			if (getWarriorGameList(warriorName).includes(gameName)) {
+				let warriorArr = new Array(headers[gameName].length).fill(false);
+				gameArr.push(warriorArr);
+			}
+		}
+		progressArray[gameName] = gameArr;
+	}
+	saveToLocalStorage(progressArray);
+}
+
+function saveToLocalStorage (data) {
+	try {
+		localStorage.setItem('progress', JSON.stringify(data));
+		return true;
+	} catch (error) {
+		console.error("Failed to save to localStorage:", error);
+		alert("Could not save progress. Storage may be full or disabled.");
+		return false;
+	}
+}
+
 function loadFromLocalStorage (tempArray) {
+	if (!tempArray || typeof tempArray !== 'object' || Array.isArray(tempArray)) {
+		initDefaultProgress();
+		return;
+	}
+	
 	for (let gameName in headers) {
 		if (!Array.isArray(tempArray[gameName])) tempArray[gameName] = [];
 		
@@ -104,7 +123,7 @@ function uploadData () {
 				try {
 					const parsedData = JSON.parse(data);
 					loadFromLocalStorage(parsedData);
-					localStorage.progress = data;
+					saveToLocalStorage(progressArray);
 					render();
 				}
 				catch (error) {
