@@ -29,7 +29,7 @@ window.onload = function () {
 			loadFromLocalStorage(parsedData);
 		}
 		catch (error) {
-			console.log("Invalid JSON format:", error.message);
+			console.error("Invalid JSON format:", error.message);
 			alert("Your stored data does not contain valid JSON");
 		}
 	}
@@ -57,7 +57,7 @@ window.onload = function () {
 
 function loadFromLocalStorage (tempArray) {
 	for (let gameName in headers) {
-		if (!tempArray[gameName]) tempArray[gameName] = [];
+		if (!Array.isArray(tempArray[gameName])) tempArray[gameName] = [];
 		
 		let warriorCount = 0;
 		for (let warriorName in warriors) if (getWarriorGameList(warriorName).includes(gameName)) warriorCount++;
@@ -84,8 +84,19 @@ function uploadData () {
 	fileInput.addEventListener('change', (event) => {
 		const file = event.target.files[0];
 		if (!file) return;
-	
+		
+		if (file.size > 2 * 1024 * 1024) {
+			alert("File size exceeds maximum limit (2MB).");
+			return;
+		}
+		
 		const reader = new FileReader();
+		
+		reader.onerror = () => {
+			console.error("File reading error:", reader.error);
+			alert("An error occurred while reading the file.");
+		};
+		
 		reader.onload = (e) => {
 			const data = e.target.result;
 			if (data === undefined || data.length === 0) return;
@@ -97,7 +108,7 @@ function uploadData () {
 					render();
 				}
 				catch (error) {
-					console.log("Invalid JSON format:", error.message);
+					console.error("Invalid JSON format:", error.message);
 					alert("Upload failed: The file doesn't contain valid JSON");
 				}
 			}
