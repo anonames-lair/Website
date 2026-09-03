@@ -841,7 +841,7 @@ const warriors = {
 				"Elixir: 18"
 			],
 			'Stage': "Skirmish at Xia Pi",
-			'Requirement': "Defeat Cao Xing on the first encounter before he flees, re-encounter him afterwards for the unique dialogue message (without entering the top left of the castle map), and defeat 100 enemies."
+			'Requirement': "Defeat Cao Xing on the first encounter before he flees, re-encounter him for the unique dialogue message without entering the top left of the castle map. Defeat around 100 enemies."
 		}, {
 			'Game': "DW5",
 			'Name': "Kirin Fang",
@@ -1051,7 +1051,7 @@ const warriors = {
 				"Seven Star Sash: 20"
 			],
 			'Stage': "Escape from Chi Bi",
-			'Requirement': "Defeat Shu generals Zhao Yun, Guan Ping, Zhou Cang, and Zhang Fei before ally reinforcement troops appear. Initiate the cutscene between Cao Cao and Guan Yu before defeating 200 enemies."
+			'Requirement': "Within 10 minutes defeat all Shu officers and get around 200 enemies before ally reinforcements appear."
 		}, {
 			'Game': "DW5",
 			'Name': "Wrath of Heaven",
@@ -1190,7 +1190,7 @@ const warriors = {
 				"Elixir: 20"
 			],
 			'Stage': "Ambush at He Fei",
-			'Requirement': "Keep all four top castle ally Guard Troop Captains alive until Zhou Tai appears. Defeat 300 enemies."
+			'Requirement': "Keep all Guard Captains alive until Zhou Tai appears. Defeat Wu officers and around 300 enemies."
 		}, {
 			'Game': "DW5",
 			'Name': "Gold Wyvern",
