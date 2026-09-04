@@ -63,7 +63,7 @@ const warriors = {
 				"Herbal Remedy: 13"
 			],
 			'Stage': "The Chang Ban Run",
-			'Requirement': "The entire stage must be completely within 13 minutes with these conditions fulfilled: First find Liu Chan within 2 minutes. Defeat Xu Huang and Cao Ren to open the castle door. Afterwards, protect Liu Bei for the rest of the game by targeting Yue Jin, Yu Jin, Xu Zhu, Xiahou Dun, Xiahou Yuan, Cheng Yu and Xun Yu as they will charge after Liu Bei. Defeat 300 enemies."
+			'Requirement': "The stage must be completed within 13 minutes with these conditions fulfilled: Find Liu Chan within 2 minutes. Defeat Xu Huang and Cao Ren to open the castle gate. Then protect Liu Bei by defeating Yue Jin, Yu Jin, Xu Zhu, Xiahou Dun, Xiahou Yuan, Cheng Yu and Xun Yu. Defeat around 300 enemies."
 		}, {
 			'Game': "DW5",
 			'Name': "Fierce Dragon",
@@ -2356,7 +2356,7 @@ const warriors = {
 				"Elixir: 20"
 			],
 			'Stage': "Battle of Niu Zhu",
-			'Requirement': "Rescue Sun Quan in under 1 minute and 30 seconds, and his four sub-officers (no time limit). Then defeat 500 enemies, Taishi Ci and Liu Yong."
+			'Requirement': "Rescue Sun Quan in under 1 minute and 30 seconds, and his four sub-officers (no time limit). Then defeat around 500 enemies, Taishi Ci and Liu Yong."
 		}, {
 			'Game': "DW5",
 			'Name': "Dusk",
