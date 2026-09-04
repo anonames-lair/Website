@@ -2356,7 +2356,7 @@ const warriors = {
 				"Elixir: 20"
 			],
 			'Stage': "Battle of Niu Zhu",
-			'Requirement': "Rescue Sun Quan in under 1 minute and 30 seconds, and his four sub-officers (no time limit). Then defeat Taishi Ci and Liu Yong with 500 enemies defeated."
+			'Requirement': "Rescue Sun Quan in under 1 minute and 30 seconds, and his four sub-officers (no time limit). Then defeat 500 enemies, Taishi Ci and Liu Yong."
 		}, {
 			'Game': "DW5",
 			'Name': "Dusk",
