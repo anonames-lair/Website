@@ -981,7 +981,7 @@ const warriors = {
 				"Seven Star Sash: 16"
 			],
 			'Stage': "Village Encounter",
-			'Requirement': "Defeat all generals, including defeating Dian Wei twice, without having over 3 supply captains retreat and/or having the plundering cause heavy damage to the fields via the battle messages."
+			'Requirement': "Defeat Yue Jin, Li Dian, Yu Jin, Man Chong and including Dian Wei twice, all without any supply captains completing their tasks. Defeat at least 80 enemies without either of the following messages appearing: 'Village Defense team has been defeated' or 'Enemy supply team has completed task'. If either of those appear add 10 enemies."
 		}, {
 			'Game': "DW5",
 			'Name': "Stone Crusher",
