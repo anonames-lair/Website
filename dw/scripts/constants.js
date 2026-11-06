@@ -11,6 +11,51 @@ const checkboxSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="#FFF" viewBox
 const uploadSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path d="M17 17H17.01M15.6 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H8.4M12 15V4M12 4L15 7M12 4L9 7" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const downloadSvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><path d="M17 17H17.01M17.4 14H18C18.9319 14 19.3978 14 19.7654 14.1522C20.2554 14.3552 20.6448 14.7446 20.8478 15.2346C21 15.6022 21 16.0681 21 17C21 17.9319 21 18.3978 20.8478 18.7654C20.6448 19.2554 20.2554 19.6448 19.7654 19.8478C19.3978 20 18.9319 20 18 20H6C5.06812 20 4.60218 20 4.23463 19.8478C3.74458 19.6448 3.35523 19.2554 3.15224 18.7654C3 18.3978 3 17.9319 3 17C3 16.0681 3 15.6022 3.15224 15.2346C3.35523 14.7446 3.74458 14.3552 4.23463 14.1522C4.60218 14 5.06812 14 6 14H6.6M12 15V4M12 15L9 12M12 15L15 12" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+const itemSlots = {
+	'Zhao Yun': '5',
+	'Guan Yu': '4',
+	'Zhang Fei': '4',
+	'Zhuge Liang': '6',
+	'Liu Bei': '5',
+	'Ma Chao': '4',
+	'Huang Zhong': '4',
+	'Jiang Wei': '5',
+	'Wei Yan': '4',
+	'Pang Tong': '6',
+	'Yue Ying': '5',
+	'Xiahou Dun': '4',
+	'Dian Wei': '4',
+	'Xu Zhu': '4',
+	'Cao Cao': '5',
+	'Xiahou Yuan': '4',
+	'Zhang Liao': '5',
+	'Xu Huang': '4',
+	'Zhang He': '5',
+	'Zhen Ji': '5',
+	'Cao Ren': '4',
+	'Zhou Yu': '5',
+	'Lu Xun': '5',
+	'Taishi Ci': '4',
+	'Sun Shang Xiang': '5',
+	'Sun Jian': '5',
+	'Sun Quan': '5',
+	'Lu Meng': '5',
+	'Gan Ning': '4',
+	'Huang Gai': '4',
+	'Sun Ce': '4',
+	'Da Qiao': '5',
+	'Xiao Qiao': '5',
+	'Zhou Tai': '4',
+	'Sima Yi': '6',
+	'Diao Chan': '5',
+	'Lu Bu': '4',
+	'Dong Zhuo': '5',
+	'Yuan Shao': '5',
+	'Zhang Jiao': '5',
+	'Meng Huo': '4',
+	'Zhu Rong': '5'
+};
+
 const warriors = {
 	'Zhao Yun': [
 		{
