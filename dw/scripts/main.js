@@ -162,6 +162,8 @@ function getWarriorGameList (name) {
 	return games;
 }
 
+function getItemSlots (name) { return itemSlots[name] ? ' (' + itemSlots[name] + ')' : ''; }
+
 function eleColor (color) {
 	switch (color) {
 		case 'Fire': return '#9F0000';
@@ -198,7 +200,7 @@ function render () {
 				// Warrior's name
 				str += `<div class="warrior">
 					<div>
-						<div class="name">` + warriorName + `</div>
+						<div class="name">` + warriorName + getItemSlots(warriorName) + `</div>
 					</div>`;
 				for (let j = 0; j < warriors[warriorName].length; j++) {
 					if (game.value == 'All' || game.value == warriors[warriorName][j].Game) {
