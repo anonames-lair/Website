@@ -162,7 +162,7 @@ function getWarriorGameList (name) {
 	return games;
 }
 
-function getItemSlots (name) { return itemSlots[name] ? ' (' + itemSlots[name] + ')' : ''; }
+function getItemSlots (name) { return itemSlots[name] ? ' <span title="Item slots">(' + itemSlots[name] + ')</span>' : ''; }
 
 function eleColor (color) {
 	switch (color) {
