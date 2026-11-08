@@ -1375,7 +1375,7 @@ const warriors = {
 				"Huang's Bow: 10"
 			],
 			'Stage': "Pursuit at Mt. Qi",
-			'Requirement': "Defeat Wei Yan while he's running away from you. Or, after Wei Yan stops retreating. Defeat Guan Xing and Zhang Bao. Then defeat 100 enemies, not before."
+			'Requirement': "Defeat Wei Yan before he reaches the western garrison. Or, let Wei Yan retreat, then defeat Guan Xing and Zhang Bao and defeat 100 enemies."
 		}, {
 			'Game': "DW5",
 			'Name': "Phoenix Talon",
