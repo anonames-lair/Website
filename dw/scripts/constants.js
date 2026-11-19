@@ -599,7 +599,7 @@ const warriors = {
 				"Herbal Remedy: 17"
 			],
 			'Stage': "Defense of Jian Ge",
-			'Requirement': "Defeat all enemy generals, all while making sure Liu Shan does not have his HP below half for around 8-to-9 minutes total within the stage."
+			'Requirement': "Defeat all enemy generals, all while making sure Liu Shan does not have his HP below half for around 8-to-9 minutes total within the stage. And prevent Liu Shan from surrendering."
 		}, {
 			'Game': "DW5",
 			'Name': "Blink",
@@ -2701,7 +2701,7 @@ const warriors = {
 				"Cavalry Armor: 16"
 			],
 			'Stage': "The Ten Eunuchs",
-			'Requirement': "Defeat the Ten Eunuchs with Yuan Shao alive. Defeat 100 enemies."
+			'Requirement': "Defeat the 6 retreating eunuchs before they escape, then defeat 100 enemies."
 		}, {
 			'Game': "DW5",
 			'Name': "Horror",
