@@ -1165,7 +1165,7 @@ const warriors = {
 				"Elixir: 17"
 			],
 			'Stage': "Reprisal at Mt. Ding Jun",
-			'Requirement': "Prevent the 'Ally base guard troop decreased' message, and defeat 400 enemies. Do this all before Xiahou Dun's ally reinforcement troops appear, and before Huang Zhong appears."
+			'Requirement': "Defeat 400 enemies before the message that Huang Zhong's Unit is charging down the hill (which is next after Xiahou Dun appears) and without Zhang He's formation crumbling (2nd time he speaks)."
 		}, {
 			'Game': "DW5",
 			'Name': "Enforcer Rod",
