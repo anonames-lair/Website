@@ -669,7 +669,7 @@ const warriors = {
 				"Herbal Remedy: 19"
 			],
 			'Stage': "Encounter at Wu Zhang Plains",
-			'Requirement': "Before Zhuge Liang launches an attack on Wei Yan, defeat Xiahou He, Xiahou Wei and Xiahou Hui in any order. After Zhuge Liang launches an attack on Wei Yan, defeat all Shu officers and 200 enemies."
+			'Requirement': "Before Zhuge Liang launches an attack on Wei Yan: Defeat Xiahou He, Xiahou Wei and Xiahou Hui. Or, after Zhuge Liang launches an attack on Wei Yan: Ma Dai, Guan Xing, Wang Ping, Zhang Bao, Jiang Wei and 200 enemies, then reach Zhuge Liang."
 		}, {
 			'Game': "DW5",
 			'Name': "Comet Strike",
@@ -1660,7 +1660,7 @@ const warriors = {
 				"Cavalry Armor: 11"
 			],
 			'Stage': "Battle of Yu Fu Bay",
-			'Requirement': "Go through the Stone Maze without getting lost, then defeat Zhao Yun and Guan Xing in under 11 minutes."
+			'Requirement': "Without getting lost in the maze and also within 11 minutes, defeat Zhao Yun and Guan Xing."
 		}, {
 			'Game': "DW5",
 			'Name': "Falcon",
