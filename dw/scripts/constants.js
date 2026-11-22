@@ -669,7 +669,7 @@ const warriors = {
 				"Herbal Remedy: 19"
 			],
 			'Stage': "Encounter at Wu Zhang Plains",
-			'Requirement': "Before Zhuge Liang launches an attack on Wei Yan: Defeat Xiahou He, Xiahou Wei and Xiahou Hui. Or, after Zhuge Liang launches an attack on Wei Yan: Ma Dai, Guan Xing, Wang Ping, Zhang Bao, Jiang Wei and 200 enemies, then reach Zhuge Liang."
+			'Requirement': "Before Zhuge Liang launches an attack on Wei Yan: Defeat Xiahou He, Xiahou Wei and Xiahou Hui. Or, after Zhuge Liang launches an attack on Wei Yan: Defeat Ma Dai, Guan Xing, Wang Ping, Zhang Bao, Jiang Wei and 200 enemies, then reach Zhuge Liang."
 		}, {
 			'Game': "DW5",
 			'Name': "Comet Strike",
