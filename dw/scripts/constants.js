@@ -2490,7 +2490,7 @@ const warriors = {
 				"Seven Star Sash: 11"
 			],
 			'Stage': "Battle of Mt. Qi",
-			'Requirement': "Trigger the rain event manually, instead of it activating automatically, and defeat nine of the ten enemy generals."
+			'Requirement': "Trigger the rain event manually (defeat 27 enemies within 2 minutes and 30 seconds), then defeat 9 out of the 10 enemy officers."
 		}, {
 			'Game': "DW5",
 			'Name': "Dark Feather",
