@@ -530,7 +530,7 @@ const warriors = {
 				"Herbal Remedy: 17"
 			],
 			'Stage': "Battle of Chang Sha",
-			'Requirement': "Shoot Guan Yu off his horse before he begins taunting you in order to lower your morale. When Wei Yan kills Han Xuan, ignore Zhou Cang and run straight to Guan Yu. They will talk. Decrease his HP until Zhao Yun and Zhang Fei appear. Defeat Zhou Cang and Guan Ping. Zhang Fei will appear after you defeat one of them, and Zhao Yun will appear after you defeat the other one. Defeat Zhao Yun and Zhang Fei. Defeat 100 enemies. Defeat Guan Yu."
+			'Requirement': "Shoot Guan Yu off his horse before he taunts your forces. Then defeat the four enemy officers other than Guan Yu and 100 enemies."
 		}, {
 			'Game': "DW5",
 			'Name': "Oracle Sword",
