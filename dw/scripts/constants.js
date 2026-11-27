@@ -2290,7 +2290,7 @@ const warriors = {
 				"Seven Star Sash: 15"
 			],
 			'Stage': "Battle of the Wu Territory",
-			'Requirement': "Defeat the 3 loyalist generals prior to the rock slide attack, each of them within 1 minute of their appearance. Then defeat 300 enemies."
+			'Requirement': "Within 6 minutes, defeat the first 3 Loyalists and within 1 minute of them appearing. Defeat 300 enemies in under 15 minutes."
 		}, {
 			'Game': "DW5",
 			'Name': "Qiao Beauty",
