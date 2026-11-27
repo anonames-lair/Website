@@ -740,7 +740,7 @@ const warriors = {
 				"Seven Star Sash: 7"
 			],
 			'Stage': "Illusions of Pang Tong",
-			'Requirement': "Make sure all of Pang Tong's battle strategies succeed with high favor gained, and defeat at least 450 enemies after encounting Zhuge Liang for the unique message."
+			'Requirement': "Make sure all of Pang Tong's battle strategies succeed with high favor gained, and defeat at least 450 enemies. Then encounter Zhuge Liang."
 		}, {
 			'Game': "DW5",
 			'Name': "Tornado Staff",
@@ -1730,7 +1730,7 @@ const warriors = {
 				"Herbal Remedy: 19"
 			],
 			'Stage': "Campaign Against Liu Yong",
-			'Requirement': "Defeat Xue Li and Fan Neng. Gather at least 9 units before you encounter and rescue Hua Xin. Gather at least 12 units to join forces with, and defeat 450 enemies."
+			'Requirement': "Defeat Xue Li and Fan Neng. Gather at least 9 units before you encounter and rescue Hua Xin. Gather at least 12 units, and defeat 450 enemies."
 		}, {
 			'Game': "DW5",
 			'Name': "Tiger Slayer",
