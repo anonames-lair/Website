@@ -2360,7 +2360,7 @@ const warriors = {
 				"Herbal Remedy: 10"
 			],
 			'Stage': "Escape From Tong Qiao Tai",
-			'Requirement': "Defeat Cao Cao 4 times in a row. Defeat Xiahou Dun, Xu Zhu, Dian Wei and Cao Ren. At this point, there must be more than 15 minutes remaining. When Cao Cao appears for the fifth time, Xiahou Yuan will bring Da Qiao with him. Move to the top of the tower to meet Da Qiao. There will be a cutscene. Defeat Xiahou Yuan. Defeat 100 enemies."
+			'Requirement': "Defeat Cao Cao 4 times, Defeat Xu Zhu, Xiahou Dun, Cao Ren and Dian Wei at least once. Then defeat Xiahou Yuan when he appears and defeat 100 enemies, or defeat 150 without defeating Xiahou Yuan."
 		}, {
 			'Game': "DW5",
 			'Name': "Qiao Grace",
@@ -3027,6 +3027,44 @@ const warriors = {
 			],
 			'Stage': "Wan Castle (Zhang Xiu's Forces)",
 			'Requirement': "Defeat Dian Wei, Xu Huang, and Xu Zhu."
+		}, {
+			'Game': "DW4",
+			'Name': "Fu Xi's Sword",
+			'Rank': 4,
+			'Base': 57,
+			'Element': "-",
+			'Stats': [],
+			'Stage': "Battle of Niu Zhu (Zhou Tai's Legend stage)",
+			'Requirement': "Defeat Taishi Ci."
+		}, {
+			'Game': "DW4",
+			'Name': "Fengshen Sword",
+			'Rank': 5,
+			'Base': 60,
+			'Element': "-",
+			'Stats': [
+				"Peacock Urn: 19",
+				"Speed Scroll: 19",
+				"WIng Boots: 14",
+				"Elixir: 15"
+			],
+			'Stage': "Battle of Niu Zhu (Zhou Tai's Legend Stage)",
+			'Requirement': "Rescue Sun Quan and all 4 of his sub officers, defeat Taishi Ci, seal all gate captains and defeat 500 enemies."
+		}, {
+			'Game': "DW5",
+			'Name': "Fu Xi's Sword",
+			'Rank': 4,
+			'Base': 38,
+			'Element': "Medium",
+			'Stats': [
+				"Charge: 16",
+				"Fill: 16",
+				"Defense: 16",
+				"Attack: 16",
+				"Life: 17"
+			],
+			'Stage': "Any",
+			'Requirement': "Defeat 1000 enemies."
 		}
 	],
 	'Nu Wa': [
@@ -3059,6 +3097,44 @@ const warriors = {
 			],
 			'Stage': "Yellow Turban Rebellion (Yellow Turban Forces)",
 			'Requirement': "Defeat Guan Yu, Zhang Fei and Liu Bei in approx 5 minutes or less. Zhang Bao's troops will attack, and it will be followed by the item report."
+		}, {
+			'Game': "DW4",
+			'Name': "Nu Wa's Rapier",
+			'Rank': 4,
+			'Base': 52,
+			'Element': "-",
+			'Stats': [],
+			'Stage': "Encounter at Yi Province (Zhen Ji's Legend stage)",
+			'Requirement': "Defeat all officers and sub officers on either Yuan Xi or Cao Pi's forces and seal all of their gates too."
+		}, {
+			'Game': "DW4",
+			'Name': "Fengshen Rapier",
+			'Rank': 5,
+			'Base': 60,
+			'Element': "-",
+			'Stats': [
+				"Dragon Amulet: 14",
+				"Wing Boots: 17",
+				"Huang's Bow: 13",
+				"Seven Star Sash: 18"
+			],
+			'Stage': "Encounter at Yi Province (Zhen Ji's Legend stage)",
+			'Requirement': "Defeat all officers and sub officers on either Yuan Xi or Cao Pi's forces, defeat 150 enemies and seal all enemy gates."
+		}, {
+			'Game': "DW5",
+			'Name': "Nu Wa's Rapier",
+			'Rank': 4,
+			'Base': 34,
+			'Element': "Medium",
+			'Stats': [
+				"Charge: 15",
+				"Fill: 19",
+				"Bow: 16",
+				"Speed: 15",
+				"Attack: 19"
+			],
+			'Stage': "Any",
+			'Requirement': "Defeat 1000 enemies."
 		}
 	],
 	'Zuo Ci': [
