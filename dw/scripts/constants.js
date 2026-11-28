@@ -3045,7 +3045,7 @@ const warriors = {
 			'Stats': [
 				"Peacock Urn: 19",
 				"Speed Scroll: 19",
-				"WIng Boots: 14",
+				"Wing Boots: 14",
 				"Elixir: 15"
 			],
 			'Stage': "Battle of Niu Zhu (Zhou Tai's Legend Stage)",
