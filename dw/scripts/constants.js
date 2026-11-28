@@ -2997,6 +2997,24 @@ const warriors = {
 			'Requirement': "Wait until the elephant troops charge the camp, you mustn't destroy the bridge beforehand. Then defeat Gan Ning and Jiang Qin."
 		}
 	],
+	'Zuo Ci': [
+		{
+			'Game': "DW5",
+			'Name': "Trump Deck",
+			'Rank': 4,
+			'Base': 40,
+			'Element': "Medium",
+			'Stats': [
+				"Charge: 15",
+				"Fill: 20",
+				"Bow: 15",
+				"Defense: 15",
+				"Musou: 20"
+			],
+			'Stage': "Battle of Hu Lao Gate (Allied Forces)",
+			'Requirement': "Defeat Lu Bu."
+		}
+	],
 	'Fu Xi': [
 		{
 			'Game': "DW3",
@@ -3135,24 +3153,6 @@ const warriors = {
 			],
 			'Stage': "Any",
 			'Requirement': "Defeat 1000 enemies."
-		}
-	],
-	'Zuo Ci': [
-		{
-			'Game': "DW5",
-			'Name': "Trump Deck",
-			'Rank': 4,
-			'Base': 40,
-			'Element': "Medium",
-			'Stats': [
-				"Charge: 15",
-				"Fill: 20",
-				"Bow: 15",
-				"Defense: 15",
-				"Musou: 20"
-			],
-			'Stage': "Battle of Hu Lao Gate (Allied Forces)",
-			'Requirement': "Defeat Lu Bu."
 		}
 	]
 };
